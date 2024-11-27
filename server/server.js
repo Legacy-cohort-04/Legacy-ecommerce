@@ -8,6 +8,9 @@ app.use(express.json());
 require("./database/index.js")
 
 
+const postRouter = require('./routes/Posts.js')
+app.use("/posts",postRouter)
+
 const PORT = 3001
 
 
