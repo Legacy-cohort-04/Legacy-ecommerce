@@ -27,10 +27,11 @@ const getAllPosts = async (req, res) => {
       try {
           const { content, image } = req.body;
           const { postId } = req.params; 
+          console.log('postId::::', postId)
   
           const updatedPost = await db.posts.update(
               { content, image },
-              { where: { postId } }
+              { where: { id: postId } }
           );
   
           res.send(updatedPost);
