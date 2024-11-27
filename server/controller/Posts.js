@@ -48,10 +48,12 @@ const getAllPosts = async (req, res) => {
             content: content, 
             image: image
         }
-
        )
+       res.json(creating);
+       console.log("creating post", creating);
     } catch (err) {
         console.log(err)
+        res.status(500).send("error creating post: ", err)
     }
   }
 
