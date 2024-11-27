@@ -15,7 +15,7 @@ const getAllPosts = async (req, res) => {
       try {
         const { postId } = req.params;
         await db.posts.destroy({
-          where: { postId: postId }
+          where: { id: postId }
         });
         res.send("Post Deleted");
       } catch (error) {
@@ -27,7 +27,6 @@ const getAllPosts = async (req, res) => {
       try {
           const { content, image } = req.body;
           const { postId } = req.params; 
-          console.log('postId::::', postId)
   
           const updatedPost = await db.posts.update(
               { content, image },
