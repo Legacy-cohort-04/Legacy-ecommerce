@@ -17,6 +17,8 @@ const getAllPosts = async (req, res) => {
         await db.posts.destroy({
           where: { id: postId }
         });
+
+        console.log("product with id =", postId, "is deleted ")
         res.send("Post Deleted");
       } catch (error) {
         res.status(500).send(error.message);
