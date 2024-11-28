@@ -10,6 +10,8 @@
   
   .profileHeader {
     position: relative;
+    height: 100px;
+    width: 100%;
   }
   
   .coverPhoto {
@@ -36,8 +38,8 @@
   }
   
   .profileImage {
-    width: 10%;
-    height: 10%;
+    width: 100%;
+    height: 100px;
     /* object-fit: cover; */
   }
   
