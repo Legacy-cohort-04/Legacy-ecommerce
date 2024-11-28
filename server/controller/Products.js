@@ -1,46 +1,17 @@
 const db = require("../database/index");
-
 const { Op } = require("sequelize");
-const { products } = require("../database/index");
+const { Products } = require("../database/index");
 
-const getProductbybrand = async (req, res) => {
-  const brandId = req.params.brandId;
-
-const { Op } = require('sequelize');
-const { Products } = require('../database/index');
-
-const getProductbybrand = async (req, res) => {
-    const brandId = req.params.brandId;
-
-    try {
-        const products = await db.Products.findAll({
-            where: { brandId }, 
-            include: [{
-                model: db.Brands,
-                attributes: ['id', 'name'] 
-            }]
-        });
-
-        if (products.length === 0) {
-            return res.status(404).json({ message: "No products found for this brand." });
-        }
-
-        res.json(products); 
-    } catch (error) {
-        console.error("Error fetching products by brand ID:", error);
-        res.status(500).send("Failed to fetch products");
-    }
-};  
-
-
+const getProductbybrandverified = async (req, res) => {
+  const brandId = req.params.brandId; // Get the brand ID from the request parameters
 
   try {
     const products = await db.Products.findAll({
-      where: { brandId }, 
+      where: { brandId, verified: true }, // Filter products by the specified brand ID and verified status
       include: [
         {
           model: db.Brands,
-          attributes: ["id", "name"], 
+          attributes: ["id", "name"],
         },
       ],
     });
@@ -48,25 +19,28 @@ const getProductbybrand = async (req, res) => {
     if (products.length === 0) {
       return res
         .status(404)
-        .json({ message: "No products found for this brand." });
+        .json({ message: "No verified products found for this brand." });
     }
 
-    res.json(products); 
+    res.json(products); // Send the products as a JSON response
   } catch (error) {
-    console.error("Error fetching products by brand ID:", error);
-    res.status(500).send("Failed to fetch products");
+    console.error("Error fetching verified products by brand ID:", error);
+    res.status(500).send("Failed to fetch verified products");
   }
 };
+
 
 const getFilteredProducts = (req, res) => {
   const { category, priceRange, rarity, status, onSale, chains, sort } = req.query;
 
-  products
+  Products
+
     .findAll({
       where: {
         ...(category && { collection: category }),
         ...(rarity && { rarity }),
         ...(status && { status }),
+        ...(chains && { chains: { [Op.like]: `%${chains}%` } }) ,
         ...(onSale === "true" && { onSale: true }),
         ...(priceRange && (() => {
           const [minPrice, maxPrice] = priceRange.split("-").map(Number);
@@ -215,7 +189,7 @@ const createProduct = async (req, res) => {
 
 module.exports = {
   getFilteredProducts,
-  getProductbybrand,
+  getProductbybrandverified,
   incrementownercount,
   decrementownercount,
   updateproductbyId,
