@@ -38,25 +38,29 @@ const postComment = async (req,res) => {
 const deleteOneComment = async (req, res) => {
     try {
         const {commID} = req.params
-        await db.comments.detroy({
-            id: commID
+        console.log("commID delete", commID)
+        const result =   await db.comments.destroy({
+            id:commID
         })
-        res.send("comment deleted")
+        res.send(result)
 
     } catch(err) {
       console.log(err)
+      res.status(500).send(err)
     }
 }
 
 
 const updateComment = async (req, res) => {
 try {
+    const {content} = req.body
     const {commID} = req.params
-    await db.comments.update(
+    console.log("commID: ", commID)
+   const result =  await db.comments.update(
         {content}, 
         {where : {commID}}
     )
-    res.send("comment updated")
+    res.status(200).send(result)
 
 } catch(err) {
     console.log(err)
