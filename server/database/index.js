@@ -32,10 +32,16 @@ db.Favoriteitems=require("./models/Favoriteitems")(sequelize , Sequelize)//joint
 db.Brands=require("./models/Brands")(sequelize , Sequelize)
 db.comments=require("./models/Comments")(sequelize , Sequelize)
 <<<<<<< HEAD
+<<<<<<< HEAD
 db.posts = require("./models/posts")(sequelize , Sequelize)
 =======
 db.posts=require("./models/posts")(sequelize , Sequelize)
 >>>>>>> 4f79d34ee97349634c6d9f0bf43f910cdd515a6c
+=======
+db.posts = require("./models/posts")(sequelize, Sequelize);
+
+
+>>>>>>> 06bd3910547b6292c498c0e11a7d7240c7207ba2
 
 db.User.hasMany(db.Cart)
 db.Cart.belongsTo(db.User)
@@ -77,8 +83,5 @@ db.Products.belongsTo(db.Brands)
   //console.error('Unable to create table : ', error);
  //});
 
-// user  / products / favroites /cart / posts / comments /brands //   jointables : favorties / cart 
 
 module.exports= db
-
-
