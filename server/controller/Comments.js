@@ -53,17 +53,22 @@ const deleteOneComment = async (req, res) => {
 
 const updateComment = async (req, res) => {
 try {
-    const {content} = req.body
+    const {content, UserId, postId } = req.body
     const {commID} = req.params
     console.log("commID: ", commID)
    const result =  await db.comments.update(
-        {content}, 
-        {where : {commID}}
+        {
+          content,
+          UserId,
+          postId
+        }, 
+        {where : {id: commID}}
     )
-    res.status(200).send("comment updated")
+    res.send("comment updated")
 
 } catch(err) {
     console.log(err)
+    res.send(err)
 }
 
 }
