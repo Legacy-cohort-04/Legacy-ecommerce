@@ -2,6 +2,7 @@ import { FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios'
+import '../Auth/login.css'
 
 export interface UserLogin {
   email: string,

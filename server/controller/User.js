@@ -23,10 +23,15 @@ const validatePassword=(password)=>{
 const signup = async (req, res) => {
     try {
         const {
+            firstName,
+            lastName,
             email,
             image,
             password,
-            name
+            day,
+            year,
+            month
+          
         } = req.body;
 
         const hashedPassword = await bcrypt.hash(password,10);
@@ -34,7 +39,7 @@ const signup = async (req, res) => {
 
         console.log(req.body);
 
-        if (!email || !password || !name) {
+        if (!email || !password || !firstName||!lastName||!day||!year||!month) {
             return res.status(400).send('Missing required fields');
         }
 
@@ -61,7 +66,12 @@ const signup = async (req, res) => {
                 email: email,
                 image:image,
                 password: hashedPassword,
-                name: name
+                firstName: firstName,
+                lastName:lastName,
+                day:day,
+                year:year,
+                month:month
+
             });
 
             console.log('User created:', user);
@@ -93,7 +103,7 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user.id, name: user.name, email: user.email },
+            { id: user.id, firstName: user.firstName, lastName:user.lastName,email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
@@ -102,7 +112,8 @@ const login = async (req, res) => {
             message: 'Login successful',
             user: {
                 id: user.id,
-                name: user.name,
+                firstName: user.firstName,
+                lastName:user.lastName,
                 email: user.email,
                 type: user.type
             },
