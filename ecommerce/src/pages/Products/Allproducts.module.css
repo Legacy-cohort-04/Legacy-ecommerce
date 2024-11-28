@@ -1,0 +1,227 @@
+.productListContainer {
+    display: flex;
+    gap: 24px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.sidebarContainer {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.contentSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.headerBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.totalItems {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.headerFilters {
+    display: flex;
+    gap: 12px;
+}
+
+.headerFilterButton {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.642);
+    border-radius: 8px;
+    color: rgb(255, 255, 255);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    min-width: 120px;
+}
+.text{
+    color: black;
+}
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.productCard {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.productCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.productImageContainer {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.productImage {
+    margin: 15px;
+    border-radius: 16px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.productCard:hover .productImage {
+    transform: scale(1.05);
+}
+
+.productInfo {
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.productHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #a0a0a0;
+}
+
+.rarityBadge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 8px;
+}
+
+.chains {
+    font-size: 0.9rem;
+}
+
+.productTitlePrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 12px;
+    flex-grow: 1;
+}
+
+.productTitle {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin: 0;
+    color: #fff;
+}
+
+.productPrice {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.productFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rarity-badge.secret-rare {
+    /* background-color: #8b5cf6; */
+    color: #808080;
+}
+
+.raritybadge.uncommon-rare {
+    /* background-color: #fb7185; */
+    color: #808080;
+}
+
+.raritybadge.ultra-rare {
+    /* background-color: #10b981; */
+    color: #808080;
+}
+
+.likeButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #808080;
+}
+
+.likeButton.liked {
+    color: #ff0000;
+}
+
+.buyButton {
+    background: linear-gradient(to right, #8b5cf6, #6366f1);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%; 
+    justify-content: center;
+}
+
+.buyButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    color: #ef4444;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 20px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 12px;
+    margin: 20px;
+}
+
+@media (max-width: 768px) {
+    .product-list-container {
+        flex-direction: column;
+    }
+
+    .sidebar-container {
+        width: 100%;
+    }
+}

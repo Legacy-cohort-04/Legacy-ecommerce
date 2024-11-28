@@ -24,4 +24,8 @@ dist-ssr
 *.sw?
 package-lock.json
 
+<<<<<<< HEAD
  .env
+=======
+.env
+>>>>>>> 06bd3910547b6292c498c0e11a7d7240c7207ba2
