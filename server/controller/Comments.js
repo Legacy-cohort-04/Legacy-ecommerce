@@ -40,13 +40,13 @@ const deleteOneComment = async (req, res) => {
         const {commID} = req.params
         console.log("commID delete", commID)
         const result =   await db.comments.destroy({
-            id:commID
+          where: {id:commID}
         })
-        res.send(result)
+        res.send("comment deleted ")
 
     } catch(err) {
       console.log(err)
-      res.status(500).send(err)
+      res.send(err)
     }
 }
 
@@ -60,7 +60,7 @@ try {
         {content}, 
         {where : {commID}}
     )
-    res.status(200).send(result)
+    res.status(200).send("comment updated")
 
 } catch(err) {
     console.log(err)
