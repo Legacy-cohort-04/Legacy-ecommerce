@@ -14,6 +14,14 @@ const PORT = 3000;
 require("./database/index.js")
 app.use("/products", productsRoute);
 
+require("./database/index.js")
+
+const userroute = require("./routes/User.js")
+
+
+app.use("/user" , userroute)
+
+
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
