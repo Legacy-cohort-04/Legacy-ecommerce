@@ -4,7 +4,8 @@ const app = express();
 const products =require("./routes/Products.js")
  const cartProducts=require("./routes/Cart.js")
 
-app.use(cors());
+
+app.use(cors()); 
 app.use(express.json());
 
 const PORT = 3000;
@@ -14,6 +15,7 @@ require("./database/index.js")
 
 
 
+app.use("/user" , userroute)
 
 
 
