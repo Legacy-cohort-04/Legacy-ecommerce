@@ -35,14 +35,17 @@ export default function Profile() {
   return (
     <div>
       <div className={styles.profilePage}>
-        <div className="profileHeader">
-          <div className="coverPhoto"></div>
-          <div className="profileInfo">
-            <div className="profileImageWrapper">
+        <div className={styles.profileHeader}>
+          <div className={styles.coverPhoto}></div>
+          <div>
+            <img src="" alt="" />
+          </div>
+          <div className={styles.profileInfo}>
+            <div className={styles.profileImageWrapper}>
               <img 
                 src={imageUrl || "https://i.sstatic.net/l60Hf.png"} 
                 alt="Profile" 
-                className="profileImage" 
+                className={styles.profileImage}
               />
               <form onSubmit={handleImageUpload}>
                 <input 
@@ -56,10 +59,10 @@ export default function Profile() {
                 <button type="submit">Upload</button>
               </form>
             </div>
-            <h1 className="profileName">John Doe</h1>
+            <h1 className={styles.profileName}>John Doe</h1>
           </div>
         </div>
-        <div className="profileNavigation">
+        <div className={styles.profileNavigation}>
           <nav>
             <ul>
               <li><a href="#">Posts</a></li>
@@ -69,7 +72,7 @@ export default function Profile() {
             </ul>
           </nav>
         </div>
-        <div className="profileContent">
+        <div className={styles.profileContent}>
           <p>Welcome to John Doe's profile page!</p>
         </div>
       </div>

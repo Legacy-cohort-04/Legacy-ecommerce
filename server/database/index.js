@@ -31,17 +31,9 @@ db.CartProducts=require("./models/CartProducts")(sequelize , Sequelize) //jointa
 db.Favoriteitems=require("./models/Favoriteitems")(sequelize , Sequelize)//jointable 
 db.Brands=require("./models/Brands")(sequelize , Sequelize)
 db.comments=require("./models/Comments")(sequelize , Sequelize)
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 db.posts = require("./models/posts")(sequelize , Sequelize)
-=======
-db.posts=require("./models/posts")(sequelize , Sequelize)
->>>>>>> 4f79d34ee97349634c6d9f0bf43f910cdd515a6c
-=======
-db.posts = require("./models/posts")(sequelize, Sequelize);
 
-
->>>>>>> 06bd3910547b6292c498c0e11a7d7240c7207ba2
 
 db.User.hasMany(db.Cart)
 db.Cart.belongsTo(db.User)
@@ -53,8 +45,6 @@ db.Products.belongsToMany(db.Cart,{through:db.CartProducts})
 
 db.User.hasMany(db.posts)
 db.posts.belongsTo(db.User)
-
-
 
 db.User.hasMany(db.comments)
 db.comments.belongsTo(db.User)
