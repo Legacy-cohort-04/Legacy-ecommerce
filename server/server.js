@@ -5,7 +5,8 @@ const productsRoute = require("./routes/Products")
 
 
 
-app.use(cors());
+
+app.use(cors()); 
 app.use(express.json());
 
 const PORT = 3000;
