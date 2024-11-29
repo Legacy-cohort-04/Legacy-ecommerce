@@ -42,7 +42,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsResponse = await axios.get<Product[]>('http://localhost:3000/products');
+        const productsResponse = await axios.get<Product[]>('http://localhost:3001/products/all');
         setProducts(productsResponse.data.slice(0, 9));
         
         const newProducts = productsResponse.data
@@ -50,36 +50,10 @@ const Home: React.FC = () => {
           .slice(0, 3);
         setTrendingProducts(newProducts);
 
-        const creatorsResponse = await axios.get<Creator[]>('http://localhost:3000/user/all'); 
+        const creatorsResponse = await axios.get<Creator[]>('http://localhost:3001/user/all'); 
         setCreators(creatorsResponse.data.slice(0, 3));
 
-        const brandsResponse = await axios.get<Brand[]>('http://localhost:3000/brands/allbrands');
-        const verifiedBrands = brandsResponse.data
-          .filter(brand => brand.verified === 1)
-          .slice(-3); 
-        setBrands(verifiedBrands);
-      } catch (error) {
-        console.error('Failed to load data:', error);
-      }
-    };
-
-    fetchData();
-  }, []); 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const productsResponse = await axios.get<Product[]>('http://localhost:3000/products');
-        setProducts(productsResponse.data.slice(0, 9));
-        
-        const newProducts = productsResponse.data
-          .filter(product => product.status === "New")
-          .slice(0, 3);
-        setTrendingProducts(newProducts);
-
-        const creatorsResponse = await axios.get<any[]>('http://localhost:3000/user/all'); 
-        setCreators(creatorsResponse.data.slice(0, 3));
-
-        const brandsResponse = await axios.get<Brand[]>('http://localhost:3000/brands/allbrands');
+        const brandsResponse = await axios.get<Brand[]>('http://localhost:3001/brands/allbrands');
         const verifiedBrands = brandsResponse.data
           .filter(brand => brand.verified === 1)
           .slice(-3); 
@@ -107,8 +81,9 @@ const Home: React.FC = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit.</p>
             
             <div className={styles.heroButtons}>
-              <button className={styles.exploreBtn} onClick={() => router.push('/products')}>Explore Now</button> 
-              <button className={styles.createBtn} onClick={() => router.push('/create-product')}>Create</button>         
+            <button className={styles.exploreBtn} onClick={() => router.push('/Products/Allproducts')}>
+  Explore Now
+</button>              <button className={styles.createBtn} onClick={() => router.push('/create-product')}>Create</button>         
             </div>
 
             <div className={styles.stats}>

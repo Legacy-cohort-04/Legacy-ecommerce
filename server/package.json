@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,6 +19,7 @@
     "mysql2": "^3.11.4",
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
-    "sequelize": "^6.37.5"
+    "sequelize": "^6.37.5",
+    "sweetalert2": "^11.14.5"
   }
 }

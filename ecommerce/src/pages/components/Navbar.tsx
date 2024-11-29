@@ -43,8 +43,9 @@ const Navbar: React.FC = () => {
         </div>
         <nav className={styles.navLinks}>
           <a onClick={() => router.push('/home')} style={{ cursor: 'pointer' }}>Home</a>
-          <a onClick={() => router.push('/products')} style={{ cursor: 'pointer' }}>Explore <FiChevronDown /></a>
-          <a href="#collection">Personal Collection</a>
+          <a onClick={() => router.push('/Products/Allproducts')} style={{ cursor: 'pointer' }}>
+  Explore <FiChevronDown />
+</a>          <a href="#collection">Personal Collection</a>
           <a href="#drops">Drops</a>
           <a onClick={() => router.push('/about')} className={styles.moreLink} style={{ cursor: 'pointer' }}>More <FiChevronDown /></a> 
           {/* {isAdmin && (

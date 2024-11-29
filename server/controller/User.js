@@ -125,6 +125,9 @@ const login = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
+
+
+
 };
 
 const getAllUsers = async (req, res) => {
@@ -139,3 +142,22 @@ const getAllUsers = async (req, res) => {
 
 
 module.exports = { signup, login, getAllUsers };
+const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { email, name, password } = req.body;
+
+        const user = await db.User.update(
+            { email,name, password },
+            { where: { id }}
+        );
+
+        res.send(user);
+    } catch (error) {
+        res.send(error);
+    }
+}
+
+
+
+module.exports = { signup, login , updateUser , getAllUsers};

@@ -14,7 +14,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import app from '../firebaseConfig';
 import axios from 'axios';
 
-
 export interface UserLogin {
   email: string,
   password: string,
@@ -33,7 +32,7 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      let result = await axios.post("http://localhost:3000/user/login", { email, password })
+      let result = await axios.post("http://localhost:3001/user/login", { email, password })
       console.log(result);
 
       const { token, user } = result.data;

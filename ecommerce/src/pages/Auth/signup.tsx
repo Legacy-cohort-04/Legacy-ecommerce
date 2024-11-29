@@ -53,12 +53,12 @@ const Signup: React.FC = () => {
         return;
       }
 
-      const response = await axios.post("http://localhost:3000/user/signup", {
+      const response = await axios.post("http://localhost:3001/user/signup", {
         firstName,
         lastName,
         email,
         day,
-        month :"January",
+        month : "January",
         year,
         password
       }, { headers: { 'Content-Type': 'application/json' } });
