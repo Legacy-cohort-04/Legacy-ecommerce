@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const products =require("./routes/Products.js")
+
 const cartProducts=require("./routes/Cart.js")
 const postRouter = require('./routes/Posts.js');
 const commentRouter = require('./routes/Comments.js');
@@ -13,11 +14,12 @@ const app = express();
 app.use(cors()); 
 app.use(express.json());
 
+require("./database/index.js")
+
+
 const PORT = 3000;
 
-require("./database/index.js")
-app.use("/brands" , brandsroute)
-
+app.use("/brands",brandsroute)
 app.use("/cartP",cartProducts)
 app.use('/products',products)
 app.use("/user" , userroute)
