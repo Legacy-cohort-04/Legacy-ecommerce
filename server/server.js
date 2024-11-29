@@ -3,6 +3,9 @@ const cors = require("cors");
 const app = express();
 const products =require("./routes/Products.js")
 const cartProducts=require("./routes/Cart.js")
+const userroute=require('./routes/User.js')
+const postRouter=require('./routes/Posts.js')
+const commentRouter=require('./routes/Comments.js')
 
 
 app.use(cors()); 

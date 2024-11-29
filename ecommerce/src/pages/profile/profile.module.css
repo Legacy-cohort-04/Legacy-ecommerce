@@ -5,6 +5,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
+  background:  linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
 }
 
 .coverSection {
@@ -67,6 +68,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-top: 10px;
+  color: white;
 }
 
 .profileNavigation ul {
@@ -100,22 +102,88 @@
 }
 
 
+
+
+
+/*dkdk kkkdkdkkdkk dkdkkdkkd dkkdkkdk kdkdkkdkd */
+
+
+
 .editProfile {
-  bottom: -50px;
-  top: 20px; /* Adjust the top distance as needed */
-  right: 200px; /* Align the div to the right */
-  background-color: #fff; /* Optional: for better visibility */
-  padding: 10px 20px;
-  border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  margin-left: 600px;
-  
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
+.editProfileModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+}
+
+.closeButton {
+  float: right;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #555;
+}
+
+.editOptions {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.editOptions button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+}
+
+.activeButton {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.editContent {
+  padding: 10px 0;
+}
+
+.editSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.editSection label {
+  font-size: 14px;
+  color: #333;
+}
+
+.editSection input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/*kdkdkdk kdkdkkdk d kkdkdkdkkdk kkkdkd kkkkd kk*/
 
 .editProfileComp {
   position: fixed; /* Position it fixed on the screen */
@@ -148,3 +216,66 @@
 .editProfileComp button:hover {
   background-color: #0056b3;
 }
+
+
+.profileGmail{
+  color: #ccc;
+  font-size: small;
+}
+
+
+/* displaying posts */
+
+.pageWrapper {
+  display: flex; /* Flexbox layout for two columns */
+  gap: 16px; /* Space between the side and main sections */
+  padding: 16px;
+}
+
+.allPostsOntheSide {
+  flex: 1; /* Take up less space compared to posts */
+  max-width: 300px; /* Restrict width for a sidebar look */
+  background-color: #f8f9fa; /* Light background for distinction */
+  border: 1px solid #ddd; /* Border for separation */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px;
+  overflow-y: auto; /* Scroll if content overflows */
+}
+
+.imageBox {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #e9ecef; /* Light gray for distinction */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.allPosts {
+  flex: 3; 
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Space between posts */
+}
+
+.post {
+  background-color: #fff; /* White background for posts */
+  border: 1px solid #ddd; /* Border for separation */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+.post h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.post p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+
+/* displaying posts */

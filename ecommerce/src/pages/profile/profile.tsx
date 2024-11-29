@@ -14,6 +14,19 @@ export default function Profile() {
   const [cover, setCover] = useState<File | null>(null); // Cover image file
 
   const [showEdit, setShowEdit] = useState<Boolean>(false)
+  const [showEditProfile, setShowEditProfile] = useState<Boolean>(false)
+
+  const [editMode, setEditMode] = useState("personalInfo"); // Tracks editing section
+
+  ////// edit profile name and email and password //////
+
+  
+
+
+  
+  ////// edit profile name and email and password //////
+
+
 
   const handleImageUpload = async (file: File, setUrl: React.Dispatch<React.SetStateAction<string>>) => {
     const data = new FormData();
@@ -35,6 +48,8 @@ export default function Profile() {
     }
   };
 
+
+  console.log('showEditProfile::::::', showEditProfile)
   return (
     <div className={styles.profilePage}>
       <div className={styles.coverSection}>
@@ -104,33 +119,89 @@ export default function Profile() {
 
           
         </div>
-        <h1 className={styles.profileName}>John Doe</h1>
+        <h1 className={styles.profileName}>John smith</h1>
+        <h3 className={styles.profileGmail}>johnSmith22@gmail.com</h3>
         {!showEdit ? (
-         <div className={styles.editProfile} onClick={()=>{
-           setShowEdit(!showEdit)
-         }}>edit profile</div>
-      ) : (
-        <div className={styles.editProfileComp}>
-           hello world
-           <button onClick={()=>{
-             setShowEdit(!showEdit)
-           }}>back</button>
+        <div
+          className={styles.editProfile}
+          onClick={() => setShowEdit(true)}
+        >
+          Edit Profile
         </div>
-      )}
-       
-      </div>
+      ) : (
+        <div className={styles.editProfileModal}>
+          {/* Close Button */}
+          <button
+            className={styles.closeButton}
+            onClick={() => setShowEdit(false)}
+          >
+            Close
+          </button>
 
-      <nav className={styles.profileNavigation}>
-        <ul>
-          <li><a href="#">Posts</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Photos</a></li> {/* if possibe late I can add  profile */}
-        </ul>
-      </nav>
+          {/* Edit Mode Buttons */}
+          <div className={styles.editOptions}>
+            <button
+              onClick={() => setEditMode("personalInfo")}
+              className={editMode === "personalInfo" ? styles.activeButton : ""}
+            >
+              Edit Personal Information
+            </button>
+            <button
+              onClick={() => setEditMode("password")}
+              className={editMode === "password" ? styles.activeButton : ""}
+            >
+              Edit Password
+            </button>
+          </div>
 
-      <div className={styles.profileContent}>
-        <p>Welcome to John Doe's profile page!</p>
-      </div>
+          {/* Edit Content */}
+          <div className={styles.editContent}>
+            {editMode === "personalInfo" && (
+              <div className={styles.editSection}>
+                <label htmlFor="username">Edit Username</label>
+                <input type="text" id="username" placeholder="Enter new username" />
+                <label htmlFor="email">Edit Email</label>
+                <input type="email" id="email" placeholder="Enter new email" />
+              </div>
+            )}
+            {editMode === "password" && (
+              <div className={styles.editSection}>
+                <label htmlFor="password">New Password</label>
+                <input type="password" id="password" placeholder="Enter new password" />
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Re-enter new password"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}   
+          </div>
+           <div className={styles.pageWrapper}>
+       <div className={styles.allPostsOntheSide}>
+         <a href="#">All Products</a>
+         <div className={styles.imageBox}>Image 1</div>
+         <div className={styles.imageBox}>Image 2</div>
+         <div className={styles.imageBox}>Image 3</div>
+         {/* Add more images dynamically later */}
+       </div>
+       <div className={styles.allPosts}>
+         <div className={styles.post}>
+           <h2>Post Title</h2>
+           <p>This is a sample post content.</p>
+         </div>
+         <div className={styles.post}>
+           <h2>Another Post</h2>
+           <p>This is another post content.</p>
+         </div>
+         {/* Add more posts dynamically */}
+       </div>
+     </div>
+
+      
     </div>
   );
 }
