@@ -12,6 +12,9 @@ const commentRouter=require('./routes/Comments.js')
 app.use(cors()); 
 app.use(express.json());
 
+require("./database/index.js")
+
+
 const PORT = 3001;
 
 

@@ -14,7 +14,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import app from '../firebaseConfig';
 import axios from 'axios';
 
-
 export interface UserLogin {
   email: string,
   password: string,
@@ -42,7 +41,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       // localStorage.setItem('userAvatar', result.photoURL || ''); 
       // localStorage.setItem('userType', 'user');
-      navigate.push('/Home/home');
+      navigate.push('/Products/Allproducts');
       // window.location.reload();
     } catch (err) {
       console.error(err);
