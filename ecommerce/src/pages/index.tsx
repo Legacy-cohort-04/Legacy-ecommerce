@@ -14,7 +14,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import app from '../firebaseConfig';
 import axios from 'axios';
 
-
 export interface UserLogin {
   email: string,
   password: string,

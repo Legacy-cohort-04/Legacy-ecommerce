@@ -53,12 +53,12 @@ const Signup: React.FC = () => {
         return;
       }
 
-      const response = await axios.post("/Auth/signup", {
+      const response = await axios.post("http://localhost:3001/user/signup", {
         firstName,
         lastName,
         email,
         day,
-        month,
+        month : "January",
         year,
         password
       }, { headers: { 'Content-Type': 'application/json' } });
@@ -66,7 +66,7 @@ const Signup: React.FC = () => {
       console.log(response.data);
       setError("");
 
-      navigate.push("/Auth/login");
+      navigate.push("/");
 
     } catch (error: unknown) {
       const axiosError = error as AxiosError;
