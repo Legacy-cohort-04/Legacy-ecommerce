@@ -13,6 +13,8 @@ export default function Profile() {
   const [coverUrl, setCoverUrl] = useState<string>(""); // Cover image URL
   const [cover, setCover] = useState<File | null>(null); // Cover image file
 
+  const [showEdit, setShowEdit] = useState<Boolean>(false)
+
   const handleImageUpload = async (file: File, setUrl: React.Dispatch<React.SetStateAction<string>>) => {
     const data = new FormData();
     data.append('file', file);
@@ -66,7 +68,9 @@ export default function Profile() {
       </div>
 
       <div className={styles.profileInfo}>
+        
         <div className={styles.profileImageWrapper}>
+            
           <Image
             src={imageUrl || defaultProfile} 
             alt="Profile"
@@ -82,6 +86,8 @@ export default function Profile() {
               width={24}  // Set width for upload icon
               height={24} // Set height for upload icon
             />
+            
+
             <input
               id="profileUpload"
               type="file"
@@ -93,9 +99,25 @@ export default function Profile() {
                 }
               }}
             />
+            
           </label>
+
+          
         </div>
         <h1 className={styles.profileName}>John Doe</h1>
+        {!showEdit ? (
+         <div className={styles.editProfile} onClick={()=>{
+           setShowEdit(!showEdit)
+         }}>edit profile</div>
+      ) : (
+        <div className={styles.editProfileComp}>
+           hello world
+           <button onClick={()=>{
+             setShowEdit(!showEdit)
+           }}>back</button>
+        </div>
+      )}
+       
       </div>
 
       <nav className={styles.profileNavigation}>
