@@ -130,7 +130,18 @@ const login = async (req, res) => {
 
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await db.User.findAll(); 
+        return res.status(200).json(users); 
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).send('Server error');
+    }
+};
 
+
+module.exports = { signup, login, getAllUsers };
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -149,4 +160,4 @@ const updateUser = async (req, res) => {
 
 
 
-module.exports = { signup, login , updateUser};
+module.exports = { signup, login , updateUser , getAllUsers};

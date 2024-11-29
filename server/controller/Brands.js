@@ -11,3 +11,5 @@ const getbrands = async (req, res) => {
         res.status(500).send("Failed to fetch brands");
     }
 };
+
+module.exports = {getbrands}

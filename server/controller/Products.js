@@ -2,32 +2,32 @@
 const { Op } = require("sequelize");
 const { Products } = require("../database/index");
 
-const getProductbybrandverified = async (req, res) => {
-  const brandId = req.params.brandId; 
+// const getProductbybrandverified = async (req, res) => {
+//   const brandId = req.params.brandId; 
 
-  try {
-    const products = await db.Products.findAll({
-      where: { brandId, verified: true }, 
-      include: [
-        {
-          model: db.Brands,
-          attributes: ["id", "name"],
-        },
-      ],
-    });
+//   try {
+//     const products = await db.Products.findAll({
+//       where: { brandId, verified: true }, 
+//       include: [
+//         {
+//           model: db.Brands,
+//           attributes: ["id", "name"],
+//         },
+//       ],
+//     });
 
-    if (products.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No verified products found for this brand." });
-    }
+//     if (products.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No verified products found for this brand." });
+//     }
 
-    res.json(products);
-  } catch (error) {
-    console.error("Error fetching verified products by brand ID:", error);
-    res.status(500).send("Failed to fetch verified products");
-  }
-};
+//     res.json(products);
+//   } catch (error) {
+//     console.error("Error fetching verified products by brand ID:", error);
+//     res.status(500).send("Failed to fetch verified products");
+//   }
+// };
 
 
 const getFilteredProducts = (req, res) => {
@@ -186,7 +186,7 @@ const createProduct = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const allProducts = await products.findAll();
+    const allProducts = await Products.findAll(); 
     res.json(allProducts); 
   } catch (error) {
     console.error("Error retrieving products:", error);
@@ -194,32 +194,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-// const getProductbybrandverified = async (req, res) => {
-//     const brandId = req.params.brandId; 
-  
-//     try {
-//       const products = await db.Products.findAll({
-//         where: { brandId, verified: true }, 
-//         include: [
-//           {
-//             model: db.  Brands,
-//             attributes: ["id", "name"],
-//           },
-//         ],
-//       });
-  
-//       if (products.length === 0) {
-//         return res
-//           .status(404)
-//           .json({ message: "No verified products found for this brand." });
-//       }
-  
-//       res.json(products);
-//     } catch (error) {
-//       console.error("Error fetching verified products by brand ID:", error);
-//       res.status(500).send("Failed to fetch verified products");
-//     }
-//   };
+
 
 
 module.exports = {
