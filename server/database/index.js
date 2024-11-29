@@ -31,6 +31,7 @@ db.CartProducts=require("./models/CartProducts")(sequelize , Sequelize) //jointa
 db.Favoriteitems=require("./models/Favoriteitems")(sequelize , Sequelize)//jointable 
 db.Brands=require("./models/Brands")(sequelize , Sequelize)
 db.comments=require("./models/Comments")(sequelize , Sequelize)
+db.posts=require("./models/posts")(sequelize , Sequelize)
 db.posts = require("./models/posts")(sequelize, Sequelize);
 
 
