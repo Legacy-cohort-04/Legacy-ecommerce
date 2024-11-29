@@ -2,6 +2,7 @@ const db = require("../database/index");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config
+JWT_SECRET="ascefbth,plnihcdxuwy"
 
 
 
@@ -104,7 +105,7 @@ const login = async (req, res) => {
 
         const token = jwt.sign(
             { id: user.id, firstName: user.firstName, lastName:user.lastName,email: user.email },
-            process.env.JWT_SECRET,
+            JWT_SECRET,
             { expiresIn: '1h' }
         );
 

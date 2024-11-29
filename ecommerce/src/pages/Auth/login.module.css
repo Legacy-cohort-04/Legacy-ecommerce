@@ -1,4 +1,4 @@
-.login-container {
+.loginContainer {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
     height: 100vh;
@@ -17,7 +17,7 @@
     margin-right: 20px;
 }
 
-.login-image {
+.loginImage {
     width: 500px;
     padding-right: 230px;
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.912));
@@ -27,7 +27,7 @@
     font-size: 25px;
 }
 
-.login-form {
+.loginForm {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -60,18 +60,18 @@
     text-decoration: underline;
 }
 
-.login-form div {
+.loginForm div {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.login-form .password-container {
+.loginForm .password-container {
     position: relative;
     width: 100%;
 }
 
-.login-form input,
-.login-form select {
+.loginForm input,
+.loginForm select {
     width: 100%;
     padding: 4px;
     margin: 10px 0;
@@ -86,17 +86,17 @@
     backdrop-filter: blur(0px);
 }
 
-.login-form input::placeholder,
-.login-form select {
+.loginForm input::placeholder,
+.loginForm select {
     color: rgba(255, 255, 255, 0.7);
 }
 
-.login-form .error-message {
+.loginForm .error-message {
     color: red;
     font-size: 14px;
 }
 
-.login-form .login-button {
+.loginForm .loginButton {
     padding: 10px 20px;
     border: 2px solid transparent;
     border-radius: 20px;
@@ -111,11 +111,11 @@
     margin-right: 4px;
 }
 
-.login-form .login-button:hover {
+.loginForm .loginButton:hover {
     transform: scale(1.1);
 }
 
-.login-form .or-container {
+.loginForm .or-container {
     text-align: center;
     font-size: 18px;
     color: rgb(255, 255, 255);
@@ -123,14 +123,14 @@
 
 }
 
-.login-form .social-buttons {
+.loginForm .socialButtons {
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 15px;
 }
 
-.login-form .social-button {
+.loginForm .socialButton {
     display: flex;               
     align-items: center;         
     justify-content: center;     
@@ -145,7 +145,7 @@
     background-color: #555;
 }
 
-.login-form .google-button {
+.loginForm .googleButton {
     background-color: #db453700;
     border: 1px solid;
     padding: 18px;
@@ -153,7 +153,7 @@
     transition: transform 0.3s ease;
 }
 
-.login-form .facebook-button {
+.loginForm .facebookButton {
     background-color:#1877f2 ; 
     padding: 18px ; 
     transition: transform 0.3s ease;
@@ -162,7 +162,7 @@
 
 }
 
-.login-form .social-button:hover {
+.loginForm .socialButton:hover {
     transform: scale(1.05);
 }
 
