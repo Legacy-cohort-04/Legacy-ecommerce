@@ -13,7 +13,7 @@
 }
 
 .coverImage {
-  width: 75%;
+  width: 85%;
   height: 75%;
   object-fit: cover;
   padding: 100px;
@@ -38,6 +38,11 @@
   border: 3px solid #fff;
   object-fit: cover;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileDescription {
+  color: white;
+  font-size: small;
 }
 
 .uploadButton {
@@ -233,8 +238,9 @@
 
 .allPostsOntheSide {
   flex: 1; /* Take up less space compared to posts */
-  max-width: 300px; /* Restrict width for a sidebar look */
-  background-color: #f8f9fa; /* Light background for distinction */
+  max-width: 300px;  /* Restrict width for a sidebar look */
+  max-height: 400px;
+  background:  linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
   border: 1px solid #ddd; /* Border for separation */
   border-radius: 8px; /* Rounded corners */
   padding: 16px;
@@ -244,37 +250,152 @@
 .imageBox {
   margin-top: 8px;
   padding: 8px;
-  background-color: #e9ecef; /* Light gray for distinction */
+  background:  linear-gradient(113.49deg, #984d3817 -30.3%, #181e4100 58.12%); /* Light gray for distinction */
   border: 1px solid #ccc;
   border-radius: 4px;
   text-align: center;
 }
 
-.allPosts {
-  flex: 3; 
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* Space between posts */
-}
-
 .post {
-  background-color: #fff; /* White background for posts */
+  background:  linear-gradient(113.49deg, #984d380b -30.3%, #181e4108 58.12%); /* White background for posts */
   border: 1px solid #ddd; /* Border for separation */
   border-radius: 8px; /* Rounded corners */
   padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content */
+  justify-content: space-between; /* Space out content */
+  min-height: 300px; /* Consistent height for posts */
+  
 }
 
-.post h2 {
-  margin: 0 0 8px;
-  font-size: 18px;
+.post img {
+  width: 100%; /* Stretch image to container width */
+  max-height: 470px; /* Limit image height */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
+  border-radius: 8px; /* Rounded corners for the image */
+  margin-bottom: 12px; /* Space between image and text */
 }
 
 .post p {
   margin: 0;
   font-size: 14px;
-  color: #555;
+  color: #fffdfd;
+  text-align: center; /* Center the text content */
+}
+
+.allPosts {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 16px;  /* Space between posts */
+  width: 70%;
 }
 
 
-/* displaying posts */
+
+.postTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #333;
+}
+
+
+
+
+/* the above of every post */
+.ProfileInsideProfile {
+  display: flex; /* Align content in a row */
+  align-items: center; /* Center image and name vertically */
+  gap: 12px; /* Space between the image and name */
+  padding: 10px; /* Space inside the container */
+  background-color: #f9f9f911; /* Light background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-bottom: 3px; /* Space below the profile section */
+  width: 100%; /* Make it span the full width of its container */
+} 
+
+.profileImageInpost {
+  width: 40px; /* Adjust image size */
+  height: 40px; /* Ensure it's a square */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Ensure the image doesn't stretch */
+  border: 2px solid #ddd; /* Optional border for definition */
+}
+
+.userName {
+  font-size: 16px; /* Standard size for names */
+  font-weight: bold; /* Make it stand out */
+  color: #f8f8f8; /* Dark color for readability */
+  margin: 0; /* Remove default margin */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add '...' for long names */
+}
+/* the above of every post */
+
+/* Wrapper for the entire comment section */
+.commentSection {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f8f9fa; /* Light background to separate the comment section visually */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Input field for posting comments */
+.postCommentInput {
+  width: calc(100% - 110px); /* Leave space for the button */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+/* Button for posting comments */
+.postCommentButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  display: inline-block;
+}
+
+.postCommentButton:hover {
+  background-color: #0056b3;
+}
+
+/* Individual comment wrapper */
+.OneComment {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Comment username */
+.OneComment h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 5px;
+  color: #333;
+}
+
+/* Comment text */
+.OneComment p {
+  font-size: 14px;
+  margin: 0;
+  color: #555;
+}
