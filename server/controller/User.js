@@ -145,10 +145,10 @@ module.exports = { signup, login, getAllUsers };
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { email, name, password } = req.body;
+        const { email, name} = req.body;
 
         const user = await db.User.update(
-            { email,name, password },
+            { email,name},
             { where: { id }}
         );
 
@@ -157,6 +157,9 @@ const updateUser = async (req, res) => {
         res.send(error);
     }
 }
+
+
+
 
 
 
