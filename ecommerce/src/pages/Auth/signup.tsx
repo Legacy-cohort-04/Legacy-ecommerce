@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import styles from './signup.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2'
 
 export interface User {
   id: number,
@@ -44,45 +45,103 @@ const Signup: React.FC = () => {
     }
   }
 
-  const handleAddUser = async () => {
-    try {
-      const passwordValidation = validatePassword(password);
-      if (!passwordValidation.isValid) {
-        setError("Password is too weak:");
-        passwordValidation.errors.forEach((err) => setError((element) => element + "  " + err));
-        return;
-      }
+  const handleAddUser = () => {
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
 
-      const response = await axios.post("/Auth/signup", {
-        firstName,
-        lastName,
-        email,
-        day,
-        month,
-        year,
-        password
-      }, { headers: { 'Content-Type': 'application/json' } });
-
-      console.log(response.data);
-      setError("");
-
-      navigate.push("/Auth/login");
-
-    } catch (error: unknown) {
-      const axiosError = error as AxiosError;
-
-      if (axiosError.response) {
-        const errorData = axiosError.response.data as string;
-
-        if (errorData === "User already exists") {
-          setError("Email address is already registered. Please use a different email.");
-        } else {
-          console.error(error);
-          setError("An error occurred during signup. Please try again later.");
+      Swal.fire({
+        icon: 'error',
+        title: '<span class="swal-title-error">Weak Password</span>',
+        text: passwordValidation.errors.join(' '),
+        background: 'rgba(255, 255, 255, 0.1)',
+        color: 'white',
+        confirmButtonText: 'Got it!',
+        customClass: {
+          title: 'swal-title-error',
+          htmlContainer: 'swal-content',
+          confirmButton: 'login-custom-button',
         }
-      }
+      });
+      return;
     }
-  }
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      month,
+      day,
+      year,
+    };
+
+    axios
+      .post('http://localhost:3000/user/signup', userData, { headers: { 'Content-Type': 'application/json' } })
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: '<span class="swal-title-success">Account Created</span>',
+          text: 'You have successfully signed up. Please log in.',
+          background: 'rgba(255, 255, 255, 0.1)',
+          color: 'white',
+          confirmButtonText: 'Got it!',
+          customClass: {
+            title: 'swal-title-success',
+            htmlContainer: 'swal-content',
+            confirmButton: 'succes-custom-button',
+          }
+        });
+        navigate.push('/');
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          const errorData = error.response.data;
+          if (errorData.errors) {
+            Swal.fire({
+              icon: 'error',
+              title: '<span class="swal-title-error">Validation Error</span>',
+              text: errorData.errors.join(', '),
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              confirmButtonText: 'Got it!',
+              customClass: {
+                title: 'swal-title-error',
+                htmlContainer: 'swal-content',
+                confirmButton: 'login-custom-button',
+              }
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: '<span class="swal-title-error">Signup Failed</span>',
+              text: errorData.message || 'An error occurred during signup. Please try again later.',
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              confirmButtonText: 'Got it!',
+              customClass: {
+                title: 'swal-title-error',
+                htmlContainer: 'swal-content',
+                confirmButton: 'login-custom-button',
+              }
+            });
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '<span class="swal-title-error">Signup Failed</span>',
+            text: 'An error occurred during signup. Please try again later.',
+            background: 'rgba(255, 255, 255, 0.1)',
+            color: 'white',
+            confirmButtonText: 'Got it!',
+            customClass: {
+              title: 'swal-title-error',
+              htmlContainer: 'swal-content',
+              confirmButton: 'login-custom-button',
+            }
+          });
+        }
+      });
+    }
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
