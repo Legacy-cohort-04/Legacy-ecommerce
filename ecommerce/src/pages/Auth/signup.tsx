@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [day, setDay] = useState<number | "">("");
-  const [month, setMonth] = useState<number | "">("");
+  const [month, setMonth] = useState<number| string>("");
   const [year, setYear] = useState<number | "">("");
   const [error, setError] = useState<string>("");
 
@@ -76,7 +76,7 @@ const Signup: React.FC = () => {
     };
 
     axios
-      .post('http://localhost:3000/user/signup', userData, { headers: { 'Content-Type': 'application/json' } })
+      .post('http://localhost:3001/user/signup', userData, { headers: { 'Content-Type': 'application/json' } })
       .then(() => {
         Swal.fire({
           icon: 'success',
@@ -141,16 +141,20 @@ const Signup: React.FC = () => {
           });
         }
       });
-    }
+  }
+  const months = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
-  const months = Array.from({ length: 12 }, (_, i) => i + 1);
+ // const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' }));
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
   return (
     <>
-     
+
 
       <div className={styles.signupContainer}>
         <div className="signup-image-container">
@@ -161,11 +165,11 @@ const Signup: React.FC = () => {
           />
           <h4 className="gretting">Begin your meta fashion journey here </h4>
         </div>
-        
+
         <form className={styles.signupForm}>
           <h3 className={styles.signupMessage}>Sign Up
           </h3>
-        <div className={styles.signupLink}>
+          <div className={styles.signupLink}>
             <p>
               Already a Member?{' '}
               <a className="login-link-text" style={{ "cursor": "pointer" }} onClick={() => navigate.push('/')}>
@@ -185,33 +189,33 @@ const Signup: React.FC = () => {
             />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div className={styles.nameContainer}>
-            <input
-              type="text"
-              id="firstName"
-              className={styles.nameInput}
-              name="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
-            />
-          </div>
-          
-          <div className={styles.nameContainer} >
-            <input
-              className={styles.nameInput}
+            <div className={styles.nameContainer}>
+              <input
+                type="text"
+                id="firstName"
+                className={styles.nameInput}
+                name="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+              />
+            </div>
 
-              type="text"
-              id="lastName"
+            <div className={styles.nameContainer} >
+              <input
+                className={styles.nameInput}
 
-              name="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
-            />
+                type="text"
+                id="lastName"
+
+                name="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+              />
+            </div>
           </div>
-          </div>
-          
+
           <div style={{ display: 'flex', justifyContent: 'space-between' }} >
             <div className={styles.personalInfo}>
               <select
@@ -229,7 +233,7 @@ const Signup: React.FC = () => {
               <select
                 id="month"
                 value={month}
-                onChange={(e) => setMonth(Number(e.target.value))}
+                onChange={(e) => setMonth(e.target.value || '')}
               >
                 <option value="">Month</option>
                 {months.map(month => (
@@ -259,7 +263,7 @@ const Signup: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
-             <FontAwesomeIcon
+            <FontAwesomeIcon
               icon={passwordVisible ? faEyeSlash : faEye}
               onClick={() => setPasswordVisible(!passwordVisible)}
               className={styles.passwordSwitch}
@@ -274,7 +278,7 @@ const Signup: React.FC = () => {
           <button type="button" className={styles.signupButton} onClick={handleAddUser}>
             Create Account
           </button>
-       
+
         </form>
       </div>
     </>
