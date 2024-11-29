@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './profile.module.css';
 import Image from 'next/image';
@@ -17,6 +17,8 @@ export default function Profile() {
   const [showEditProfile, setShowEditProfile] = useState<Boolean>(false)
 
   const [editMode, setEditMode] = useState("personalInfo"); // Tracks editing section
+
+  const [posts, setPosts] = useState<string>("");
 
   ////// edit profile name and email and password upadate requests //////
   
@@ -47,6 +49,40 @@ export default function Profile() {
       alert("Image upload failed.");
     }
   };
+
+
+  //////////// getting post and posting posts ////////// 
+
+  interface Request {
+    params: {
+      id: string; 
+    };
+  }
+  
+  interface Response {
+    send: (body: any) => void;
+    status: (statusCode: number) => Response;
+  }
+
+  
+//   const gettingPosts = async function (): Promise<void> {
+
+//     try {
+//       const result = await axios.get(`http://localhost:3000/posts/allPost/id`);
+//       setPosts(result.data);  
+
+//     } catch (err) {
+//       console.error("Error getting posts:", err);
+     
+//     }
+//   } ;
+
+  //////////// getting post and posting posts ////////// 
+
+//   useEffect(()=>{
+//     gettingPosts()
+//   },[])
+
 
 
   console.log('showEditProfile::::::', showEditProfile)

@@ -1,8 +1,13 @@
 const db = require("../database/index");
 
 const getAllPosts = async (req, res) => {
+  const {id} = req.params
     try {
-        const posts = await db.posts.findAll();
+        const posts = await db.posts.findAll({
+          where: {
+            UserID: id
+          }
+        });
         
         res.send(posts); 
     } catch (error) {
