@@ -5,6 +5,9 @@ const cartProducts=require("./routes/Cart.js")
 const postRouter = require('./routes/Posts.js');
 const commentRouter = require('./routes/Comments.js');
 const userroute = require('./routes/User.js');
+const brandsroute = require("./routes/Brands.js")
+
+
 
 const app = express();
 app.use(cors()); 
@@ -13,6 +16,7 @@ app.use(express.json());
 const PORT = 3000;
 
 require("./database/index.js")
+app.use("/brands" , brandsroute)
 
 app.use("/cartP",cartProducts)
 app.use('/products',products)
