@@ -7,7 +7,7 @@ const commentRouter = express.Router()
 
 commentRouter.get("/allComments/:postId", getCommentsByPost)
 commentRouter.delete('/oneComment/:commID',deleteOneComment)
-commentRouter.post('/oneComment',postComment)
+commentRouter.post('/oneComment/:postId',postComment)
 commentRouter.put("/oneComment/:commID", updateComment)
 
 
