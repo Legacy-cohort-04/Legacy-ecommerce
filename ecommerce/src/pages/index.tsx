@@ -41,7 +41,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       // localStorage.setItem('userAvatar', result.photoURL || ''); 
       // localStorage.setItem('userType', 'user');
-      navigate.push('/Products/Allproducts');
+      navigate.push('/Home/home');
       // window.location.reload();
     } catch (err) {
       console.error(err);
