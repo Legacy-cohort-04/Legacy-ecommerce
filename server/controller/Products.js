@@ -1,13 +1,13 @@
-const db = require("../database/index");
+
 const { Op } = require("sequelize");
 const { Products } = require("../database/index");
 
 const getProductbybrandverified = async (req, res) => {
-  const brandId = req.params.brandId; // Get the brand ID from the request parameters
+  const brandId = req.params.brandId; 
 
   try {
     const products = await db.Products.findAll({
-      where: { brandId, verified: true }, // Filter products by the specified brand ID and verified status
+      where: { brandId, verified: true }, 
       include: [
         {
           model: db.Brands,
@@ -22,7 +22,7 @@ const getProductbybrandverified = async (req, res) => {
         .json({ message: "No verified products found for this brand." });
     }
 
-    res.json(products); // Send the products as a JSON response
+    res.json(products);
   } catch (error) {
     console.error("Error fetching verified products by brand ID:", error);
     res.status(500).send("Failed to fetch verified products");
@@ -91,18 +91,16 @@ const incrementownercount = async (req, res) => {
 };
 
 const decrementownercount = async (req, res) => {
-  const { productId } = req.params; // Get the product ID from the request parameters
+  const { productId } = req.params; 
 
   try {
-    // Find the product by ID to get the associated brand ID
     const product = await db.Products.findByPk(productId);
     if (!product) {
       return res.status(404).json({ message: "Product not found." });
     }
 
-    const brandId = product.brandId; // Get the brand ID from the product
+    const brandId = product.brandId; 
 
-    // Decrement the owner count in the brands table
     await db.brands.decrement("owner", { where: { id: brandId } });
 
     res.status(200).json({ message: "Owner count decremented successfully." });
@@ -113,13 +111,13 @@ const decrementownercount = async (req, res) => {
 };
 
 const updateproductbyId = async (req, res) => {
-  const productId = req.params.productId; // Get the product ID from the request parameters
-  const { price } = req.body; // Destructure the request body for the attributes you want to update
+  const productId = req.params.productId; 
+  const { price } = req.body; 
 
   try {
     const [updated] = await db.Products.update(
-      { price }, // Attributes to update
-      { where: { id: productId } } // Condition to find the product by ID
+      { price },
+      { where: { id: productId } } 
     );
 
     if (!updated) {
@@ -135,8 +133,6 @@ const updateproductbyId = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    // Log the incoming request body
-
     const {
       title,
       price,
@@ -149,7 +145,6 @@ const createProduct = async (req, res) => {
       onSale = false,
     } = req.body;
 
-    // Validate required fields
     if (!title || !price || !image || !rarity || !chains || !collection) {
       return res.status(400).json({
         success: false,
@@ -158,7 +153,6 @@ const createProduct = async (req, res) => {
       });
     }
 
-    // Create product with explicit values
     const product = await db.Products.create({
       title: title.trim(),
       price: parseFloat(price),
@@ -182,14 +176,56 @@ const createProduct = async (req, res) => {
       success: false,
       message: "Error creating product",
       error: error.message,
-      receivedData: req.body, // Include the received data in error response
+      receivedData: req.body, 
     });
   }
 };
 
+
+
+
+const getProducts = async (req, res) => {
+  try {
+    const allProducts = await products.findAll();
+    res.json(allProducts); 
+  } catch (error) {
+    console.error("Error retrieving products:", error);
+    res.status(500).json({ message: "Error retrieving products." });
+  }
+};
+
+// const getProductbybrandverified = async (req, res) => {
+//     const brandId = req.params.brandId; 
+  
+//     try {
+//       const products = await db.Products.findAll({
+//         where: { brandId, verified: true }, 
+//         include: [
+//           {
+//             model: db.  Brands,
+//             attributes: ["id", "name"],
+//           },
+//         ],
+//       });
+  
+//       if (products.length === 0) {
+//         return res
+//           .status(404)
+//           .json({ message: "No verified products found for this brand." });
+//       }
+  
+//       res.json(products);
+//     } catch (error) {
+//       console.error("Error fetching verified products by brand ID:", error);
+//       res.status(500).send("Failed to fetch verified products");
+//     }
+//   };
+
+
 module.exports = {
+  getProducts,
   getFilteredProducts,
-  getProductbybrandverified,
+  // getProductbybrandverified,
   incrementownercount,
   decrementownercount,
   updateproductbyId,

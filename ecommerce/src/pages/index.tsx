@@ -41,7 +41,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       // localStorage.setItem('userAvatar', result.photoURL || ''); 
       // localStorage.setItem('userType', 'user');
-      navigate.push('/Home/home');
+      navigate.push('/Products/Allproducts');
       // window.location.reload();
     } catch (err) {
       console.error(err);
@@ -73,6 +73,9 @@ export default function Login() {
 
 
 
+   
+   
+
   async function handleFacebookSignIn() {
     const facebookProvider = new FacebookAuthProvider();
 
@@ -101,7 +104,16 @@ export default function Login() {
       console.error(err);
       setError("Facebook sign-in failed. Please try again.");
     }
-  }
+  
+    return (
+      <div>
+        {error && <p className="text-red-500">{error}</p>}
+        <button onClick={handleFacebookSignIn}>
+          Sign in with Facebook
+        </button>
+      </div>
+    );
+   }
   return (
     <div>
       <div className={styles.loginContainer}>
