@@ -108,6 +108,8 @@ const ProductList: React.FC = () => {
 
   return (
     <>
+          <div className={styles.AllProductsContainer}>
+
       <div className={styles.productListContainer}>
         <div className={styles.sidebarContainer}>
           <Sidebar onFilterChange={handleFilterChange} />
@@ -206,6 +208,8 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
+
     </>
   );
 };
