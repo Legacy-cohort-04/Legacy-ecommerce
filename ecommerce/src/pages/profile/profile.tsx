@@ -102,8 +102,7 @@ export default function Profile() {
         <ul>
           <li><a href="#">Posts</a></li>
           <li><a href="#">About</a></li>
-          <li><a href="#">Friends</a></li>
-          <li><a href="#">Photos</a></li>
+          <li><a href="#">Photos</a></li> {/* if possibe late I can add  profile */}
         </ul>
       </nav>
 
