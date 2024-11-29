@@ -148,7 +148,6 @@ const Signup: React.FC = () => {
   ];
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
- // const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' }));
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
