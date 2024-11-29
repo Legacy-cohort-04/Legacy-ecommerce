@@ -141,7 +141,6 @@ const getAllUsers = async (req, res) => {
 };
 
 
-module.exports = { signup, login, getAllUsers };
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
