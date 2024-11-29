@@ -18,13 +18,13 @@ export default function Profile() {
 
   const [editMode, setEditMode] = useState("personalInfo"); // Tracks editing section
 
-  ////// edit profile name and email and password //////
+  ////// edit profile name and email and password upadate requests //////
+  
+  
+ 
 
   
-
-
-  
-  ////// edit profile name and email and password //////
+  ////// edit profile name and email and password  update requests //////
 
 
 
