@@ -23,7 +23,7 @@ const ProductList: React.FC = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/products", {
+      const { data } = await axios.get("http://localhost:3001/products", {
         params: filters,
       });
       setProducts(data);
