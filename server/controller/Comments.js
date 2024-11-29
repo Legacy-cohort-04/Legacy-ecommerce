@@ -19,12 +19,14 @@ const db = require("../database/index");
 /// I want to post a comment to each post 
 const postComment = async (req,res) => {
     try {
-        const {content, UserId, postId} = req.body 
-      const post = await db.comments.create({
-        content: content,
-        UserId: UserId, 
-        postId: postId
-      })
+        const {content} = req.body 
+        const {postId} = req.params
+        const post = await db.comments.create({
+          content: content,
+          UserId: UserId
+      },
+      {where: {postId: postId}}
+    )
       res.status(200).send(post)
     } catch(err) {
       console.log(err)
