@@ -1,0 +1,191 @@
+.admin-dashboard {
+  background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+
+  min-height: 100vh;
+  color: white;
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  color: white;
+}
+
+.products-and-form-container {
+  background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+  display: flex;
+  position: relative;
+  outline-color: 2px #ffffff;
+}
+
+.product-form-sidebar {
+  background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 14px 16px rgba(0, 10, 0, 0.1);
+  z-index: 100;
+  border: 1px solid #ffffff;
+  outline-color: #ffffff;
+  outline-style: outset;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-form-sidebar:hover {
+  transform: translate(-50%, -50%) scale(1.05)
+}
+
+.product-form-sidebar form {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.form-group2 {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group2 .labell {
+  
+  margin-bottom: 5px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.form-group2 input,
+.form-group2 textarea {
+  height: 30px;
+  padding: 10px;
+  border: 1px solid #984D38;
+  border-radius: 8px;
+  background: rgba(24, 30, 65, 0.8);
+  color: white;
+  font-size: 14px;
+}
+
+.form-group2 input:focus,
+.form-group2 textarea:focus {
+  border-color: #B75CFF;
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btnnn,
+.btnnn-primaryyy {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease-in-out;
+  color: white;
+}
+
+.btnnn {
+  background: linear-gradient(to bottom, #B75CFF, #671AE4);
+}
+
+.btnnn:hover {
+  background: linear-gradient(to bottom, #671AE4, #B75CFF); 
+}
+
+.btnnn-primaryyy {
+  background: linear-gradient(to bottom, #671AE4, #B75CFF);
+}
+
+.btnnn-primaryyy:hover {
+  background: linear-gradient(to bottom, #B75CFF, #671AE4); 
+}
+
+.btnnn-cancelll {
+  background-color: #181E41;
+  color: white;
+}
+
+.btnnn-primary:hover {
+  opacity: 0.9;
+  background: linear-gradient(to bottom, #671AE4, #B75CFF);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.product-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 85%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 15px;
+  font-size: 14px;
+  color: white;
+}
+
+.product-info h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-edittt,
+.btn-deleteee {
+  height: 35px;
+  width: 48%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, #B75CFF, #671AE4);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-edittt:hover,
+.btn-deleteee:hover {
+  background: linear-gradient(to bottom, #671AE4, #B75CFF); 
+}
+
+.btn-deleteee {
+  background: linear-gradient(to bottom, #B75CFF, #671AE4);
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

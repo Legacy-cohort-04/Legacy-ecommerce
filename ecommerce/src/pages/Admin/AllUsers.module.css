@@ -1,0 +1,106 @@
+.theme {
+  --primaryGradientStart: #984D38;
+  --primaryGradientEnd: #181E41;
+  --textLight: #f4f4f4;
+  --backgroundLight: #f8f9fa;
+  --borderColor: rgba(255, 255, 255, 0.2);
+}
+
+.allUsersInterface {
+  min-height: 100vh;
+  background: linear-gradient(113.49deg, var(--primaryGradientStart) -30.3%, var(--primaryGradientEnd) 58.12%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.adminCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  border: 1px solid var(--borderColor);
+}
+
+.welcome {
+  color: var(--backgroundLight);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.usersTitle {
+  color: var(--textLight);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--borderColor);
+  padding-bottom: 0.5rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tableThead {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tableTh,
+.tableTd {
+  padding: 1rem;
+  text-align: left;
+  color: var(--textLight);
+  border-bottom: 1px solid var(--borderColor);
+}
+
+.tableTh {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.tableRow:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+
+.deleteButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+@media screen and (max-width: 768px) {
+  .adminCard {
+      padding: 1rem;
+  }
+
+  .table {
+      font-size: 0.9rem;
+  }
+
+  .tableTh,
+  .tableTd {
+      padding: 0.75rem;
+  }
+}
