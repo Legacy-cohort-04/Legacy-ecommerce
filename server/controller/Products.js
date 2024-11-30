@@ -70,45 +70,7 @@ const getFilteredProducts = (req, res) => {
     });
 };
 
-const incrementownercount = async (req, res) => {
-  const { productId } = req.params;
 
-  try {
-    const product = await db.Products.findByPk(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
-    }
-
-    const brandId = product.brandId;
-
-    await db.Brands.increment("owner", { where: { id: brandId } });
-
-    res.status(200).json({ message: "Owner count incremented successfully." });
-  } catch (error) {
-    console.error("Error incrementing owner count:", error);
-    res.status(500).send("Failed to increment owner count");
-  }
-};
-
-const decrementownercount = async (req, res) => {
-  const { productId } = req.params; 
-
-  try {
-    const product = await db.Products.findByPk(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
-    }
-
-    const brandId = product.brandId; 
-
-    await db.brands.decrement("owner", { where: { id: brandId } });
-
-    res.status(200).json({ message: "Owner count decremented successfully." });
-  } catch (error) {
-    console.error("Error decrementing owner count:", error);
-    res.status(500).send("Failed to decrement owner count");
-  }
-};
 
 const updateproductbyId = async (req, res) => {
   const productId = req.params.productId; 
@@ -201,8 +163,6 @@ module.exports = {
   getProducts,
   getFilteredProducts,
   // getProductbybrandverified,
-  incrementownercount,
-  decrementownercount,
   updateproductbyId,
   createProduct,
 };
