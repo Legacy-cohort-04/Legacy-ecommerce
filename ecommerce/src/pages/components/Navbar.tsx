@@ -50,19 +50,12 @@ const Navbar: React.FC = () => {
             <a onClick={() => router.push("/home")} style={{ cursor: "pointer" }}>
               Home
             </a>
-            <a
-              onClick={() => router.push("/Products/Allproducts")}
-              style={{ cursor: "pointer" }}
-            >
+            <a onClick={() => router.push("/Products/Allproducts")} style={{ cursor: "pointer" }}>
               Explore <FiChevronDown />
             </a>
             <a href="#collection">Personal Collection</a>
             <a href="#drops">Drops</a>
-            <a
-              onClick={() => router.push("/about")}
-              className={styles.moreLink}
-              style={{ cursor: "pointer" }}
-            >
+            <a onClick={() => router.push("/about")} className={styles.moreLink} style={{ cursor: "pointer" }}>
               More <FiChevronDown />
             </a>
           </nav>
@@ -71,45 +64,14 @@ const Navbar: React.FC = () => {
           <button className={styles.iconButton}>
             <FiBell size={20} />
           </button>
-          <button
-            className={styles.iconButton}
-            onClick={() => setIsChatOpen(!isChatOpen)}
-          >
+          <button className={styles.iconButton} onClick={() => setIsChatOpen(!isChatOpen)}>
             <FiMessageSquare size={20} />
           </button>
-          <button
-            className={styles.walletBtn}
-            onClick={() => router.push("/cart")}
-          >
+          <button className={styles.walletBtn} onClick={() => router.push("/Products/Cart")}>
             <FiShoppingCart size={18} />
           </button>
           <img
             onClick={() => router.push("/profile/profile")}
-        <nav className={styles.navLinks}>
-          <a onClick={() => router.push('/Home/home')} style={{ cursor: 'pointer' }}>Home</a>
-          <a onClick={() => router.push('/Products/Allproducts')} style={{ cursor: 'pointer' }}>
-  Explore <FiChevronDown />
-</a>          <a href="#collection">Personal Collection</a>
-          <a href="#drops">Drops</a>
-          <a onClick={() => router.push('/about')} className={styles.moreLink} style={{ cursor: 'pointer' }}>More <FiChevronDown /></a> 
-          {/* {isAdmin && (
-            <a onClick={() => router.push('/admin')} style={{ cursor: 'pointer' }}>Admin</a>
-          )} */}
-        </nav>
-      </div>
-      <div className={styles.navRight}>
-        <button className={styles.iconButton}>
-          <FiBell size={20} />
-        </button>
-        <button className={styles.iconButton}>
-          <FiMessageSquare size={20} />
-        </button>
-        <button className={styles.walletBtn} onClick={() => router.push('/Products/Cart')}>
-          <FiShoppingCart size={18} />
-        </button>
-        {/* {isUser && ( */}
-          <img 
-            onClick={() => router.push("/profile")}
             src={avatar}
             alt="Profile"
             className={styles.profileImg}
