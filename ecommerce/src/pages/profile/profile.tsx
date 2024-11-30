@@ -36,6 +36,20 @@ export default function Profile() {
   
   ////// edit profile name and email and password  update requests //////
 
+
+
+  const updateUserImage = async ()=>{
+    try {
+        const result = await axios.put("http://localhost:3001/user/userImage/1", {
+          image: imageUrl
+      });
+
+    console.log(result.data)
+    } catch (err) {
+        console.log("error updating user info", err)
+    }
+  }
+
   const handleImageUpload = async (
     file: File,
     setUrl: React.Dispatch<React.SetStateAction<string>>
@@ -44,7 +58,7 @@ export default function Profile() {
     data.append("file", file);
     data.append("upload_preset", "legacy");
     data.append("cloud_name", "dpqkzgd5z");
-
+    updateUserImage()
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dpqkzgd5z/image/upload",
@@ -150,17 +164,7 @@ export default function Profile() {
 
   ///// update User Image ///////// 
 
-  const updateUserImage = async ()=>{
-    try {
-        const result = await axios.put("http://localhost:3001/user/userImage/1", {
-          image: imageUrl
-      });
-
-    console.log(result.data)
-    } catch (err) {
-        console.log("error updating user info", err)
-    }
-  }
+  
 
   
 
