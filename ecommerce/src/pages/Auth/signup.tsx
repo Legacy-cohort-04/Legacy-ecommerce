@@ -268,12 +268,13 @@ const Signup: React.FC = () => {
               className={styles.passwordSwitch}
             />
           </div>
+
           {error && (
             <div className="error-message">
               <p>{error}</p>
             </div>
           )}
-
+          
           <button type="button" className={styles.signupButton} onClick={handleAddUser}>
             Create Account
           </button>

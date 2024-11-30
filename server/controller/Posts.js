@@ -48,12 +48,13 @@ const getAllPosts = async (req, res) => {
 
 
   const createPost = async (req, res)  => {
-    const {content , image} = req.body
+    const {content, image, UserId} = req.body
     try {
        const creating = await db.posts.create( 
         {
             content: content, 
-            image: image
+            image: image,
+            UserId: UserId
         }
        )
        res.json(creating);
