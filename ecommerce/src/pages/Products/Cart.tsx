@@ -26,14 +26,28 @@ const Cart: React.FC = () => {
     const fetchCart = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:3001/cart/itemcart', {
+            const response = await axios.get('http://localhost:3001/cartP/itemcart', {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setCart(response.data);
         } catch (err: any) { 
-            setError(err.response?.data?.message || 'Unable to load the cart');
+            console.error('Error fetching cart:', err);
+            if (err.response) {
+                // Server responded with an error
+                console.error('Error Response:', err.response);
+                setError(err.response?.data?.message || 'Unable to load the cart');
+            } else if (err.request) {
+                // No response was received
+                console.error('Error Request:', err.request);
+                setError('No response from server');
+            } else {
+                // Some other error occurred
+                console.error('General Error:', err.message);
+                setError('An unexpected error occurred');
+            }
         }
     };
+    
 
     useEffect(() => {
         fetchCart();
@@ -52,7 +66,7 @@ const Cart: React.FC = () => {
         if (result.isConfirmed) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.post('http://localhost:3001/cart/confirm-order', {}, {
+                await axios.post('http://localhost:3001/cartP/confirm-order', {}, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -80,14 +94,7 @@ const Cart: React.FC = () => {
         }
     };
 
-    const handleOwner = async (id: number) => {
-        try {
-            const response = await axios.post(`http://localhost:3001/products/decrement/${id}`);
-            console.log(response.data.message);
-        } catch (error) {
-            console.error("Error decrementing owner count:", error);
-        }
-    };
+ 
 
     const handleRemoveItem = async (id: number) => {
         
@@ -97,7 +104,7 @@ const Cart: React.FC = () => {
     if (!cart) return <div className={styles.cartLoading}>Loading...</div>;
 
     return (
-        <div className={styles.AllProductsContainer}>
+        <div className={styles.AllCartContainer}>
 
         <div className={styles.cartContainer}>
             <h2>My Cart</h2>
@@ -113,7 +120,7 @@ const Cart: React.FC = () => {
                                 <p className={styles.cartItemPrice}>{product.CartProducts.priceAtPurchase} ETH</p>
                                 <p className={styles.cartItemQuantity}>Quantity: {product.CartProducts.quantity}</p>
                             </div>
-                            <button className={styles.removeItemButton} onClick={() => { handleRemoveItem(product.id); handleOwner(product.id); }}>
+                            <button className={styles.removeItemButton} onClick={() => { handleRemoveItem(product.id)}}>
                                 ❌
                             </button>
                         </div>

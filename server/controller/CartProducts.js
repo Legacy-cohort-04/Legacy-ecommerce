@@ -26,7 +26,7 @@ exports.addToCart = (req, res) => {
         .then(([cart]) => {
           db.CartProducts.findOrCreate({ 
             where: { CartId: cart.id, ProductId: productId }, 
-            defaults: { quantity: 1, priceAtPurchase: product.price } 
+            defaults: { quantity: product.price} 
           }).then(([cartProduct, created]) => {
             if (!created) cartProduct.quantity++
             cart.totalItems++

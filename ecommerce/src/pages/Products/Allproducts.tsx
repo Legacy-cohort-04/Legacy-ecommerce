@@ -47,16 +47,6 @@ const ProductList: React.FC = () => {
     );
   };
 
-  const handleOwner = async (id: number) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/products/increment/${id}`
-      );
-      console.log(response.data.message);
-    } catch (error) {
-      console.error("Error incrementing owner count:", error);
-    }
-  };
 
   const handleAddToCart = async (productId: number) => {
     const token = localStorage.getItem("token");
@@ -76,7 +66,7 @@ const ProductList: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/cart/add",
+        "http://localhost:3001/cartP/add",
         { productId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -196,7 +186,6 @@ const ProductList: React.FC = () => {
                     <button
                       className={styles.buyButton}
                       onClick={() => {
-                        handleOwner(product.id);
                         handleAddToCart(product.id);
                       }}
                     >

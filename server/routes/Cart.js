@@ -7,7 +7,7 @@ const { confirmOrder } = require('../controller/Order');
 
 const router = express.Router();
 
-router.get('/itemcart/:userId', getCart);
+router.get('/itemcart', getCart);
 router.post('/add', addToCart);
 router.post('/confirm-order', confirmOrder);
 
