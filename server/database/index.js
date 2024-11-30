@@ -74,4 +74,5 @@ db.Products.belongsTo(db.Brands)
 //  });
 
 
+
 module.exports= db

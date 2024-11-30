@@ -130,23 +130,78 @@ const login = async (req, res) => {
 
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await db.User.findAll(); 
+        return res.status(200).json(users); 
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).send('Server error');
+    }
+};
 
-const updateUser = async (req, res) => {
+
+
+const updateUser =  (req, res) => {
+   
+        const { id } = req.params;
+        
+        const { email, firstName, lastName } = req.body;
+
+        const user =  db.User.update(
+            { email, firstName, lastName },
+            { where: { id }}
+        )
+        .then((res)=>{
+          res.send(res.data)
+        })
+        .catch((err)=>{
+            res.send(err)
+            console.log(user.data)
+        })
+
+       
+}
+
+const updateUserImage= async (req, res) => {
     try {
         const { id } = req.params;
-        const { email, name, password } = req.body;
+        
+        const { image } = req.body;
 
         const user = await db.User.update(
-            { email,name, password },
+            { image },
             { where: { id }}
         );
 
         res.send(user);
+        console.log(user.data)
     } catch (error) {
         res.send(error);
+        console.log(err)
     }
 }
 
 
+const getOneUser= async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.User.findOne(
+            { where: { id: id }}
+        );
 
-module.exports = { signup, login , updateUser};
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        
+        res.send(user);
+        console.log(user.data)
+    } catch (error) {
+        res.send(error);
+        console.log(error)
+    }
+}
+
+ 
+
+module.exports = { signup, login , updateUser , getAllUsers, updateUserImage, getOneUser};

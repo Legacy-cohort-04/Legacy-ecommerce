@@ -4,6 +4,8 @@ import styles from './Allproducts.module.css';
 import Sidebar from "./ProductsBar/ProductsBar";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import Navbar from '../components/Navbar'; 
+import Footer from '../components/footer';
 
 interface Product {
   id: number;
@@ -99,8 +101,8 @@ const ProductList: React.FC = () => {
 
   return (
     <>
-          <div className={styles.AllProductsContainer}>
-
+  <div className={styles.AllProductsContainer}>
+  <Navbar/>
       <div className={styles.productListContainer}>
         <div className={styles.sidebarContainer}>
           <Sidebar onFilterChange={handleFilterChange} />
@@ -198,6 +200,8 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer /> 
+
       </div>
 
     </>
