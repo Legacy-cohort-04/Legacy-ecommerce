@@ -26,7 +26,7 @@ exports.addToCart = (req, res) => {
         .then(([cart]) => {
           db.CartProducts.findOrCreate({ 
             where: { CartId: cart.id, ProductId: productId }, 
-            defaults: { quantity: 1, priceAtPurchase: product.price } 
+            defaults: { quantity: product.price} 
           }).then(([cartProduct, created]) => {
             if (!created) cartProduct.quantity++
             cart.totalItems++
@@ -39,4 +39,31 @@ exports.addToCart = (req, res) => {
     })
     .catch(() => res.status(500).json({ message: 'Error adding product to cart' }))
 }
- 
+exports.removeFromCart = async (req, res) => {
+  const { ProductId } = req.params;
+
+  try {
+    const cartProduct = await db.CartProducts.findOne({ where: { ProductId: ProductId } });
+    
+    if (!cartProduct) {
+      return res.status(404).json({ message: 'Cart product not found' });
+    }
+
+    const cart = await db.Cart.findOne({ where: { id: cartProduct.CartId } });
+    
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    cart.totalItems -= 1;
+    cart.totalAmount -= cartProduct.quantity; // Assuming priceAtPurchase is stored in CartProducts
+
+    await db.CartProducts.destroy({ where: { ProductId: ProductId } });
+    await cart.save();
+
+    res.status(200).json({ message: 'Product removed from cart', cart });
+  } catch (error) {
+    console.error('Error removing product from cart:', error);
+    res.status(500).json({ message: 'Error removing product from cart', error: error.message });
+  }
+};

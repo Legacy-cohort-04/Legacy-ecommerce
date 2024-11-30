@@ -14,9 +14,8 @@ export default function Profile() {
   const [cover, setCover] = useState<File | null>(null); // Cover image file
 
   const [postUrll, setPostUrl] = useState<string>("");
-  console.log("postUrll", postUrll)
+  console.log("postUrll", postUrll);
   const [post, setpost] = useState<File | null>();
-  
 
   const [showEdit, setShowEdit] = useState<Boolean>(false);
   const [showEditProfile, setShowEditProfile] = useState<Boolean>(false);
@@ -27,30 +26,26 @@ export default function Profile() {
   const [comments, setComments] = useState<any[]>([]);
 
   const [oneComment, setOneComment] = useState<string>("");
-  const [rerenderComment, setrerenderComment] = useState<Boolean>(false); 
+  const [rerenderComment, setrerenderComment] = useState<Boolean>(false);
 
   const [onePost, setonePost] = useState<string>("");
 
   ////// edit profile name and email and password upadate requests //////
 
-  
   ////// edit profile name and email and password  update requests //////
 
-
-  ///// updating user Image ///////// 
-  const updateUserImage = async ()=>{
+  ///// updating user Image /////////
+  const updateUserImage = async () => {
     try {
-        const result = await axios.put("http://localhost:3001/user/userImage/1", {
-          image: imageUrl
+      const result = await axios.put("http://localhost:3001/user/userImage/1", {
+        image: imageUrl,
       });
 
-    console.log(result.data)
+      console.log(result.data);
     } catch (err) {
-        console.log("error updating user info", err)
+      console.log("error updating user info", err);
     }
-  }
-
-
+  };
 
   const handleImageUpload = async (
     file: File,
@@ -60,7 +55,7 @@ export default function Profile() {
     data.append("file", file);
     data.append("upload_preset", "legacy");
     data.append("cloud_name", "dpqkzgd5z");
-    updateUserImage()   ///updating user image
+    updateUserImage(); ///updating user image
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dpqkzgd5z/image/upload",
@@ -69,7 +64,6 @@ export default function Profile() {
       setUrl(response.data.secure_url);
       console.log(response.data);
       alert("Image uploaded successfully!");
-     
     } catch (error) {
       console.error("Error uploading image to Cloudinary", error);
       alert("Image upload failed.");
@@ -89,6 +83,9 @@ export default function Profile() {
     status: (statusCode: number) => Response;
   }
 
+
+  // let iduser: string | undefined;
+
   //   const user = localStorage.getItem("user");
   // if (user) {
   //   const iduser = JSON.parse(user).id;
@@ -98,58 +95,72 @@ export default function Profile() {
   //   console.error("User not found in localStorage");
   // }
 
-  const user = localStorage.getItem("user");
 
-  let iduser: string | undefined;
-  
-  
-  // if (user) {
-  //   const parsedUser = JSON.parse(user);
-  //   iduser = parsedUser?.id; // Safely access the 'id' property
-  // } else {
-  //   console.error("User not found in localStorage");
-  // }
 
 
   const gettingPosts = async () => {
     try {
-      const result = await axios.get(
-        `http://localhost:3001/posts/allPost/1`
-      );
-      setPosts([result.data]);
+      const result = await axios.get(`http://localhost:3001/posts/allPost/1`);
+      setPosts(result.data);
+      console.log("there are the posts ", result.data);
     } catch (err) {
       console.error("Error getting posts:", err);
     }
   };
 
+  console.log("posts😂😂😂", posts);
 
+  ////// posting comment //////////
+  const postingComment = async (postId: number) => {
+    
+    try {
+      const result = await axios.post(
+        `http://localhost:3001/comment/oneComment/${postId}`,
+        {
+          content: oneComment,
+          postId: postId
+        }
+      );
 
-   ////// posting comment ////////// 
-   
-   const postingComment = async () =>  {
-       try{
-         const result = await axios.post(`http://localhost:3001/comment/oneComment/${2}`, {
-           content: oneComment
-         })
-         console.log("posting comment", result.data)
-         setrerenderComment(!rerenderComment)
-       } catch(err) {
-        console.log(err)
-       }
-   }
+      console.log("posting comment", result);
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchComments = async (postId: number) => {
+    try {
+      const result = await axios.get(
+        `http://localhost:3001/comment/allComments/${postId}`
+      );
+      setrerenderComment(!rerenderComment);
+      console.log("Fetched comments:", result.data);
+      setComments(result.data);
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+    }
+  };
+
+  
+  useEffect(()=>{
+    fetchComments
+  },[rerenderComment])
 
   //////////// getting post and posting posts //////////
 
-
-
   const postingPost = async () => {
     try {
-      const result = await axios.post("http://localhost:3001/posts/createPost", {
-        content: onePost ,
-        image: postUrll,   // Image URL from Cloudinary
-        UserId: "1"  
-      });
-    //   setrerenderComment(!rerenderComment)
+      const result = await axios.post(
+        "http://localhost:3001/posts/createPost",
+        {
+          content: onePost,
+          image: postUrll, // Image URL from Cloudinary
+          UserId: "1",
+        }
+      );
+      setView(!view)
+      //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
       // You can add logic to update the posts list or re-render as necessary
     } catch (err) {
@@ -157,53 +168,67 @@ export default function Profile() {
     }
   };
 
-  ///// last name State 
-   const [editlastName, setediLastName] = useState<string>("");
-   const [editUsername, seteditUsername] = useState<string>("");
-   const [editUserEmail, seteditUserEmail] = useState<string>("");
+  ///// last name State
+  const [editlastName, setediLastName] = useState<string>("");
+  const [editUsername, seteditUsername] = useState<string>("");
+  const [editUserEmail, seteditUserEmail] = useState<string>("");
 
-   const [userInfo, setUserInfo] = useState<any>({});
-   
+  const [userInfo, setUserInfo] = useState<any>({});
 
-  const updateUser = async ()=>{
+  const updateUser = async () => {
     try {
-        const result = await axios.put("http://localhost:3001/user/updateUser/1", {
-          email: editUserEmail ,
+      const result = await axios.put(
+        "http://localhost:3001/user/updateUser/1",
+        {
+          email: editUserEmail,
           firstName: editUsername,
-          lastName: editlastName
-      });
+          lastName: editlastName,
+        }
+      );
 
-    console.log(result.data)
+      console.log(result.data);
     } catch (err) {
-        console.log("error updating user info", err)
+      console.log("error updating user info", err);
     }
+  };
+
+  // getting user info
+
+  const getUserInfo = async () => {
+    try {
+      const result = await axios.get(`http://localhost:3001/user/oneuser/1`);
+
+      console.log("getUserInfo:", result.data);
+      setUserInfo(result.data);
+    } catch (err) {
+      console.log("error getting user user info", err);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+
+
+  const [view,setView] = useState<Boolean>(false);
+
+  const deletePost = async (postID: String)=>{
+    try {
+      const result = await axios.delete(`http://localhost:3001/posts/${postID}`)
+      console.log(result.data)
+      setView(!view)
+    } 
+    catch (err) {
+      console.log(err)
+    }
+    
   }
-
-
- // getting user info 
-
- const getUserInfo = async ()=>{
-  try {
-    const result = await axios.get(`http://localhost:3001/user/oneuser/1`)
-
-    console.log("getUserInfo:", result.data)
-    setUserInfo(result.data)
-
-    } catch (err) {
-        console.log("error getting user user info", err)
-    }
- }
-  
- useEffect(()=>{
-  getUserInfo()
- },[])
-
-
-  
 
   useEffect(() => {
     gettingPosts();
-  }, []);
+  }, [view]);
+
 
 
 
@@ -246,16 +271,16 @@ export default function Profile() {
             src={imageUrl || defaultProfile}
             alt="Profile"
             className={styles.profileImage}
-            width={150} // Set width for the profile image
-            height={150} // Set height for the profile image
+            width={150} 
+            height={150} 
           />
           <label htmlFor="profileUpload" className={styles.uploadButton}>
             <Image
               src={uploadIcon}
               alt="Upload-image"
               className={styles.uploadIcon}
-              width={24} // Set width for upload icon
-              height={24} // Set height for upload icon
+              width={24} 
+              height={24} 
             />
 
             <input
@@ -295,7 +320,7 @@ export default function Profile() {
           </div>
         ) : (
           <div className={styles.editProfileModal}>
-            {/* Close Button */}
+            
             <button
               className={styles.closeButton}
               onClick={() => setShowEdit(false)}
@@ -303,7 +328,7 @@ export default function Profile() {
               Close
             </button>
 
-            {/* Edit Mode Buttons */}
+            
             <div className={styles.editOptions}>
               <button
                 onClick={() => setEditMode("personalInfo")}
@@ -315,7 +340,7 @@ export default function Profile() {
               </button>
             </div>
 
-            {/* Edit Content */}
+            
             <div className={styles.editContent}>
               {editMode === "personalInfo" && (
                 <div className={styles.editSection}>
@@ -324,8 +349,8 @@ export default function Profile() {
                     type="text"
                     id="username"
                     placeholder="username"
-                    onChange={(e)=>{
-                        seteditUsername(e.target.value);
+                    onChange={(e) => {
+                      seteditUsername(e.target.value);
                     }}
                   />
 
@@ -334,51 +359,57 @@ export default function Profile() {
                     type="text"
                     id="username"
                     placeholder="lastname"
-                    onChange={(e)=>{
-                         setediLastName(e.target.value);
+                    onChange={(e) => {
+                      setediLastName(e.target.value);
                     }}
                   />
-
 
                   <label htmlFor="email">Edit Email</label>
                   <input
                     type="email"
                     id="email"
                     placeholder="Enter new email"
-                    onChange={(e)=>{
-                      seteditUserEmail(e.target.value)
+                    onChange={(e) => {
+                      seteditUserEmail(e.target.value);
                     }}
                   />
-                   <button onClick={()=>{
-                    updateUser()
-                   }}>edit profile</button>
-                 
+                  <button
+                    onClick={() => {
+                      updateUser();
+                    }}
+                  >
+                    edit profile
+                  </button>
+
                   <label htmlFor="">post Image</label>
                   <input
                     type="file"
-                    // className={styles.fileInput}
+                   
                     onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                    setpost(e.target.files[0]); // Set profile image file
-                    handleImageUpload(e.target.files[0], setPostUrl); // Upload profile image , works together
-                }
-              }}
-            />
-
+                      if (e.target.files && e.target.files[0]) {
+                        setpost(e.target.files[0]); // Set profile image file
+                        handleImageUpload(e.target.files[0], setPostUrl); // Upload profile image , works together
+                      }
+                    }}
+                  />
 
                   <label htmlFor="">enter content to the image you added</label>
-                  <input type="text" onChange={(e)=>{
-                     setonePost(e.target.value)
-                  }} />
-                  
-                  <button onClick={()=>{
-                    postingPost()
-                  }
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      setonePost(e.target.value);
+                    }}
+                  />
 
-                  }>amazing post</button>
+                  <button
+                    onClick={() => {
+                      postingPost();
+                    }}
+                  >
+                    amazing post
+                  </button>
                 </div>
               )}
-             
             </div>
           </div>
         )}
@@ -386,10 +417,21 @@ export default function Profile() {
       <div className={styles.pageWrapper}>
         <div className={styles.allPostsOntheSide}>
           <a href="#">All Products</a>
-          <div className={styles.imageBox}>Image 1</div>
-          <div className={styles.imageBox}>Image 2</div>
-          <div className={styles.imageBox}>Image 3</div>
-          {/* Add more images dynamically later */}
+          {posts.map((post, index) => (
+            <div key={index} className={styles.imageBox}>
+              <img
+                src={post.image}
+                alt={`Post Preview ${index + 1}`}
+                className={styles.sidebarPostImage}
+              />
+              <p className={styles.sidebarPostContent}>
+                {post.content.slice(0, 30) || "Post Preview"}
+              </p>
+              <button onClick={()=>{
+                        deletePost(post.id)
+              }} >del</button>
+            </div>
+          ))}
         </div>
         <div className={styles.allPosts}>
           {posts.map((elem, index) => (
@@ -417,15 +459,20 @@ export default function Profile() {
                   type="text"
                   className={styles.postCommentInput}
                   placeholder="Write a comment..."
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>)=>{
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     // here I"m going to take the comment
-                    setOneComment(e.target.value)
+                    setOneComment(e.target.value);
                   }}
-                  
                 />
-                <button className={styles.postCommentButton} onClick={()=>{
-                    postingComment()
-                }}>
+                <button
+                  className={styles.postCommentButton}
+                  onClick={() => {
+                    postingComment(elem.id);
+                    console.log("comment elem id ", elem.id)
+                    // fetchComments(elem.id)
+                    console.log('comments😖❤️', comments)
+                  }}
+                >
                   Post Comment
                 </button>
                 {comments.map((comment, index) => (
