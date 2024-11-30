@@ -37,7 +37,7 @@ export default function Profile() {
   ////// edit profile name and email and password  update requests //////
 
 
-
+  ///// updating user Image ///////// 
   const updateUserImage = async ()=>{
     try {
         const result = await axios.put("http://localhost:3001/user/userImage/1", {
@@ -49,6 +49,8 @@ export default function Profile() {
         console.log("error updating user info", err)
     }
   }
+
+
 
   const handleImageUpload = async (
     file: File,
@@ -145,6 +147,8 @@ export default function Profile() {
    const [editlastName, setediLastName] = useState<string>("");
    const [editUsername, seteditUsername] = useState<string>("");
    const [editUserEmail, seteditUserEmail] = useState<string>("");
+
+   const [userInfo, setuserInfo] = useState<Array<any>>([]);
    
 
   const updateUser = async ()=>{
@@ -162,16 +166,26 @@ export default function Profile() {
   }
 
 
-  ///// update User Image ///////// 
+ // getting user info 
+
+ const getUserInfo = async ()=>{
+  try {
+    const result = await axios.get(`http://localhost:3001/user/oneuser/1`)
+
+    console.log("getUserInfo:", result.data)
+    setuserInfo(result.data)
+
+    } catch (err) {
+        console.log("error getting user user info", err)
+    }
+ }
+  
+ useEffect(()=>{
+  getUserInfo()
+ },[])
+
 
   
-
-  
-
-
-
-
-
 
   useEffect(() => {
     gettingPosts();
@@ -243,9 +257,9 @@ export default function Profile() {
             />
           </label>
         </div>
-        <h1 className={styles.profileName}>{editUsername}</h1>
-        <h1 className={styles.profileName}>{editlastName}</h1>
-        <h3 className={styles.profileGmail}>{editUserEmail}</h3>
+        <h1 className={styles.profileName}>{userInfo.firstName}</h1>
+        <h1 className={styles.profileName}>{userInfo.lastName}</h1>
+        <h3 className={styles.profileGmail}>{userInfo.email}</h3>
 
         <h4 className={styles.profileDescription}>
           {" "}

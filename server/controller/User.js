@@ -183,4 +183,25 @@ const updateUserImage= async (req, res) => {
 }
 
 
-module.exports = { signup, login , updateUser , getAllUsers, updateUserImage};
+const getOneUser= async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.User.findOne(
+            { where: { id: id }}
+        );
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        
+        res.send(user);
+        console.log(user.data)
+    } catch (error) {
+        res.send(error);
+        console.log(error)
+    }
+}
+
+ 
+
+module.exports = { signup, login , updateUser , getAllUsers, updateUserImage, getOneUser};
