@@ -60,7 +60,7 @@ export default function Profile() {
     data.append("file", file);
     data.append("upload_preset", "legacy");
     data.append("cloud_name", "dpqkzgd5z");
-    updateUserImage()
+    updateUserImage()   ///updating user image
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dpqkzgd5z/image/upload",
@@ -98,16 +98,30 @@ export default function Profile() {
   //   console.error("User not found in localStorage");
   // }
 
+  const user = localStorage.getItem("user");
+
+  let iduser: string | undefined;
+  
+  
+  // if (user) {
+  //   const parsedUser = JSON.parse(user);
+  //   iduser = parsedUser?.id; // Safely access the 'id' property
+  // } else {
+  //   console.error("User not found in localStorage");
+  // }
+
+
   const gettingPosts = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3001/posts/allPost/${2}`
+        `http://localhost:3001/posts/allPost/1`
       );
-      setPosts(result.data);
+      setPosts([result.data]);
     } catch (err) {
       console.error("Error getting posts:", err);
     }
   };
+
 
 
    ////// posting comment ////////// 
@@ -123,9 +137,7 @@ export default function Profile() {
        }
    }
 
-  console.log("all the posts;::::", posts);
   //////////// getting post and posting posts //////////
-
 
 
 
@@ -133,7 +145,8 @@ export default function Profile() {
     try {
       const result = await axios.post("http://localhost:3001/posts/createPost", {
         content: onePost ,
-        image: postUrll   // Image URL from Cloudinary
+        image: postUrll,   // Image URL from Cloudinary
+        UserId: "1"  
       });
     //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
@@ -148,7 +161,7 @@ export default function Profile() {
    const [editUsername, seteditUsername] = useState<string>("");
    const [editUserEmail, seteditUserEmail] = useState<string>("");
 
-   const [userInfo, setuserInfo] = useState<Array<any>>([]);
+   const [userInfo, setUserInfo] = useState<any>({});
    
 
   const updateUser = async ()=>{
@@ -173,7 +186,7 @@ export default function Profile() {
     const result = await axios.get(`http://localhost:3001/user/oneuser/1`)
 
     console.log("getUserInfo:", result.data)
-    setuserInfo(result.data)
+    setUserInfo(result.data)
 
     } catch (err) {
         console.log("error getting user user info", err)
@@ -189,7 +202,7 @@ export default function Profile() {
 
   useEffect(() => {
     gettingPosts();
-  }, [rerenderComment]);
+  }, []);
 
 
 
