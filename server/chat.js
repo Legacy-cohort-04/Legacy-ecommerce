@@ -10,8 +10,7 @@ const io = new Server(server);
 
 
 app.get('/', (req, res) => {
-    res.sendFile(join(__dirname, '../ecommerce/src/pages/chat/chat.html'));
-});
+  res.sendFile(join(__dirname, '../ecommerce/src/pages/chat/chat.html'));});
 
   io.on('connection', (socket) => {
     io.emit('chat message', "New User Connected");
@@ -19,7 +18,7 @@ app.get('/', (req, res) => {
         io.emit('chat message', msg);
       });
   });
-
-server.listen(4000, () => {
-  console.log('server running at http://localhost:4000');
+const PORT = 3002
+server.listen(PORT, () => {
+  console.log(`server running at http://localhost:${PORT}`);
 });
