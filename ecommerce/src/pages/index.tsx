@@ -23,8 +23,8 @@ export default function Login() {
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (email.trim() !== '') {
-      setPasswordVisible(true); // Show password input and hide email input
+    if (email !== '') {
+      setPasswordVisible(true)
     } else {
       setError('Please enter a valid email address.');
     }
@@ -112,7 +112,7 @@ export default function Login() {
             alt="Login illustration"
             className="login-image"
           />
-          <h4 className="Logingretting" style={{ marginRight: '160px' }}>
+          <h4 className={styles["Logingreeting"]} style={{ marginRight: '160px' }}>
             Explore the world of meta fashion
           </h4>
         </div>

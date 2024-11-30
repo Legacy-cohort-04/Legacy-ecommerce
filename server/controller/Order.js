@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const db = require('../database');
-const jwt = require('jsonwebtoken');
 
 
 const transporter = nodemailer.createTransport({
@@ -14,17 +13,15 @@ const transporter = nodemailer.createTransport({
   })
   
   const confirmOrder = async (req, res) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ message: 'Unauthorized' });
-
+    const userId = req.params.userId;
     try {
-        const { id: userId } = jwt.verify(token, 'ascefbth,plnihcdxuwy');
+        
         const user = await db.User.findOne({ where: { id: userId } });
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const cart = await db.Cart.findOne({
             where: { UserId: userId },
-            include: [{ model: db.products, attributes: ['id', 'title', 'price', 'image'], through: { attributes: ['quantity', 'priceAtPurchase'] } }]
+            include: [{ model: db.Products, attributes: ['id', 'title', 'price', 'image'], through: { attributes: ['quantity'] } }]
         });
 
         if (!cart?.Products?.length) return res.status(400).json({ message: 'Cart is empty' });
@@ -43,7 +40,6 @@ const transporter = nodemailer.createTransport({
                         <tr>
                             <td>${product.title}</td>
                             <td>${product.CartProducts.quantity}</td>
-                            <td>${product.CartProducts.priceAtPurchase} ETH</td>
                         </tr>
                     `).join('')}
                 </table>

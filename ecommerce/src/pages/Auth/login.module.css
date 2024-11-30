@@ -1,7 +1,7 @@
 .loginContainer {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
-    height: 100vh;
+        height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,8 +23,14 @@
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.912));
 }
 
-.Logingretting {
-    font-size: 25px;
+.Logingreeting {
+    position:absolute;
+    font-size: 20px;
+    margin-left: 20px;
+    position: center;
+    top: 82%;
+  left:20%;
+  color: white;
 }
 
 .loginForm {
@@ -222,8 +228,14 @@
       
       .loginTitle{
         margin-left: -310px;
-        font-size:xx-large;
         margin-bottom: 30px;
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 35.8px;
+        letter-spacing: 0.01em;
+        text-align: center;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
         
       }
 

@@ -1,4 +1,10 @@
+.AllCartContainer{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+    color: #fff;
+    min-height: 100vh;
 
+}
 .cartContainer { /* Updated from .cart-container */
     padding: 20px;
     max-width: 1200px;

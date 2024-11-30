@@ -23,7 +23,7 @@ const postComment = async (req,res) => {
         const {postId} = req.params
         const post = await db.comments.create({
           content: content,
-          UserId: UserId
+          postId: postId
       },
       {where: {postId: postId}}
     )
