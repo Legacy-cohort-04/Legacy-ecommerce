@@ -33,8 +33,7 @@ export default function Profile() {
 
   ////// edit profile name and email and password upadate requests //////
 
-  const [editUsername, seteditUsername] = useState<string>("");
-  const [editUserEmail, seteditUserEmail] = useState<string>("");
+  
   ////// edit profile name and email and password  update requests //////
 
   const handleImageUpload = async (
@@ -54,6 +53,7 @@ export default function Profile() {
       setUrl(response.data.secure_url);
       console.log(response.data);
       alert("Image uploaded successfully!");
+     
     } catch (error) {
       console.error("Error uploading image to Cloudinary", error);
       alert("Image upload failed.");
@@ -127,19 +127,42 @@ export default function Profile() {
     }
   };
 
+  ///// last name State 
+   const [editlastName, setediLastName] = useState<string>("");
+   const [editUsername, seteditUsername] = useState<string>("");
+   const [editUserEmail, seteditUserEmail] = useState<string>("");
+   
 
-  const updateUser = async function(){
+  const updateUser = async ()=>{
     try {
-        const result = await axios.post("http://localhost:3001/user/updateUser/2", {
-            email: editUserEmail ,
-            name: editUsername // Image URL from Cloudinary
-        });
+        const result = await axios.put("http://localhost:3001/user/updateUser/1", {
+          email: editUserEmail ,
+          firstName: editUsername,
+          lastName: editlastName
+      });
 
     console.log(result.data)
     } catch (err) {
-        console.log(err)
+        console.log("error updating user info", err)
     }
   }
+
+
+  ///// update User Image ///////// 
+
+  const updateUserImage = async ()=>{
+    try {
+        const result = await axios.put("http://localhost:3001/user/userImage/1", {
+          image: imageUrl
+      });
+
+    console.log(result.data)
+    } catch (err) {
+        console.log("error updating user info", err)
+    }
+  }
+
+  
 
 
 
@@ -152,6 +175,7 @@ export default function Profile() {
 
 
 
+  console.log("showEditProfile::::::", showEditProfile);
   return (
     <div className={styles.profilePage}>
       <div className={styles.coverSection}>
@@ -215,8 +239,9 @@ export default function Profile() {
             />
           </label>
         </div>
-        <h1 className={styles.profileName}>John smith</h1>
-        <h3 className={styles.profileGmail}>johnSmith22@gmail.com</h3>
+        <h1 className={styles.profileName}>{editUsername}</h1>
+        <h1 className={styles.profileName}>{editlastName}</h1>
+        <h3 className={styles.profileGmail}>{editUserEmail}</h3>
 
         <h4 className={styles.profileDescription}>
           {" "}
@@ -262,15 +287,27 @@ export default function Profile() {
             <div className={styles.editContent}>
               {editMode === "personalInfo" && (
                 <div className={styles.editSection}>
-                  <label htmlFor="username">Edit Username</label>
+                  <label htmlFor="username">Edit first Name</label>
                   <input
                     type="text"
                     id="username"
-                    placeholder="Enter new username"
+                    placeholder="username"
                     onChange={(e)=>{
-                        seteditUsername(e.target.value)
+                        seteditUsername(e.target.value);
                     }}
                   />
+
+                  <label htmlFor="userLastName">Edit Last name</label>
+                  <input
+                    type="text"
+                    id="username"
+                    placeholder="lastname"
+                    onChange={(e)=>{
+                         setediLastName(e.target.value);
+                    }}
+                  />
+
+
                   <label htmlFor="email">Edit Email</label>
                   <input
                     type="email"

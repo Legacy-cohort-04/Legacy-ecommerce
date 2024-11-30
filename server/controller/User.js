@@ -141,26 +141,46 @@ const getAllUsers = async (req, res) => {
 };
 
 
-module.exports = { signup, login, getAllUsers };
-const updateUser = async (req, res) => {
+
+const updateUser =  (req, res) => {
+   
+        const { id } = req.params;
+        
+        const { email, firstName, lastName } = req.body;
+
+        const user =  db.User.update(
+            { email, firstName, lastName },
+            { where: { id }}
+        )
+        .then((res)=>{
+          res.send(res.data)
+        })
+        .catch((err)=>{
+            res.send(err)
+            console.log(user.data)
+        })
+
+       
+}
+
+const updateUserImage= async (req, res) => {
     try {
         const { id } = req.params;
-        const { email, name} = req.body;
+        
+        const { image } = req.body;
 
         const user = await db.User.update(
-            { email,name},
+            { image },
             { where: { id }}
         );
 
         res.send(user);
+        console.log(user.data)
     } catch (error) {
         res.send(error);
+        console.log(err)
     }
 }
 
 
-
-
-
-
-module.exports = { signup, login , updateUser , getAllUsers};
+module.exports = { signup, login , updateUser , getAllUsers, updateUserImage};
