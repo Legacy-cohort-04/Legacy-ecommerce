@@ -33,9 +33,24 @@ export default function Profile() {
 
   ////// edit profile name and email and password upadate requests //////
 
-  const [editUsername, seteditUsername] = useState<string>("");
-  const [editUserEmail, seteditUserEmail] = useState<string>("");
+  
   ////// edit profile name and email and password  update requests //////
+
+
+  ///// updating user Image ///////// 
+  const updateUserImage = async ()=>{
+    try {
+        const result = await axios.put("http://localhost:3001/user/userImage/1", {
+          image: imageUrl
+      });
+
+    console.log(result.data)
+    } catch (err) {
+        console.log("error updating user info", err)
+    }
+  }
+
+
 
   const handleImageUpload = async (
     file: File,
@@ -45,7 +60,7 @@ export default function Profile() {
     data.append("file", file);
     data.append("upload_preset", "legacy");
     data.append("cloud_name", "dpqkzgd5z");
-
+    updateUserImage()   ///updating user image
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dpqkzgd5z/image/upload",
@@ -54,6 +69,7 @@ export default function Profile() {
       setUrl(response.data.secure_url);
       console.log(response.data);
       alert("Image uploaded successfully!");
+     
     } catch (error) {
       console.error("Error uploading image to Cloudinary", error);
       alert("Image upload failed.");
@@ -82,16 +98,30 @@ export default function Profile() {
   //   console.error("User not found in localStorage");
   // }
 
+  const user = localStorage.getItem("user");
+
+  let iduser: string | undefined;
+  
+  
+  // if (user) {
+  //   const parsedUser = JSON.parse(user);
+  //   iduser = parsedUser?.id; // Safely access the 'id' property
+  // } else {
+  //   console.error("User not found in localStorage");
+  // }
+
+
   const gettingPosts = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3001/posts/allPost/${2}`
+        `http://localhost:3001/posts/allPost/1`
       );
-      setPosts(result.data);
+      setPosts([result.data]);
     } catch (err) {
       console.error("Error getting posts:", err);
     }
   };
+
 
 
    ////// posting comment ////////// 
@@ -107,9 +137,7 @@ export default function Profile() {
        }
    }
 
-  console.log("all the posts;::::", posts);
   //////////// getting post and posting posts //////////
-
 
 
 
@@ -117,7 +145,8 @@ export default function Profile() {
     try {
       const result = await axios.post("http://localhost:3001/posts/createPost", {
         content: onePost ,
-        image: postUrll   // Image URL from Cloudinary
+        image: postUrll,   // Image URL from Cloudinary
+        UserId: "1"  
       });
     //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
@@ -127,31 +156,57 @@ export default function Profile() {
     }
   };
 
+  ///// last name State 
+   const [editlastName, setediLastName] = useState<string>("");
+   const [editUsername, seteditUsername] = useState<string>("");
+   const [editUserEmail, seteditUserEmail] = useState<string>("");
 
-  const updateUser = async function(){
+   const [userInfo, setUserInfo] = useState<any>({});
+   
+
+  const updateUser = async ()=>{
     try {
-        const result = await axios.post("http://localhost:3001/user/updateUser/2", {
-            email: editUserEmail ,
-            name: editUsername // Image URL from Cloudinary
-        });
+        const result = await axios.put("http://localhost:3001/user/updateUser/1", {
+          email: editUserEmail ,
+          firstName: editUsername,
+          lastName: editlastName
+      });
 
     console.log(result.data)
     } catch (err) {
-        console.log(err)
+        console.log("error updating user info", err)
     }
   }
 
 
+ // getting user info 
+
+ const getUserInfo = async ()=>{
+  try {
+    const result = await axios.get(`http://localhost:3001/user/oneuser/1`)
+
+    console.log("getUserInfo:", result.data)
+    setUserInfo(result.data)
+
+    } catch (err) {
+        console.log("error getting user user info", err)
+    }
+ }
+  
+ useEffect(()=>{
+  getUserInfo()
+ },[])
 
 
-
+  
 
   useEffect(() => {
     gettingPosts();
-  }, [rerenderComment]);
+  }, []);
 
 
 
+  console.log("showEditProfile::::::", showEditProfile);
   return (
     <div className={styles.profilePage}>
       <div className={styles.coverSection}>
@@ -215,8 +270,9 @@ export default function Profile() {
             />
           </label>
         </div>
-        <h1 className={styles.profileName}>John smith</h1>
-        <h3 className={styles.profileGmail}>johnSmith22@gmail.com</h3>
+        <h1 className={styles.profileName}>{userInfo.firstName}</h1>
+        <h1 className={styles.profileName}>{userInfo.lastName}</h1>
+        <h3 className={styles.profileGmail}>{userInfo.email}</h3>
 
         <h4 className={styles.profileDescription}>
           {" "}
@@ -262,15 +318,27 @@ export default function Profile() {
             <div className={styles.editContent}>
               {editMode === "personalInfo" && (
                 <div className={styles.editSection}>
-                  <label htmlFor="username">Edit Username</label>
+                  <label htmlFor="username">Edit first Name</label>
                   <input
                     type="text"
                     id="username"
-                    placeholder="Enter new username"
+                    placeholder="username"
                     onChange={(e)=>{
-                        seteditUsername(e.target.value)
+                        seteditUsername(e.target.value);
                     }}
                   />
+
+                  <label htmlFor="userLastName">Edit Last name</label>
+                  <input
+                    type="text"
+                    id="username"
+                    placeholder="lastname"
+                    onChange={(e)=>{
+                         setediLastName(e.target.value);
+                    }}
+                  />
+
+
                   <label htmlFor="email">Edit Email</label>
                   <input
                     type="email"
