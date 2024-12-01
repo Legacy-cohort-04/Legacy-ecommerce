@@ -1,3 +1,4 @@
+import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -40,7 +41,12 @@ export default function Login() {
       const { token, user } = result.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      navigate.push('/Home/home');
+
+      if (user.type === 'admin') {                    
+        navigate.push('/admin-dashboard');
+      } else {
+        navigate.push("/Home/home");
+    }
     } catch (err) {
       console.error(err);
       setError('Login failed. Please check your credentials.');
@@ -192,14 +198,13 @@ export default function Login() {
               className={`${styles.socialButton} ${styles.facebookButton}`}
               onClick={handleFacebookSignIn}
             >
-              <img
+              <FaFacebook
               className={styles['facebook-logo']}
-                src="http://www.w3.org/2000/svg'%3E%3C"
-                alt="Facebook Icon"
                 style={{ width: '20px', height: '20px', marginRight: '10px' }}
               />
               Continue With Facebook
             </button>
+
           </div>
         </form>
       </div>
