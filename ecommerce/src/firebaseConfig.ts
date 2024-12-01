@@ -1,5 +1,7 @@
 import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import {  GithubAuthProvider } from 'firebase/auth';
+
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,4 +15,7 @@ const firebaseConfig = {
 // Check if any Firebase app is already initialized
 const app = getApps()?.length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
+export const githubProvider = new GithubAuthProvider();
+
+
 export default app;
