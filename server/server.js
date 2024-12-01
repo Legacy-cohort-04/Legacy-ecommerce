@@ -1,19 +1,25 @@
 const express = require("express");
 const cors = require("cors");
-const products =require("./routes/Products.js")
-const cartProducts=require("./routes/Cart.js")
-const postRouter = require('./routes/Posts.js');
-const commentRouter = require('./routes/Comments.js');
-const userroute = require('./routes/User.js');
-
 const app = express();
+const products =require("./routes/Products.js")
+
+const cartProducts=require("./routes/Cart.js")
+const brandsroute = require("./routes/Brands.js")
+
+const userroute=require('./routes/User.js')
+const postRouter=require('./routes/Posts.js')
+const commentRouter=require('./routes/Comments.js')
+
+
 app.use(cors()); 
 app.use(express.json());
 
-const PORT = 3000;
-
 require("./database/index.js")
 
+
+const PORT = 3001;
+
+app.use("/brands",brandsroute)
 app.use("/cartP",cartProducts)
 app.use('/products',products)
 app.use("/user" , userroute)

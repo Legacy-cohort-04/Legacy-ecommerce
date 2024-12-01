@@ -2,6 +2,7 @@ const db = require("../database/index");
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 require('dotenv').config
+JWT_SECRET="ascefbth,plnihcdxuwy"
 
 
 
@@ -104,7 +105,7 @@ const login = async (req, res) => {
 
         const token = jwt.sign(
             { id: user.id, firstName: user.firstName, lastName:user.lastName,email: user.email },
-            process.env.JWT_SECRET,
+            JWT_SECRET,
             { expiresIn: '1h' }
         );
 
@@ -124,7 +125,83 @@ const login = async (req, res) => {
         console.log(error);
         res.status(500).send(error);
     }
+
+
+
+};
+
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await db.User.findAll(); 
+        return res.status(200).json(users); 
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).send('Server error');
+    }
 };
 
 
-module.exports = { signup, login };
+
+const updateUser =  (req, res) => {
+   
+        const { id } = req.params;
+        
+        const { email, firstName, lastName } = req.body;
+
+        const user =  db.User.update(
+            { email, firstName, lastName },
+            { where: { id }}
+        )
+        .then((res)=>{
+          res.send(res.data)
+        })
+        .catch((err)=>{
+            res.send(err)
+            console.log(user.data)
+        })
+
+       
+}
+
+const updateUserImage= async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const { image } = req.body;
+
+        const user = await db.User.update(
+            { image },
+            { where: { id }}
+        );
+
+        res.send(user);
+        console.log(user.data)
+    } catch (error) {
+        res.send(error);
+        console.log(err)
+    }
+}
+
+
+const getOneUser= async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.User.findOne(
+            { where: { id: id }}
+        );
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        
+        res.send(user);
+        console.log(user.data)
+    } catch (error) {
+        res.send(error);
+        console.log(error)
+    }
+}
+
+ 
+
+module.exports = { signup, login , updateUser , getAllUsers, updateUserImage, getOneUser};

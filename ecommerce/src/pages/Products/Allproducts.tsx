@@ -23,7 +23,7 @@ const ProductList: React.FC = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/products", {
+      const { data } = await axios.get("http://localhost:3001/products", {
         params: filters,
       });
       setProducts(data);
@@ -50,7 +50,7 @@ const ProductList: React.FC = () => {
   const handleOwner = async (id: number) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/products/increment/${id}`
+        `http://localhost:3001/products/increment/${id}`
       );
       console.log(response.data.message);
     } catch (error) {
@@ -60,6 +60,7 @@ const ProductList: React.FC = () => {
 
   const handleAddToCart = async (productId: number) => {
     const token = localStorage.getItem("token");
+    console.log("token",token)
     if (!token) {
       const result = await Swal.fire({
         icon: "warning",
@@ -75,7 +76,7 @@ const ProductList: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/cart/add",
+        "http://localhost:3001/cart/add",
         { productId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -108,6 +109,8 @@ const ProductList: React.FC = () => {
 
   return (
     <>
+          <div className={styles.AllProductsContainer}>
+
       <div className={styles.productListContainer}>
         <div className={styles.sidebarContainer}>
           <Sidebar onFilterChange={handleFilterChange} />
@@ -206,6 +209,8 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>
+
     </>
   );
 };

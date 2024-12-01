@@ -1,343 +1,289 @@
-// import React, { useState } from 'react'
-// import axios, { AxiosError } from "axios";
-// import { useRouter } from 'next/router';
-// import styles from './signup.module.css';
-// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// // import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react'
+import axios, { AxiosError } from "axios";
+import { useRouter } from 'next/router';
+import styles from './signup.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2'
 
-// export interface User {
-//   id: number,
-//   firstName: string,
-//   lastName: string,
-//   day: number,
-//   month: number,
-//   year: number,
-//   password: string,
-//   type: 'user' | 'admin'
-// }
+export interface User {
+  id: number,
+  firstName: string,
+  lastName: string,
+  day: number,
+  month: number,
+  year: number,
+  password: string,
+  type: 'user' | 'admin'
+}
 
-// const Signup: React.FC = () => {
-//   const [passwordVisible, setPasswordVisible] = useState(false);
-//   const [firstName, setFirstName] = useState<string>("");
-//   const [lastName, setLastName] = useState<string>("");
-//   const [email, setEmail] = useState<string>("");
-//   const [password, setPassword] = useState<string>("");
-//   const [day, setDay] = useState<number | "">("");
-//   const [month, setMonth] = useState<number | "">("");
-//   const [year, setYear] = useState<number | "">("");
-//   const [error, setError] = useState<string>("");
+const Signup: React.FC = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [day, setDay] = useState<number | "">("");
+  const [month, setMonth] = useState<number| string>("");
+  const [year, setYear] = useState<number | "">("");
+  const [error, setError] = useState<string>("");
 
-//   const navigate = useRouter()
+  const navigate = useRouter()
 
-//   const validatePassword = (password: string) => {
-//     const errors = []
-//     const passwordChecking = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-//     if (password.length < 8) {
-//       errors.push("Password must contain at least 8 characters.")
-//     }
-//     if (!passwordChecking.test(password)) {
-//       errors.push("Password must contain at least one upper case, one lower case, and one symbol")
-//     }
-//     return {
-//       isValid: errors.length === 0,
-//       errors: errors
-//     }
-//   }
+  const validatePassword = (password: string) => {
+    const errors = []
+    const passwordChecking = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+    if (password.length < 8) {
+      errors.push("Password must contain at least 8 characters.")
+    }
+    if (!passwordChecking.test(password)) {
+      errors.push("Password must contain at least one upper case, one lower case, and one symbol")
+    }
+    return {
+      isValid: errors.length === 0,
+      errors: errors
+    }
+  }
 
-//   const handleAddUser = async () => {
-//     try {
-//       const passwordValidation = validatePassword(password);
-//       if (!passwordValidation.isValid) {
-//         setError("Password is too weak:");
-//         passwordValidation.errors.forEach((err) => setError((element) => element + "  " + err));
-//         return;
-//       }
+  const handleAddUser = () => {
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
 
-//       const response = await axios.post("/Auth/signup", {
-//         firstName,
-//         lastName,
-//         email,
-//         day,
-//         month,
-//         year,
-//         password
-//       }, { headers: { 'Content-Type': 'application/json' } });
+      Swal.fire({
+        icon: 'error',
+        title: '<span class="swal-title-error">Weak Password</span>',
+        text: passwordValidation.errors.join(' '),
+        background: 'rgba(255, 255, 255, 0.1)',
+        color: 'white',
+        confirmButtonText: 'Got it!',
+        customClass: {
+          title: 'swal-title-error',
+          htmlContainer: 'swal-content',
+          confirmButton: 'login-custom-button',
+        }
+      });
+      return;
+    }
 
-//       console.log(response.data);
-//       setError("");
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      month,
+      day,
+      year,
+    };
 
-//       navigate.push("/Auth/login");
+    axios
+      .post('http://localhost:3001/user/signup', userData, { headers: { 'Content-Type': 'application/json' } })
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: '<span class="swal-title-success">Account Created</span>',
+          text: 'You have successfully signed up. Please log in.',
+          background: 'rgba(255, 255, 255, 0.1)',
+          color: 'white',
+          confirmButtonText: 'Got it!',
+          customClass: {
+            title: 'swal-title-success',
+            htmlContainer: 'swal-content',
+            confirmButton: 'succes-custom-button',
+          }
+        });
+        navigate.push('/');
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          const errorData = error.response.data;
+          if (errorData.errors) {
+            Swal.fire({
+              icon: 'error',
+              title: '<span class="swal-title-error">Validation Error</span>',
+              text: errorData.errors.join(', '),
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              confirmButtonText: 'Got it!',
+              customClass: {
+                title: 'swal-title-error',
+                htmlContainer: 'swal-content',
+                confirmButton: 'login-custom-button',
+              }
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: '<span class="swal-title-error">Signup Failed</span>',
+              text: errorData.message || 'An error occurred during signup. Please try again later.',
+              background: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              confirmButtonText: 'Got it!',
+              customClass: {
+                title: 'swal-title-error',
+                htmlContainer: 'swal-content',
+                confirmButton: 'login-custom-button',
+              }
+            });
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '<span class="swal-title-error">Signup Failed</span>',
+            text: 'An error occurred during signup. Please try again later.',
+            background: 'rgba(255, 255, 255, 0.1)',
+            color: 'white',
+            confirmButtonText: 'Got it!',
+            customClass: {
+              title: 'swal-title-error',
+              htmlContainer: 'swal-content',
+              confirmButton: 'login-custom-button',
+            }
+          });
+        }
+      });
+  }
+  const months = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
 
-//     } catch (error: unknown) {
-//       const axiosError = error as AxiosError;
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+ // const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' }));
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
-//       if (axiosError.response) {
-//         const errorData = axiosError.response.data as string;
+  return (
+    <>
 
-//         if (errorData === "User already exists") {
-//           setError("Email address is already registered. Please use a different email.");
-//         } else {
-//           console.error(error);
-//           setError("An error occurred during signup. Please try again later.");
-//         }
-//       }
-//     }
-//   }
 
-//   const days = Array.from({ length: 31 }, (_, i) => i + 1);
-//   const months = Array.from({ length: 12 }, (_, i) => i + 1);
-//   const currentYear = new Date().getFullYear();
-//   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+      <div className={styles.signupContainer}>
+        <div className="signup-image-container">
+          <img
+            src="https://res.cloudinary.com/dc9siq9ry/image/upload/v1732056264/hnmnjb0lmjvlvzgygkku.webp"
+            alt="Illustration of a person with crossed arms"
+            className="signup-image"
+          />
+          <h4 className="gretting">Begin your meta fashion journey here </h4>
+        </div>
 
-//   return (
-//     <>
-//       <div className={styles.signupContainer}>
+        <form className={styles.signupForm}>
+          <h3 className={styles.signupMessage}>Sign Up
+          </h3>
+          <div className={styles.signupLink}>
+            <p>
+              Already a Member?{' '}
+              <a className="login-link-text" style={{ "cursor": "pointer" }} onClick={() => navigate.push('/')}>
+                Login
+              </a>
+            </p>
+          </div>
+          <div>
+            <input
+              type="email"
+              className={styles.email}
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
+            />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className={styles.nameContainer}>
+              <input
+                type="text"
+                id="firstName"
+                className={styles.nameInput}
+                name="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+              />
+            </div>
 
-//       <div className="signup-image-container">
-//           <img
-//             src="https://res.cloudinary.com/dc9siq9ry/image/upload/v1732056264/hnmnjb0lmjvlvzgygkku.webp"
-//             alt="Illustration of a person with crossed arms"
-//             className="signup-image"
-//           />
-//           <h4 className={styles.greeting}>Begin your meta fashion journey here </h4>
-//         </div>
-//         <form className={styles.signupForm}>
-//           <h3 className={styles.signupMessage} style={{ "marginBottom": "0" }}>Sign Up</h3>
-//           <div className={styles.signupLink}>
-//             <p>
-//               Already a Member?{' '}
-//               <a className="login-link-text" style={{ "cursor": "pointer" }} onClick={() => navigate.push('/')}>
-//                 Login
-//               </a>
-//             </p>
-//           </div>
+            <div className={styles.nameContainer} >
+              <input
+                className={styles.nameInput}
 
-//           <div>
-//             <input
-//               type="email"
-//               className="email"
-//               name="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               placeholder="Email Address"
-//               autoComplete="off"
-//             />
-//           </div>
+                type="text"
+                id="lastName"
 
-//           <div className={styles.nameContainer}>
-//             <div className={styles.nameInput}>
-//               <input
-//                 type="text"
-//                 id="firstName"
-//                 name="firstName"
-//                 value={firstName}
-//                 onChange={(e) => setFirstName(e.target.value)}
-//                 placeholder="First Name"
-//                 autoComplete="off"
-//               />
-//             </div>
-//             <div className={styles.nameInput}>
-//               <input
-//                 type="text"
-//                 id="lastName"
-//                 name="lastName"
-//                 value={lastName}
-//                 onChange={(e) => setLastName(e.target.value)}
-//                 placeholder="Last Name"
-//                 autoComplete="off"
-//               />
-//             </div>
-//           </div>
+                name="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
 
-//           <div className={styles.passwordContainer}>
-//             <input
-//               type={passwordVisible ? 'text' : 'password'}
-//               id="password"
-//               name="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               placeholder="Password"
-//               autoComplete="off"
-//             />
-//             <FontAwesomeIcon
-//               icon={passwordVisible ? faEyeSlash : faEye}
-//               onClick={() => setPasswordVisible(!passwordVisible)}
-//               className={styles.passwordSwitch}
-//             />
-//           </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }} >
+            <div className={styles.personalInfo}>
+              <select
+                id="day"
+                value={day}
+                onChange={(e) => setDay(Number(e.target.value))}
+              >
+                <option value="">Date of Birth</option>
+                {days.map(day => (
+                  <option key={day} value={day}>{day}</option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.personalInfo}>
+              <select
+                id="month"
+                value={month}
+                onChange={(e) => setMonth(e.target.value || '')}
+              >
+                <option value="">Month</option>
+                {months.map(month => (
+                  <option key={month} value={month}>{month}</option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.personalInfo}>
+              <select
+                id="year"
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+              >
+                <option value="">Year</option>
+                {years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className={styles.passwordContainer}>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
+            <FontAwesomeIcon
+              icon={passwordVisible ? faEyeSlash : faEye}
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              className={styles.passwordSwitch}
+            />
+          </div>
 
-//           <div className={styles.personalInfo}>
-//             <p>Date of Birth</p>
-//             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-//               <select
-//                 required
-//                 value={month}
-//                 onChange={(e) => setMonth(Number(e.target.value))}
-//               >
-//                 <option value="" disabled selected>
-//                   Month
-//                 </option>
-//                 <option value="1">January</option>
-//                 <option value="2">February</option>
-//                 <option value="3">March</option>
-//                 <option value="4">April</option>
-//                 <option value="5">May</option>
-//                 <option value="6">June</option>
-//                 <option value="7">July</option>
-//                 <option value="8">August</option>
-//                 <option value="9">September</option>
-//                 <option value="10">October</option>
-//                 <option value="11">November</option>
-//                 <option value="12">December</option>
-//               </select>
-
-//               <input
-//                 type="number"
-//                 placeholder="Day"
-//                 required
-//                 value={day}
-//                 onChange={(e) => setDay(Number(e.target.value))}
-//               />
-
-//               <input
-//                 type="number"
-//                 placeholder="Year"
-//                 required
-//                 value={year}
-//                 onChange={(e) => setYear(Number(e.target.value))}
-//               />
-//             </div>
-//           </div>
-
-//           <button className={styles.signupButton} type="button" onClick={handleAddUser}>
-//             Create Account
-//           </button>
-//         </form>
-//       </div>
-
-//       <div className={styles.signupContainer}>
-//         <div className="signup-image-container">
-//           <img
-//             src="https://res.cloudinary.com/dc9siq9ry/image/upload/v1732056264/hnmnjb0lmjvlvzgygkku.webp"
-//             alt="Illustration of a person with crossed arms"
-//             className="signup-image"
-//           />
-//           <h4 className="gretting">Begin your meta fashion journey here </h4>
-//         </div>
-        
-//         <form className={styles.signupForm}>
-//           <h3 className={styles.signupMessage}>Sign Up
-//           </h3>
-//           <div>
-//             <input
-//               type="email"
-//               className={styles.email}
-//               id="email"
-//               name="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               placeholder="Email Address"
-//             />
-//           </div>
-//           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-//           <div className={styles.nameContainer}>
-//             <input
-//               type="text"
-//               id="firstName"
-//               className={styles.nameInput}
-//               name="firstName"
-//               value={firstName}
-//               onChange={(e) => setFirstName(e.target.value)}
-//               placeholder="First Name"
-//             />
-//           </div>
+          {error && (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          )}
           
-//           <div className={styles.nameContainer} >
-//             <input
-//               className={styles.nameInput}
+          <button type="button" className={styles.signupButton} onClick={handleAddUser}>
+            Create Account
+          </button>
 
-//               type="text"
-//               id="lastName"
+        </form>
+      </div>
+    </>
+  )
+}
 
-//               name="lastName"
-//               value={lastName}
-//               onChange={(e) => setLastName(e.target.value)}
-//               placeholder="Last Name"
-//             />
-//           </div>
-//           </div>
-          
-//           <div style={{ display: 'flex', justifyContent: 'space-between' }} >
-//             <div className={styles.personalInfo}>
-//               <select
-//                 id="day"
-//                 value={day}
-//                 onChange={(e) => setDay(Number(e.target.value))}
-//               >
-//                 <option value="">Date of Birth</option>
-//                 {days.map(day => (
-//                   <option key={day} value={day}>{day}</option>
-//                 ))}
-//               </select>
-//             </div>
-//             <div className={styles.personalInfo}>
-//               <select
-//                 id="month"
-//                 value={month}
-//                 onChange={(e) => setMonth(Number(e.target.value))}
-//               >
-//                 <option value="">Month</option>
-//                 {months.map(month => (
-//                   <option key={month} value={month}>{month}</option>
-//                 ))}
-//               </select>
-//             </div>
-//             <div className={styles.personalInfo}>
-//               <select
-//                 id="year"
-//                 value={year}
-//                 onChange={(e) => setYear(Number(e.target.value))}
-//               >
-//                 <option value="">Year</option>
-//                 {years.map(year => (
-//                   <option key={year} value={year}>{year}</option>
-//                 ))}
-//               </select>
-//             </div>
-//           </div>
-//           <div className={styles.passwordContainer}>
-//             <input
-//               type="password"
-//               id="password"
-//               name="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               placeholder="Password"
-//             />
-//              <FontAwesomeIcon
-//               icon={passwordVisible ? faEyeSlash : faEye}
-//               onClick={() => setPasswordVisible(!passwordVisible)}
-//               className={styles.passwordSwitch}
-//             />
-//           </div>
-//           {error && (
-//             <div className="error-message">
-//               <p>{error}</p>
-//             </div>
-//           )}
-
-//           <button type="button" className={styles.signupButton} onClick={handleAddUser}>
-//             Create Account
-//           </button>
-//           <div className="signup-link">
-//             <p>
-//               You already have an account? <a onClick={() => navigate.push("/Auth/login")}>Login</a>
-//             </p>
-//           </div>
-//         </form>
-//       </div>
-//     </>
-//   )
-// }
-
-// export default Signup
+export default Signup

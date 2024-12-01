@@ -1,11 +1,6 @@
 
 module.exports =  (sequelize , DataTypes)  => {
     const Cart = sequelize.define('Cart', {
-    
-        created_at: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-          },
         totalItems: {
             type: DataTypes.INTEGER,
             allowNull: false,

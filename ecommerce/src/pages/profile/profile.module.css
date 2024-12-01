@@ -1,80 +1,455 @@
+.profilePage {
+  font-family: Arial, sans-serif;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  background:  linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+}
 
-  .profilePage {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+.coverSection {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.coverImage {
+  width: 85%;
+  height: 75%;
+  object-fit: cover;
+  padding: 100px;
+  padding-right: 100px;
+  left: 1100px;
+}
+
+.profileInfo {
+  text-align: center;
+  padding: 20px;
+}
+
+.profileImageWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileDescription {
+  color: white;
+  font-size: small;
+}
+
+.uploadButton {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background-color: #707982;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.uploadButton:hover {
+  background-color: #536f8e22;
+}
+
+.fileInput {
+  display: none;
+}
+
+.profileName {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: white;
+}
+
+.profileNavigation ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #f8f8f8;
+  margin: 0;
+  list-style: none;
+}
+
+.profileNavigation ul li a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.profileNavigation ul li a:hover {
+  color: #0056b3;
+}
+
+.profileContent {
+  padding: 20px;
+  font-size: 16px;
+}
+
+.uploadIcon {
+  width: 25px;
+  height:auto;
+
+}
+
+
+
+
+
+/*dkdk kkkdkdkkdkk dkdkkdkkd dkkdkkdk kdkdkkdkd */
+
+
+
+.editProfile {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #7700ff58;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-right: 1200px;
+}
+
+.editProfileModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background:  linear-gradient(113.49deg, #984d386d -30.3%, #181e4163 58.12%);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+}
+
+.closeButton {
+  float: right;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #555;
+}
+
+.editOptions {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.editOptions button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #1966b2;
+}
+
+.activeButton {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.editContent {
+  padding: 10px 0;
+}
+
+.editSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.editSection label {
+  font-size: 14px;
+  color: #333;
+}
+
+.editSection input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/*kdkdkdk kdkdkkdk d kkdkdkdkkdk kkkdkd kkkkd kk*/
+
+.editProfileComp {
+  position: fixed; /* Position it fixed on the screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center the content horizontally and vertically */
+  z-index: 1000; /* Ensure it's above other content */
+  flex-direction: column;
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.editProfileComp button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.editProfileComp button:hover {
+  background-color: #0056b3;
+}
+
+
+.profileGmail{
+  color: #ccc;
+  font-size: small;
+}
+
+
+/* displaying posts */
+
+.pageWrapper {
+  display: flex; /* Flexbox layout for two columns */
+  gap: 16px; /* Space between the side and main sections */
+  padding: 16px;
+}
+
+.allPostsOntheSide {
+  flex: left; /* Take up less space compared to posts */
+  max-width: 25%;  /* Restrict width for a sidebar look */
+  max-height: 400px;
+  background:  linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+  border: 1px solid #ddd; /* Border for separation */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px;
+  overflow-y: auto; /* Scroll if content overflows */
+}
+
+/* Wrapper for the sidebar */
+.allPostsOntheSide {
+  width: 300px; /* Set a fixed width for the sidebar */
+  float: left; /* Make the sidebar float to the left */
+  background-color: #f0f2f5; /* Light background color */
+  padding: 16px; /* Add some padding inside the sidebar */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-height: calc(100vh - 50px); /* Ensure it doesn't overflow the screen height */
+  overflow-y: auto; /* Make it scrollable if content exceeds height */
+}
+
+/* Styling for the All Products link */
+.allPostsOntheSide a {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #1877f2; /* Facebook blue */
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.allPostsOntheSide a:hover {
+  text-decoration: underline;
+}
+
+/* Box for each post preview (image + text) */
+.imageBox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; /* Space between posts */
+  background-color: #ffffff4a; /* White background for each post box */
+  border-radius: 8px; /* Rounded corners */
+  padding: 8px; /* Padding inside the box */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow */
+  transition: transform 0.2s ease; /* Add a hover effect */
+}
+
+.imageBox:hover {
+  transform: scale(1.02); /* Slight zoom on hover */
+}
+
+/* Image in the sidebar */
+.sidebarPostImage {
+  width: 60px; /* Fixed width for uniformity */
+  height: 60px; /* Fixed height */
+  border-radius: 50%; /* Circular image */
+  object-fit: cover; /* Crop the image to fit inside the circle */
+  margin-right: 12px; /* Space between image and text */
+}
+
+/* Text content in the sidebar post preview */
+.sidebarPostContent {
+  font-size: 14px;
+  color: #333333; /* Dark text for good readability */
+  line-height: 1.4; /* Line spacing */
+  flex-grow: 1; /* Take up remaining space */
+  overflow: hidden; /* Hide overflow if text is too long */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+
+.post {
+  background:  linear-gradient(113.49deg, #984d380b -30.3%, #181e4108 58.12%); /* White background for posts */
+  border: 1px solid #ddd; /* Border for separation */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center content */
+  justify-content: space-between; /* Space out content */
+  min-height: 300px; /* Consistent height for posts */
   
-  .profileHeader {
-    position: relative;
-    height: 100px;
-    width: 100%;
-  }
-  
-  .coverPhoto {
-    height: 200px;
-    background-color: #ccc;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .profileInfo {
-    text-align: center;
-    margin-top: -75px;
-    padding: 10px 0;
-  }
-  
-  .profileImageWrapper {
-    display: inline-block;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 5px solid #fff;
-    background-color: #fff;
-  }
-  
-  .profileImage {
-    width: 100%;
-    height: 100px;
-    /* object-fit: cover; */
-  }
-  
-  .profileName {
-    font-size: 1.5rem;
-    margin-top: 10px;
-  }
-  
-  .profileNavigation {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    background-color: #fff;
-  }
-  
-  .profileNavigation nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-  }
-  
-  .profileNavigation nav ul li a {
-    text-decoration: none;
-    color: #555;
-    font-weight: bold;
-    padding: 5px 10px;
-  }
-  
-  .profileNavigation nav ul li a:hover {
-    color: #007bff;
-  }
-  
-  .profileContent {
-    padding: 20px;
-    font-size: 1rem;
-    color: #666;
-  }
-  
+}
+
+.post img {
+  width: 100%; /* Stretch image to container width */
+  max-height: 470px; /* Limit image height */
+  object-fit: cover; /* Ensure images maintain aspect ratio */
+  border-radius: 8px; /* Rounded corners for the image */
+  margin-bottom: 12px; /* Space between image and text */
+}
+
+.post p {
+  margin: 0;
+  font-size: 14px;
+  color: #fffdfd;
+  text-align: center; /* Center the text content */
+}
+
+.allPosts {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 16px;  /* Space between posts */
+  width: 70%;
+}
+
+
+
+.postTitle {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #333;
+}
+
+
+
+
+/* the above of every post */
+.ProfileInsideProfile {
+  display: flex; /* Align content in a row */
+  align-items: center; /* Center image and name vertically */
+  gap: 12px; /* Space between the image and name */
+  padding: 10px; /* Space inside the container */
+  background-color: #f9f9f911; /* Light background for contrast */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin-bottom: 3px; /* Space below the profile section */
+  width: 100%; /* Make it span the full width of its container */
+} 
+
+.profileImageInpost {
+  width: 40px; /* Adjust image size */
+  height: 40px; /* Ensure it's a square */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Ensure the image doesn't stretch */
+  border: 2px solid #ddd; /* Optional border for definition */
+}
+
+.userName {
+  font-size: 16px; /* Standard size for names */
+  font-weight: bold; /* Make it stand out */
+  color: #f8f8f8; /* Dark color for readability */
+  margin: 0; /* Remove default margin */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add '...' for long names */
+}
+/* the above of every post */
+
+/* Wrapper for the entire comment section */
+.commentSection {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f8f9fa60; /* Light background to separate the comment section visually */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Input field for posting comments */
+.postCommentInput {
+  width: calc(100% - 110px); /* Leave space for the button */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}
+
+/* Button for posting comments */
+.postCommentButton {
+  padding: 10px 20px;
+  background-color: #14539648;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+  display: inline-block;
+}
+
+.postCommentButton:hover {
+  background-color: #5f218e7e;
+}
+
+/* Individual comment wrapper */
+.OneComment {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Comment username */
+.OneComment h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 5px;
+  color: #333;
+}
+
+/* Comment text */
+.OneComment p {
+  font-size: 14px;
+  margin: 0;
+  color: #555;
+}
