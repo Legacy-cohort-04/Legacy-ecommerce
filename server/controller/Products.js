@@ -1,4 +1,3 @@
-
 const { Op } = require("sequelize");
 const { Products } = require("../database/index");
 
@@ -70,45 +69,7 @@ const getFilteredProducts = (req, res) => {
     });
 };
 
-const incrementownercount = async (req, res) => {
-  const { productId } = req.params;
 
-  try {
-    const product = await db.Products.findByPk(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
-    }
-
-    const brandId = product.brandId;
-
-    await db.Brands.increment("owner", { where: { id: brandId } });
-
-    res.status(200).json({ message: "Owner count incremented successfully." });
-  } catch (error) {
-    console.error("Error incrementing owner count:", error);
-    res.status(500).send("Failed to increment owner count");
-  }
-};
-
-const decrementownercount = async (req, res) => {
-  const { productId } = req.params; 
-
-  try {
-    const product = await db.Products.findByPk(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found." });
-    }
-
-    const brandId = product.brandId; 
-
-    await db.brands.decrement("owner", { where: { id: brandId } });
-
-    res.status(200).json({ message: "Owner count decremented successfully." });
-  } catch (error) {
-    console.error("Error decrementing owner count:", error);
-    res.status(500).send("Failed to decrement owner count");
-  }
-};
 
 const updateproductbyId = async (req, res) => {
   const productId = req.params.productId; 
@@ -145,6 +106,8 @@ const createProduct = async (req, res) => {
       onSale = false,
     } = req.body;
 
+    console.log('Received data:', req.body); // Pour déboguer
+
     if (!title || !price || !image || !rarity || !chains || !collection) {
       return res.status(400).json({
         success: false,
@@ -153,7 +116,8 @@ const createProduct = async (req, res) => {
       });
     }
 
-    const product = await db.Products.create({
+    // Utiliser directement le modèle Products de Sequelize
+    const product = await Products.create({
       title: title.trim(),
       price: parseFloat(price),
       image: image.trim(),
@@ -174,9 +138,8 @@ const createProduct = async (req, res) => {
     console.error("Error creating product:", error);
     res.status(500).json({
       success: false,
-      message: "Error creating product",
-      error: error.message,
-      receivedData: req.body, 
+      message: error.message || "Error creating product",
+      receivedData: req.body,
     });
   }
 };
@@ -201,8 +164,6 @@ module.exports = {
   getProducts,
   getFilteredProducts,
   // getProductbybrandverified,
-  incrementownercount,
-  decrementownercount,
   updateproductbyId,
-  createProduct,
+  createProduct
 };
