@@ -6,6 +6,7 @@ import uploadIcon from "./uploadIcon.png";
 import defaultProfile from "./defaultProfile.png";
 import defaultCover from "./defaultCover.jpg";
 import Navbar from "../components/Navbar";
+import Swal from 'sweetalert2';
 
 export default function Profile() {
   const [imageUrl, setimageUrl] = useState<string>(""); // Profile image URL
@@ -119,6 +120,11 @@ export default function Profile() {
       );
       setrerenderComment(!rerenderComment);
       console.log("posting comment", result.data);
+      Swal.fire({
+        title: "Comment Created",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
     } catch (err) {
       console.log(err);
     }
@@ -150,6 +156,12 @@ export default function Profile() {
       );
       setrerenderComment(!rerenderComment);
       console.log("comment delete:", result)
+
+      Swal.fire({
+        title: "Comment Deleted",
+        text: "post comments always ",
+        icon: "success"
+      });
       
     } catch (err) {
       console.error("Error deleting one comment :", err);
@@ -192,6 +204,11 @@ export default function Profile() {
         }
       );
       setView(!view);
+      Swal.fire({
+        title: "post Created",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
       //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
       // You can add logic to update the posts list or re-render as necessary
@@ -217,6 +234,11 @@ export default function Profile() {
           lastName: editlastName,
         }
       );
+      Swal.fire({
+        title: "User Updated",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
 
       console.log(result.data);
     } catch (err) {
