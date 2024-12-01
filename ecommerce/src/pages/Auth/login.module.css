@@ -1,7 +1,11 @@
+
+
+
 .loginContainer {
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
         height: 100vh;
+        background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+
     display: flex;
     justify-content: center;
     align-items: center;
