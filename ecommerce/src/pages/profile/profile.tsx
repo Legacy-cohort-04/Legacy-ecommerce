@@ -5,6 +5,7 @@ import Image from "next/image";
 import uploadIcon from "./uploadIcon.png";
 import defaultProfile from "./defaultProfile.png";
 import defaultCover from "./defaultCover.jpg";
+import Navbar from "../components/Navbar";
 
 export default function Profile() {
   const [imageUrl, setimageUrl] = useState<string>(""); // Profile image URL
@@ -83,7 +84,6 @@ export default function Profile() {
     status: (statusCode: number) => Response;
   }
 
-
   // let iduser: string | undefined;
 
   //   const user = localStorage.getItem("user");
@@ -94,9 +94,6 @@ export default function Profile() {
   //   // Handle the case when there is no user in localStorage
   //   console.error("User not found in localStorage");
   // }
-
-
-
 
   const gettingPosts = async () => {
     try {
@@ -110,42 +107,60 @@ export default function Profile() {
 
   console.log("posts😂😂😂", posts);
 
-  ////// posting comment //////////
+  ////// //////////////////////////// comment //////////////////////////////////////////
   const postingComment = async (postId: number) => {
-    
     try {
       const result = await axios.post(
-        `http://localhost:3001/comment/oneComment/${postId}`,
+        `http://localhost:3001/comments/oneComment/${postId}`,
         {
           content: oneComment,
-          postId: postId
+          postId: postId,
         }
       );
 
-      console.log("posting comment", result);
-      
+      console.log("posting comment", result.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const fetchComments = async (postId: number) => {
+  const getAllComments = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3001/comment/allComments/${postId}`
+        `http://localhost:3001/comments/allComments`
       );
       setrerenderComment(!rerenderComment);
       console.log("Fetched comments:", result.data);
       setComments(result.data);
+      
     } catch (err) {
       console.error("Error fetching comments:", err);
     }
+    
   };
 
+
   
-  useEffect(()=>{
-    fetchComments
-  },[rerenderComment])
+
+
+  const filteringComment = (idPost: Number)=> {
+    
+   return comments.filter((elem)=>{
+        return elem.postId === idPost
+    })
+
+  }
+  
+ /// filteringComment(13)
+ 
+
+  console.log("all the comments ❤️❤️❤️", comments)
+
+  // useEffect(() => {
+  //   fetchComments;
+  // }, [rerenderComment]);
+
+  ///////////////////////////////////////////////// comment //////////////////////////////////////////
 
   //////////// getting post and posting posts //////////
 
@@ -159,7 +174,7 @@ export default function Profile() {
           UserId: "1",
         }
       );
-      setView(!view)
+      setView(!view);
       //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
       // You can add logic to update the posts list or re-render as necessary
@@ -209,32 +224,29 @@ export default function Profile() {
     getUserInfo();
   }, []);
 
+  const [view, setView] = useState<Boolean>(false);
 
-
-  const [view,setView] = useState<Boolean>(false);
-
-  const deletePost = async (postID: String)=>{
+  const deletePost = async (postID: String) => {
     try {
-      const result = await axios.delete(`http://localhost:3001/posts/${postID}`)
-      console.log(result.data)
-      setView(!view)
-    } 
-    catch (err) {
-      console.log(err)
+      const result = await axios.delete(
+        `http://localhost:3001/posts/${postID}`
+      );
+      console.log(result.data);
+      setView(!view);
+    } catch (err) {
+      console.log(err);
     }
-    
-  }
+  };
 
   useEffect(() => {
     gettingPosts();
+    getAllComments()
   }, [view]);
-
-
-
 
   console.log("showEditProfile::::::", showEditProfile);
   return (
     <div className={styles.profilePage}>
+      <Navbar />
       <div className={styles.coverSection}>
         <Image
           src={coverUrl || defaultCover}
@@ -271,16 +283,16 @@ export default function Profile() {
             src={imageUrl || defaultProfile}
             alt="Profile"
             className={styles.profileImage}
-            width={150} 
-            height={150} 
+            width={150}
+            height={150}
           />
           <label htmlFor="profileUpload" className={styles.uploadButton}>
             <Image
               src={uploadIcon}
               alt="Upload-image"
               className={styles.uploadIcon}
-              width={24} 
-              height={24} 
+              width={24}
+              height={24}
             />
 
             <input
@@ -320,7 +332,6 @@ export default function Profile() {
           </div>
         ) : (
           <div className={styles.editProfileModal}>
-            
             <button
               className={styles.closeButton}
               onClick={() => setShowEdit(false)}
@@ -328,19 +339,10 @@ export default function Profile() {
               Close
             </button>
 
-            
             <div className={styles.editOptions}>
-              <button
-                onClick={() => setEditMode("personalInfo")}
-                className={
-                  editMode === "personalInfo" ? styles.activeButton : ""
-                }
-              >
-                Edit Personal Information
-              </button>
+              <div className={styles.editPPersonal}>Edit Personal</div>
             </div>
 
-            
             <div className={styles.editContent}>
               {editMode === "personalInfo" && (
                 <div className={styles.editSection}>
@@ -380,11 +382,11 @@ export default function Profile() {
                   >
                     edit profile
                   </button>
+                  <div>Edd post </div>
 
                   <label htmlFor="">post Image</label>
                   <input
                     type="file"
-                   
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         setpost(e.target.files[0]); // Set profile image file
@@ -427,9 +429,13 @@ export default function Profile() {
               <p className={styles.sidebarPostContent}>
                 {post.content.slice(0, 30) || "Post Preview"}
               </p>
-              <button onClick={()=>{
-                        deletePost(post.id)
-              }} >del</button>
+              <button
+                onClick={() => {
+                  deletePost(post.id);
+                }}
+              >
+                del
+              </button>
             </div>
           ))}
         </div>
@@ -468,17 +474,21 @@ export default function Profile() {
                   className={styles.postCommentButton}
                   onClick={() => {
                     postingComment(elem.id);
-                    console.log("comment elem id ", elem.id)
-                    // fetchComments(elem.id)
-                    console.log('comments😖❤️', comments)
+                    setrerenderComment(!rerenderComment)
+                    console.log("comment elem id ", elem.id);
                   }}
                 >
                   Post Comment
                 </button>
-                {comments.map((comment, index) => (
+                {filteringComment(elem.id).map((comment, index) => (
+                  
                   <div key={index} className={styles.OneComment}>
-                    <h5>{comment.user}</h5>
-                    <p>{comment.text}</p>
+            
+                    <h5>{comment.postId}</h5>
+                    <p>{comment.content}</p>
+                    <button onClick={()=>{
+                      
+                    }}>delete</button>
                   </div>
                 ))}
               </div>

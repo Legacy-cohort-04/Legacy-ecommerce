@@ -1,19 +1,15 @@
 const db = require("../database/index");
 
  /// to show all the comments that belong to a certain post 
- const getCommentsByPost = async (req, res) => {
+ const getComments= async (req, res) => {
     try {
-      const postId = req.params.postId;
-      const comment = await db.comments.findAll({
-        where: { postId: postId }
-      });    
+      const comment = await db.comments.findAll() 
       res.send(comment);
     } catch (error) {
       console.error("Error fetching comment:", error);
       res.status(500).send(error);
       }
 }
-
 
 
 /// I want to post a comment to each post 
@@ -75,4 +71,4 @@ try {
 
 }
 
-module.exports = {deleteOneComment, postComment , getCommentsByPost, updateComment}
+module.exports = {deleteOneComment, postComment , getComments, updateComment}

@@ -45,9 +45,10 @@ const Navbar: React.FC = () => {
           <a onClick={() => router.push('/home')} style={{ cursor: 'pointer' }}>Home</a>
           <a onClick={() => router.push('/Products/Allproducts')} style={{ cursor: 'pointer' }}>
   Explore <FiChevronDown />
-</a>          <a href="#collection">Personal Collection</a>
+</a>         
+ <a href="#collection">Personal Collection</a>
           <a href="#drops">Drops</a>
-          <a onClick={() => router.push('/about')} className={styles.moreLink} style={{ cursor: 'pointer' }}>More <FiChevronDown /></a> 
+          <a onClick={() => router.push('/profile/Aboutus#')} className={styles.moreLink} style={{ cursor: 'pointer' }}>about <FiChevronDown /></a> 
           {/* {isAdmin && (
             <a onClick={() => router.push('/admin')} style={{ cursor: 'pointer' }}>Admin</a>
           )} */}
@@ -65,7 +66,7 @@ const Navbar: React.FC = () => {
         </button>
         {/* {isUser && ( */}
           <img 
-            onClick={() => router.push("/profile")}
+            onClick={() => router.push("/profile/profile#")}
             src={avatar}
             alt="Profile" 
             className={styles.profileImg} 
