@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2'
 
+
 export interface User {
   id: number,
   firstName: string,
@@ -148,7 +149,6 @@ const Signup: React.FC = () => {
   ];
 
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
- // const months = Array.from({ length: 12 }, (_, i) => new Date(0, i).toLocaleString('default', { month: 'long' }));
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 
@@ -157,14 +157,16 @@ const Signup: React.FC = () => {
 
 
       <div className={styles.signupContainer}>
-        <div className="signup-image-container">
+        <div className={styles['signup-image-container']}>
           <img
             src="https://res.cloudinary.com/dc9siq9ry/image/upload/v1732056264/hnmnjb0lmjvlvzgygkku.webp"
             alt="Illustration of a person with crossed arms"
-            className="signup-image"
+            className={styles["signup-image"]}
           />
-          <h4 className="gretting">Begin your meta fashion journey here </h4>
-        </div>
+<h4 className={styles.greeting}>
+  Begin your meta fashion journey<br />
+  here
+</h4>        </div>
 
         <form className={styles.signupForm}>
           <h3 className={styles.signupMessage}>Sign Up
@@ -172,8 +174,8 @@ const Signup: React.FC = () => {
           <div className={styles.signupLink}>
             <p>
               Already a Member?{' '}
-              <a className="login-link-text" style={{ "cursor": "pointer" }} onClick={() => navigate.push('/')}>
-                Login
+              <a className={styles["login-link-text"]} style={{ "cursor": "pointer" }} onClick={() => navigate.push('/')}>
+                Sign In
               </a>
             </p>
           </div>
@@ -215,21 +217,29 @@ const Signup: React.FC = () => {
               />
             </div>
           </div>
+          <div className={styles.passwordContainer}>
+            <input
+                        type={passwordVisible ? 'password' : 'text'}
 
-          <div style={{ display: 'flex', justifyContent: 'space-between' }} >
-            <div className={styles.personalInfo}>
-              <select
-                id="day"
-                value={day}
-                onChange={(e) => setDay(Number(e.target.value))}
-              >
-                <option value="">Date of Birth</option>
-                {days.map(day => (
-                  <option key={day} value={day}>{day}</option>
-                ))}
-              </select>
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+            />
+           <FontAwesomeIcon
+            icon={passwordVisible ? faEyeSlash : faEye}
+            onClick={() => setPasswordVisible(!passwordVisible)}
+            className="passwordSwitch"
+          />
+          </div>
+          <div> 
+              <p className={styles.personalInfo}>Date of Birth</p>
             </div>
-            <div className={styles.personalInfo}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }} >
+           
+
+          <div className={styles.personalInfo}>
               <select
                 id="month"
                 value={month}
@@ -243,6 +253,19 @@ const Signup: React.FC = () => {
             </div>
             <div className={styles.personalInfo}>
               <select
+                id="day"
+                value={day}
+                onChange={(e) => setDay(Number(e.target.value))}
+              >
+                <option value="">Day</option>
+                {days.map(day => (
+                  <option key={day} value={day}>{day}</option>
+                ))}
+              </select>
+            </div>
+           
+            <div className={styles.personalInfo}>
+              <select
                 id="year"
                 value={year}
                 onChange={(e) => setYear(Number(e.target.value))}
@@ -254,21 +277,7 @@ const Signup: React.FC = () => {
               </select>
             </div>
           </div>
-          <div className={styles.passwordContainer}>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-            <FontAwesomeIcon
-              icon={passwordVisible ? faEyeSlash : faEye}
-              onClick={() => setPasswordVisible(!passwordVisible)}
-              className={styles.passwordSwitch}
-            />
-          </div>
+  
 
           {error && (
             <div className="error-message">

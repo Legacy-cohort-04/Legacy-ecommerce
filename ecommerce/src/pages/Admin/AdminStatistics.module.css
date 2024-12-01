@@ -1,0 +1,140 @@
+.dashboard {
+  background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+  min-height: 100vh;
+  color: #fff;
+  padding: 2rem;
+}
+
+.marketTable {
+  width: 100%;
+  border-spacing: 0;
+  margin-top: 2rem;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.875rem;
+}
+
+.marketTable th {
+  text-align: left;
+  color: #8A8AA0;
+  font-weight: normal;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marketTable td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #D1D1D6;
+  line-height: 1.5;
+}
+
+.tableRow {
+  transition: background-color 0.3s ease;
+}
+
+.tableRow:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.brandColumn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brandLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marketTable .positiveStattt {
+  color: #00FF9D !important; 
+}
+
+.marketTable .negativeStattt {
+  color: #FF5B5B !important; 
+}
+
+.filterButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  height: 30px;
+  width: 150px;
+  font-size: 0.875rem;
+}
+
+.filterrButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  height: 30px;
+  width: 90px;
+  font-size: 0.875rem;
+}
+
+.pageHeader {
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.pageSubtitle {
+  color: #8A8AA0;
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.volumeValue {
+  font-family: monospace;
+}
+
+.floorPrice {
+  color: #fff;
+  font-weight: 500;
+}
+
+.ownersCount {
+  color: #8A8AA0;
+}
+
+.marketplaceBadge {
+  background: #6C5CE7;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.marketTableContainer {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+}
