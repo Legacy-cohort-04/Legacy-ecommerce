@@ -116,10 +116,12 @@
   cursor: pointer;
   padding: 10px 20px;
   background-color: #5d368b66;
-  color: white;
+  color: rgb(0, 81, 233);
   border: none;
   border-radius: 5px;
   margin-right: 1200px;
+  font-size: 21px;
+  font-weight: 500;
 }
 
 .editProfileModal {
@@ -407,7 +409,7 @@
 .commentSection {
   margin-top: 20px;
   padding: 16px;
-  background-color: #f8f9fa60;
+  background-color: #f8f9fa2d;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -415,7 +417,7 @@
 /* Input field for posting comments */
 .postCommentInput {
   width: calc(100% - 110px); 
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-right: 10px;
@@ -426,7 +428,7 @@
 
 /* Button for posting comments */
 .postCommentButton {
-  padding: 10px 20px;
+  padding: 5px 15px;
   background-color: #14539648;
   color: white;
   border: none;
@@ -435,6 +437,8 @@
   font-size: 14px;
   transition: background-color 0.3s;
   display: inline-block;
+  margin-top: 5px;
+  
 }
 
 .postCommentButton:hover {
@@ -444,8 +448,8 @@
 /* Individual comment wrapper */
 .OneComment {
   margin-top: 15px;
-  padding: 10px;
-  background-color: #fff;
+  padding: 5px;
+  background-color: #ffffff6f;
   border: 1px solid #ddd;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -463,9 +467,35 @@
 .OneComment p {
   font-size: 14px;
   margin: 0;
-  color: #555;
+  color: #ffffff;
+  background:  linear-gradient(113.49deg, #984d3837 -30.3%, #181e41c6 58.12%);
 }
 
 .editPPersonal{
   margin-left: 50px;
+}
+
+.deleteButtonComment {
+  background-color: #412c1821;
+  margin: 5px;
+  color: rgba(255, 77, 0, 0.892);
+  border: 1px solid rgba(255, 255, 255, 0.201);
+}
+
+.backToCommentsBtn {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: #0d4c441d;
+  color: white;
+  font-size: 14px;
+  padding: 7px;
+
+}
+
+.showAllCommentButton{
+  color: white;
+  background-color: #0d4c442a;
+  padding: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.204);
+  font-size: 17px;
 }

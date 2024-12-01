@@ -117,7 +117,7 @@ export default function Profile() {
           postId: postId,
         }
       );
-
+      setrerenderComment(!rerenderComment);
       console.log("posting comment", result.data);
     } catch (err) {
       console.log(err);
@@ -129,7 +129,6 @@ export default function Profile() {
       const result = await axios.get(
         `http://localhost:3001/comments/allComments`
       );
-      setrerenderComment(!rerenderComment);
       console.log("Fetched comments:", result.data);
       setComments(result.data);
       
@@ -139,8 +138,26 @@ export default function Profile() {
     
   };
 
+  useEffect(()=> {
+    getAllComments()
+  },[rerenderComment])
 
-  
+
+  const deletingComment = async (idComment: number) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:3001/comments/oneComment/${idComment}`
+      );
+      setrerenderComment(!rerenderComment);
+      console.log("comment delete:", result)
+      
+    } catch (err) {
+      console.error("Error deleting one comment :", err);
+    }
+    
+  };
+
+   
 
 
   const filteringComment = (idPost: Number)=> {
@@ -242,6 +259,10 @@ export default function Profile() {
     gettingPosts();
     getAllComments()
   }, [view]);
+
+
+
+  const [commentsView, setCommentsView] = useState<Boolean>(false)
 
   console.log("showEditProfile::::::", showEditProfile);
   return (
@@ -433,8 +454,9 @@ export default function Profile() {
                 onClick={() => {
                   deletePost(post.id);
                 }}
+                className={styles.deleteButtonComment}
               >
-                del
+                delete
               </button>
             </div>
           ))}
@@ -460,38 +482,72 @@ export default function Profile() {
                   {elem.content || "This is a sample post content."}
                 </p>
               </div>
-              <div className={styles.commentSection}>
+
+          {/* toggling the view of comments */ }
+
+              {!commentsView ? 
+               <>
                 <input
-                  type="text"
-                  className={styles.postCommentInput}
-                  placeholder="Write a comment..."
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    // here I"m going to take the comment
-                    setOneComment(e.target.value);
+                type="text"
+                className={styles.postCommentInput}
+                placeholder="Write a comment..."
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  // here I"m going to take the comment
+                  setOneComment(e.target.value);
+                }}
+               />
+               <button
+                className={styles.postCommentButton}
+                onClick={() => {
+                  postingComment(elem.id);
+                  setrerenderComment(!rerenderComment)
+                  console.log("comment elem id ", elem.id);
+                  setCommentsView(!commentsView)
+                }}
+               >
+                Post Comment
+               </button>
+              <button onClick={()=>{
+                setCommentsView(!commentsView)
+              }}
+              className={styles.showAllCommentButton}
+              >show all comments</button>
+
+              </> :
+              <>
+             
+              <div className={styles.commentSection}>
+              <button onClick={()=>{
+                 setCommentsView(!commentsView)
+
+              }}
+              className={styles.backToCommentsBtn}
+              
+              >Back...</button>
+              <br />
+              
+               {filteringComment(elem.id).map((comment, index) => (
+                
+                <div key={index} className={styles.OneComment}>
+          
+                  <h5>{comment.postId}</h5>
+                  <p>{comment.content}</p>
+                  <button onClick={()=>{
+                       deletingComment(comment.id)
+                       console.log("comment id", comment.id)
                   }}
-                />
-                <button
-                  className={styles.postCommentButton}
-                  onClick={() => {
-                    postingComment(elem.id);
-                    setrerenderComment(!rerenderComment)
-                    console.log("comment elem id ", elem.id);
-                  }}
-                >
-                  Post Comment
-                </button>
-                {filteringComment(elem.id).map((comment, index) => (
-                  
-                  <div key={index} className={styles.OneComment}>
-            
-                    <h5>{comment.postId}</h5>
-                    <p>{comment.content}</p>
-                    <button onClick={()=>{
-                      
-                    }}>delete</button>
-                  </div>
-                ))}
-              </div>
+                  className={styles.deleteButtonComment}
+                  >delete</button>
+                </div>
+              ))}
+            </div>
+
+            </>
+              
+        }
+
+        {/* toggling the view of comments */ }
+             
             </>
           ))}
         </div>
