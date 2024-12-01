@@ -127,7 +127,7 @@ export default function Login() {
               <a
                 className={styles['login-link-text']}
                 style={{ cursor: 'pointer' }}
-                onClick={() => navigate.push('/user/signup')}
+                onClick={() => navigate.push('/Auth/signup')}
               >
                 Create an account
               </a>
