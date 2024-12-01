@@ -36,7 +36,6 @@ const postComment = async (req,res) => {
 const deleteOneComment = async (req, res) => {
     try {
         const {commID} = req.params
-        console.log("commID delete", commID)
         const result =   await db.comments.destroy({
           where: {id:commID}
         })
