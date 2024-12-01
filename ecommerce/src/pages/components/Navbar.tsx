@@ -56,6 +56,34 @@ const Navbar: React.FC = () => {
             </a>
           </nav>
         </div>
+
+        <nav className={styles.navLinks}>
+          <a onClick={() => router.push('/home')} style={{ cursor: 'pointer' }}>Home</a>
+          <a onClick={() => router.push('/Products/Allproducts')} style={{ cursor: 'pointer' }}>
+  Explore <FiChevronDown />
+</a>         
+ <a href="#collection">Personal Collection</a>
+          <a href="#drops">Drops</a>
+          <a onClick={() => router.push('/profile/Aboutus#')} className={styles.moreLink} style={{ cursor: 'pointer' }}>about <FiChevronDown /></a> 
+          {/* {isAdmin && (
+            <a onClick={() => router.push('/admin')} style={{ cursor: 'pointer' }}>Admin</a>
+          )} */}
+        </nav>
+      </div>
+      <div className={styles.navRight}>
+        <button className={styles.iconButton}>
+          <FiBell size={20} />
+        </button>
+        <button className={styles.iconButton}>
+          <FiMessageSquare size={20} />
+        </button>
+        <button className={styles.walletBtn} onClick={() => router.push('/cart')}>
+          <FiShoppingCart size={18} />
+        </button>
+        {/* {isUser && ( */}
+          <img 
+            onClick={() => router.push("/profile/profile#")}
+
         <div className={styles.navRight}>
           <button className={styles.iconButton}>
             <FiBell size={20} />
@@ -71,6 +99,7 @@ const Navbar: React.FC = () => {
           </button>
           <img
             onClick={() => router.push("/profile/profile")}
+
             src={avatar}
             alt="Profile"
             className={styles.profileImg}
