@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {FiSearch,FiShoppingCart,FiBell,FiMessageSquare,FiChevronDown,FiLogOut} from "react-icons/fi";
 import styles from "./Navbar.module.css";
@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    router.push("/");
+    router.push("/index");
     window.location.reload();
   };
   
