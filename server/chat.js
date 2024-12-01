@@ -8,8 +8,6 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
-    // methods: ["GET", "POST"],
-    // credentials: true
   }
 });
 
@@ -18,7 +16,6 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  io.emit('chat message', "New User Connected");
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });

@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/router";
-import {
-  FiSearch,
-  FiShoppingCart,
-  FiBell,
-  FiMessageSquare,
-  FiChevronDown,
-  FiLogOut,
-} from "react-icons/fi";
+import {FiSearch,FiShoppingCart,FiBell,FiMessageSquare,FiChevronDown,FiLogOut} from "react-icons/fi";
 import styles from "./Navbar.module.css";
 import ChatWidget from '../chat/ChatWidget';
+
 
 const Navbar: React.FC = () => {
   const router = useRouter();
@@ -30,12 +24,14 @@ const Navbar: React.FC = () => {
     router.push("/");
     window.location.reload();
   };
+  
+
 
   return (
     <>
       <div className={styles.navContainer}>
-        <a href="/home" className={styles.logo}>
-          Logo
+      <a onClick={() => router.push("/Home/home")} className={styles.logo}>
+      Logo
         </a>
         <div className={styles.navCenter}>
           <div className={styles.searchContainer}>
@@ -47,8 +43,8 @@ const Navbar: React.FC = () => {
             />
           </div>
           <nav className={styles.navLinks}>
-            <a onClick={() => router.push("/home")} style={{ cursor: "pointer" }}>
-              Home
+          <a onClick={() => router.push("/Home/home")} style={{ cursor: "pointer" }}>
+          Home
             </a>
             <a onClick={() => router.push("/Products/Allproducts")} style={{ cursor: "pointer" }}>
               Explore <FiChevronDown />
@@ -64,7 +60,10 @@ const Navbar: React.FC = () => {
           <button className={styles.iconButton}>
             <FiBell size={20} />
           </button>
-          <button className={styles.iconButton} onClick={() => setIsChatOpen(!isChatOpen)}>
+          <button 
+            className={styles.iconButton} 
+            onClick={() => setIsChatOpen(!isChatOpen)}
+          >
             <FiMessageSquare size={20} />
           </button>
           <button className={styles.walletBtn} onClick={() => router.push("/Products/Cart")}>
@@ -81,7 +80,7 @@ const Navbar: React.FC = () => {
           </button>
         </div>
       </div>
-      {isChatOpen && <ChatWidget />}
+      <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </>
   );
 };

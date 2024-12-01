@@ -1,4 +1,3 @@
-
 const { Op } = require("sequelize");
 const { Products } = require("../database/index");
 
@@ -107,6 +106,8 @@ const createProduct = async (req, res) => {
       onSale = false,
     } = req.body;
 
+    console.log('Received data:', req.body); // Pour déboguer
+
     if (!title || !price || !image || !rarity || !chains || !collection) {
       return res.status(400).json({
         success: false,
@@ -115,7 +116,8 @@ const createProduct = async (req, res) => {
       });
     }
 
-    const product = await db.Products.create({
+    // Utiliser directement le modèle Products de Sequelize
+    const product = await Products.create({
       title: title.trim(),
       price: parseFloat(price),
       image: image.trim(),
@@ -136,9 +138,8 @@ const createProduct = async (req, res) => {
     console.error("Error creating product:", error);
     res.status(500).json({
       success: false,
-      message: "Error creating product",
-      error: error.message,
-      receivedData: req.body, 
+      message: error.message || "Error creating product",
+      receivedData: req.body,
     });
   }
 };
@@ -164,5 +165,5 @@ module.exports = {
   getFilteredProducts,
   // getProductbybrandverified,
   updateproductbyId,
-  createProduct,
+  createProduct
 };
