@@ -11,13 +11,17 @@ const postRouter=require('./routes/Posts.js')
 const commentRouter=require('./routes/Comments.js')
 
 
-app.use(cors()); 
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 app.use(express.json());
 
 require("./database/index.js")
 
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use("/brands",brandsroute)
 app.use("/cartP",cartProducts)
@@ -29,5 +33,5 @@ app.use("/comments", commentRouter);
 
 
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
