@@ -88,7 +88,7 @@ const Home: React.FC = () => {
           </button>
           <button
             className={styles.tab}
-            onClick={() => router.push("/products")}
+            onClick={() => router.push("/Products/Allproducts")}
           >
             Creators Market
           </button>
