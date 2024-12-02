@@ -1,3 +1,4 @@
+import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -6,6 +7,8 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
 } from 'firebase/auth';
+
+import   {githubProvider}  from '../firebaseConfig';
 
 import styles from './Auth/login.module.css';
 import app from '../firebaseConfig';
@@ -40,7 +43,12 @@ export default function Login() {
       const { token, user } = result.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      navigate.push('/Home/home');
+
+      if (user.type === 'admin') {                    
+        navigate.push('/Admin/AdminStatistics');
+      } else {
+        navigate.push("/Home/home");
+    }
     } catch (err) {
       console.error(err);
       setError('Login failed. Please check your credentials.');
@@ -102,6 +110,25 @@ export default function Login() {
       setError('Facebook sign-in failed. Please try again.');
     }
   };
+
+ 
+  
+    const handleGitHubLogin = async () => {
+      try {
+        const result = await signInWithPopup(auth, githubProvider);
+        
+        const user = result.user;
+        console.log('Logged in user:', user);
+        
+        navigate.push('/Home/home');
+      } catch (error: any) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('GitHub Login Error:', errorCode, errorMessage);
+        
+      }
+    };
+  
 
   return (
     <div>
@@ -192,13 +219,22 @@ export default function Login() {
               className={`${styles.socialButton} ${styles.facebookButton}`}
               onClick={handleFacebookSignIn}
             >
-              <img
+              <FaFacebook
               className={styles['facebook-logo']}
-                src="http://www.w3.org/2000/svg'%3E%3C"
-                alt="Facebook Icon"
                 style={{ width: '20px', height: '20px', marginRight: '10px' }}
               />
               Continue With Facebook
+            </button>
+            <button
+              type="button"
+              className={`${styles.socialButton} ${styles.githubButton}`}
+              onClick={handleGitHubLogin}
+            >
+              <FaGithub
+              className={styles['github-logo']}
+                style={{ width: '20px', height: '20px', marginRight: '10px' }}
+              />
+              Continue With Github
             </button>
           </div>
         </form>

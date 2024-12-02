@@ -25,7 +25,7 @@ const AllProducts = () => {
 
     const displayAllProducts = () => {
         axios
-            .get('http://localhost:3000/products')
+            .get('http://localhost:3001/products')
             .then((response) => {
                 setProducts(response.data);
                 setFilteredProducts(response.data);
@@ -73,7 +73,7 @@ const AllProducts = () => {
     const addProduct = (e: React.FormEvent) => {
         e.preventDefault();
         axios
-            .post('http://localhost:3000/products/create', {
+            .post('http://localhost:3001/products/create', {
                 title,
                 price,
                 image: imageUrl,
@@ -121,7 +121,7 @@ const AllProducts = () => {
     const handleEditProduct = (e: React.FormEvent) => {
         e.preventDefault();
         axios
-            .put(`http://localhost:3000/products/${editProduct.id}`, {
+            .put(`http://localhost:3001/products/${editProduct.id}`, {
                 title,
                 price,
                 image: imageUrl,
@@ -173,7 +173,7 @@ const AllProducts = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 axios
-                    .delete(`http://localhost:3000/products/${product.id}`)
+                    .delete(`http://localhost:3001/products/${product.id}`)
                     .then(() => {
                         Swal.fire('Deleted!', `${product.title} has been deleted successfully.`, 'success');
                         displayAllProducts();

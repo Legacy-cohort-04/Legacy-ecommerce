@@ -23,7 +23,7 @@ const AdminStatistics: React.FC = () => {
 
   const getAllProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/products");
+      const response = await axios.get("http://localhost:3001/products");
       const products: Product[] = response.data;
       setData(products);
       const statistics = calculateBrandStatistics(products);
