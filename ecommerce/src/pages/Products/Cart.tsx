@@ -11,8 +11,7 @@ interface Product {
     title: string;
     image: string;
     CartProducts: {
-        priceAtPurchase: number;
-        quantity: number;
+        price: number;
     };
 }
 
@@ -120,8 +119,7 @@ const Cart: React.FC = () => {
                                 <img src={product.image} alt={product.title} className={styles.cartItemImage} />
                                 <div className={styles.cartItemDetails}>
                                     <h3>{product.title}</h3>
-                                    <p className={styles.cartItemPrice}>{product.CartProducts.priceAtPurchase} ETH</p>
-                                    <p className={styles.cartItemQuantity}>Quantity: {product.CartProducts.quantity}</p>
+                                    <p className={styles.cartItemQuantity}>Price: {product.CartProducts.price}</p>
                                 </div>
                                 <button className={styles.removeItemButton} onClick={() => { handleremoveitem(product.id) }}>
                                     ❌

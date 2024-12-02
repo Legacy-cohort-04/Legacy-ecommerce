@@ -9,7 +9,7 @@ const getCart = (req, res) => {
             model: db.Products,
             attributes: ['id', 'title', 'price' , 'image'],
             through: { 
-                attributes: ['quantity'],
+                attributes: ['price'],
                 as: 'CartProducts'
             }
         }]
