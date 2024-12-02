@@ -1,4 +1,4 @@
-import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
+import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -46,6 +46,12 @@ export default function Login() {
 
       if (user.type === 'admin') {                    
         navigate.push('/Admin/AdminStatistics');
+      } else {
+        navigate.push("/Home/home");
+    }
+
+      if (user.type === 'admin') {                    
+        navigate.push('/admin-dashboard');
       } else {
         navigate.push("/Home/home");
     }
@@ -225,17 +231,7 @@ export default function Login() {
               />
               Continue With Facebook
             </button>
-            <button
-              type="button"
-              className={`${styles.socialButton} ${styles.githubButton}`}
-              onClick={handleGitHubLogin}
-            >
-              <FaGithub
-              className={styles['github-logo']}
-                style={{ width: '20px', height: '20px', marginRight: '10px' }}
-              />
-              Continue With Github
-            </button>
+
           </div>
         </form>
       </div>

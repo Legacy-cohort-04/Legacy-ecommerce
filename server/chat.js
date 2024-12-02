@@ -19,6 +19,14 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
   });
+
+  socket.on('typing', (data) => {
+    socket.broadcast.emit('typing', data);
+  });
+
+  socket.on('stop typing', (data) => {
+    socket.broadcast.emit('stop typing', data);
+  });
 });
 
 const PORT = 3002;
