@@ -26,9 +26,9 @@ exports.addToCart = (req, res) => {
         .then(([cart]) => {
           db.CartProducts.findOrCreate({ 
             where: { CartId: cart.id, ProductId: productId }, 
-            defaults: { quantity: product.price} 
+            defaults: { price: product.price} 
           }).then(([cartProduct, created]) => {
-            if (!created) cartProduct.quantity++
+            if (!created) cartProduct.price++
             cart.totalItems++
             cart.totalAmount = parseFloat(cart.totalAmount) + parseFloat(product.price)
             cartProduct.save()
@@ -56,7 +56,7 @@ exports.removeFromCart = async (req, res) => {
     }
 
     cart.totalItems -= 1;
-    cart.totalAmount -= cartProduct.quantity; // Assuming priceAtPurchase is stored in CartProducts
+    cart.totalAmount -= cartProduct.price; // Assuming priceAtPurchase is stored in CartProducts
 
     await db.CartProducts.destroy({ where: { ProductId: ProductId } });
     await cart.save();
