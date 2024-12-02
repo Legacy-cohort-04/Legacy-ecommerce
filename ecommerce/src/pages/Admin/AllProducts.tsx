@@ -23,6 +23,8 @@ const AllProducts = () => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [category, setCategory] = useState<string>('');
 
+    const [search, setSearch] = useState('');
+
     const displayAllProducts = () => {
         axios
             .get('http://localhost:3001/products')
@@ -49,14 +51,13 @@ const AllProducts = () => {
         }
     }, [category, products]);
 
-    const handleSearch = (search: string) => {
+    useEffect(() => {
         const filtered = products.filter(product =>
             product.title.toLowerCase().includes(search.toLowerCase())
         );
         setFilteredProducts(filtered);
-        console.log(filtered, 'filtered',search);
-        
-    };
+        console.log(filtered, 'filtered', search);
+    }, [search, products]);
 
     const openEditModal = (product: any) => {
         setEditProduct(product);
@@ -186,15 +187,10 @@ const AllProducts = () => {
     };
 
     return (<>
-    <AdminNavBar/>
+    <AdminNavBar search={search} setSearch={setSearch} />
         <div className={styles['admin-dashboard']}>
             <header className={styles['dashboard-header']}>
                 <h1>Admin Dashboard - Products</h1>
-                <input
-                    type="text"
-                    placeholder="Search products..."
-                    onChange={(e) => handleSearch(e.target.value)}
-                />
                 <button
                     className={classNames(styles.btnnn, styles['btnnn-primaryyy'])}
                     onClick={() => {
