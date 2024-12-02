@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
 
         const cart = await db.Cart.findOne({
             where: { UserId: userId },
-            include: [{ model: db.Products, attributes: ['id', 'title', 'price', 'image'], through: { attributes: ['quantity'] } }]
+            include: [{ model: db.Products, attributes: ['id', 'title', 'price', 'image'], through: { attributes: ['price'] } }]
         });
 
         if (!cart?.Products?.length) return res.status(400).json({ message: 'Cart is empty' });
@@ -39,7 +39,7 @@ const transporter = nodemailer.createTransport({
                     ${cart.Products.map(product => `
                         <tr>
                             <td>${product.title}</td>
-                            <td>${product.CartProducts.quantity}</td>
+                            <td>${product.CartProducts.price}</td>
                         </tr>
                     `).join('')}
                 </table>
