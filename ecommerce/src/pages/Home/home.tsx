@@ -40,6 +40,28 @@ const Home: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
+  const handleVerifiedBrands = async () => {
+    try {
+      const response = await axios.get<Product[]>(
+        "http://localhost:3001/products/verifiedbrands"
+      );
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Failed to load data:", error);
+    }
+  };
+
+  const handleNewDrops = async () => {
+    try {
+      const response = await axios.get<Product[]>(
+        "http://localhost:3001/products/newdrops"
+      );
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Failed to load new drops:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -232,9 +254,9 @@ const Home: React.FC = () => {
             <button className={`${styles.collectionTab} ${styles.active}`}>
               All Collections
             </button>
-            <button className={styles.collectionTab}>Verified Brands</button>
+            <button className={styles.collectionTab} onClick={handleVerifiedBrands}>Verified Brands</button>
             <button className={styles.collectionTab}>Verified Artists</button>
-            <button className={styles.collectionTab}>New Drops</button>
+            <button className={styles.collectionTab} onClick={handleNewDrops}>New Drops</button>
             <button className={styles.collectionTab}>Live Shows</button>
           </div>
 

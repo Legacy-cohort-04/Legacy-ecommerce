@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ReactNode } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {FiSearch,FiShoppingCart,FiBell,FiMessageSquare,FiChevronDown,FiLogOut} from "react-icons/fi";
 import styles from "./Navbar.module.css";
@@ -9,6 +9,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [avatar, setAvatar] = useState<string>("/default-avatar.png");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
@@ -21,11 +22,9 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    router.push("/");
+    router.push("/index");
     window.location.reload();
   };
-  
-
 
   return (
     <>
@@ -39,8 +38,8 @@ const Navbar: React.FC = () => {
             <input
               type="search"
               className={styles.searchBar}
-              placeholder="Search Items, Fashion, Collection and Users"
-            />
+              value={searchQuery}
+               />
           </div>
           <nav className={styles.navLinks}>
           <a onClick={() => router.push("/Home/home")} style={{ cursor: "pointer" }}>

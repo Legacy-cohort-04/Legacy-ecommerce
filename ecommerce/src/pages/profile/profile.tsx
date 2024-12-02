@@ -5,6 +5,8 @@ import Image from "next/image";
 import uploadIcon from "./uploadIcon.png";
 import defaultProfile from "./defaultProfile.png";
 import defaultCover from "./defaultCover.jpg";
+import Navbar from "../components/Navbar";
+import Swal from 'sweetalert2';
 
 export default function Profile() {
   const [imageUrl, setimageUrl] = useState<string>(""); // Profile image URL
@@ -83,7 +85,6 @@ export default function Profile() {
     status: (statusCode: number) => Response;
   }
 
-
   // let iduser: string | undefined;
 
   //   const user = localStorage.getItem("user");
@@ -94,9 +95,6 @@ export default function Profile() {
   //   // Handle the case when there is no user in localStorage
   //   console.error("User not found in localStorage");
   // }
-
-
-
 
   const gettingPosts = async () => {
     try {
@@ -110,42 +108,88 @@ export default function Profile() {
 
   console.log("posts😂😂😂", posts);
 
-  ////// posting comment //////////
+  ////// //////////////////////////// comment //////////////////////////////////////////
   const postingComment = async (postId: number) => {
-    
     try {
       const result = await axios.post(
-        `http://localhost:3001/comment/oneComment/${postId}`,
+        `http://localhost:3001/comments/oneComment/${postId}`,
         {
           content: oneComment,
-          postId: postId
+          postId: postId,
         }
       );
-
-      console.log("posting comment", result);
-      
+      setrerenderComment(!rerenderComment);
+      console.log("posting comment", result.data);
+      Swal.fire({
+        title: "Comment Created",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
-  const fetchComments = async (postId: number) => {
+  const getAllComments = async () => {
     try {
       const result = await axios.get(
-        `http://localhost:3001/comment/allComments/${postId}`
+        `http://localhost:3001/comments/allComments`
       );
-      setrerenderComment(!rerenderComment);
       console.log("Fetched comments:", result.data);
       setComments(result.data);
+      
     } catch (err) {
       console.error("Error fetching comments:", err);
     }
+    
   };
 
-  
-  useEffect(()=>{
-    fetchComments
+  useEffect(()=> {
+    getAllComments()
   },[rerenderComment])
+
+
+  const deletingComment = async (idComment: number) => {
+    try {
+      const result = await axios.delete(
+        `http://localhost:3001/comments/oneComment/${idComment}`
+      );
+      setrerenderComment(!rerenderComment);
+      console.log("comment delete:", result)
+
+      Swal.fire({
+        title: "Comment Deleted",
+        text: "post comments always ",
+        icon: "success"
+      });
+      
+    } catch (err) {
+      console.error("Error deleting one comment :", err);
+    }
+    
+  };
+
+   
+
+
+  const filteringComment = (idPost: Number)=> {
+    
+   return comments.filter((elem)=>{
+        return elem.postId === idPost
+    })
+
+  }
+  
+ /// filteringComment(13)
+ 
+
+  console.log("all the comments ❤️❤️❤️", comments)
+
+  // useEffect(() => {
+  //   fetchComments;
+  // }, [rerenderComment]);
+
+  ///////////////////////////////////////////////// comment //////////////////////////////////////////
 
   //////////// getting post and posting posts //////////
 
@@ -159,7 +203,12 @@ export default function Profile() {
           UserId: "1",
         }
       );
-      setView(!view)
+      setView(!view);
+      Swal.fire({
+        title: "post Created",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
       //   setrerenderComment(!rerenderComment)
       console.log("Post created:", result.data);
       // You can add logic to update the posts list or re-render as necessary
@@ -185,6 +234,11 @@ export default function Profile() {
           lastName: editlastName,
         }
       );
+      Swal.fire({
+        title: "User Updated",
+        text: "That thing is still around",
+        icon: "success", // Use a valid SweetAlert icon
+      });
 
       console.log(result.data);
     } catch (err) {
@@ -209,32 +263,33 @@ export default function Profile() {
     getUserInfo();
   }, []);
 
+  const [view, setView] = useState<Boolean>(false);
 
-
-  const [view,setView] = useState<Boolean>(false);
-
-  const deletePost = async (postID: String)=>{
+  const deletePost = async (postID: String) => {
     try {
-      const result = await axios.delete(`http://localhost:3001/posts/${postID}`)
-      console.log(result.data)
-      setView(!view)
-    } 
-    catch (err) {
-      console.log(err)
+      const result = await axios.delete(
+        `http://localhost:3001/posts/${postID}`
+      );
+      console.log(result.data);
+      setView(!view);
+    } catch (err) {
+      console.log(err);
     }
-    
-  }
+  };
 
   useEffect(() => {
     gettingPosts();
+    getAllComments()
   }, [view]);
 
 
 
+  const [commentsView, setCommentsView] = useState<Boolean>(false)
 
   console.log("showEditProfile::::::", showEditProfile);
   return (
     <div className={styles.profilePage}>
+      <Navbar />
       <div className={styles.coverSection}>
         <Image
           src={coverUrl || defaultCover}
@@ -271,16 +326,16 @@ export default function Profile() {
             src={imageUrl || defaultProfile}
             alt="Profile"
             className={styles.profileImage}
-            width={150} 
-            height={150} 
+            width={150}
+            height={150}
           />
           <label htmlFor="profileUpload" className={styles.uploadButton}>
             <Image
               src={uploadIcon}
               alt="Upload-image"
               className={styles.uploadIcon}
-              width={24} 
-              height={24} 
+              width={24}
+              height={24}
             />
 
             <input
@@ -320,7 +375,6 @@ export default function Profile() {
           </div>
         ) : (
           <div className={styles.editProfileModal}>
-            
             <button
               className={styles.closeButton}
               onClick={() => setShowEdit(false)}
@@ -328,19 +382,10 @@ export default function Profile() {
               Close
             </button>
 
-            
             <div className={styles.editOptions}>
-              <button
-                onClick={() => setEditMode("personalInfo")}
-                className={
-                  editMode === "personalInfo" ? styles.activeButton : ""
-                }
-              >
-                Edit Personal Information
-              </button>
+              <div className={styles.editPPersonal}>Edit Personal</div>
             </div>
 
-            
             <div className={styles.editContent}>
               {editMode === "personalInfo" && (
                 <div className={styles.editSection}>
@@ -380,11 +425,11 @@ export default function Profile() {
                   >
                     edit profile
                   </button>
+                  <div>Edd post </div>
 
                   <label htmlFor="">post Image</label>
                   <input
                     type="file"
-                   
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         setpost(e.target.files[0]); // Set profile image file
@@ -427,9 +472,14 @@ export default function Profile() {
               <p className={styles.sidebarPostContent}>
                 {post.content.slice(0, 30) || "Post Preview"}
               </p>
-              <button onClick={()=>{
-                        deletePost(post.id)
-              }} >del</button>
+              <button
+                onClick={() => {
+                  deletePost(post.id);
+                }}
+                className={styles.deleteButtonComment}
+              >
+                delete
+              </button>
             </div>
           ))}
         </div>
@@ -454,34 +504,72 @@ export default function Profile() {
                   {elem.content || "This is a sample post content."}
                 </p>
               </div>
-              <div className={styles.commentSection}>
+
+          {/* toggling the view of comments */ }
+
+              {!commentsView ? 
+               <>
                 <input
-                  type="text"
-                  className={styles.postCommentInput}
-                  placeholder="Write a comment..."
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    // here I"m going to take the comment
-                    setOneComment(e.target.value);
+                type="text"
+                className={styles.postCommentInput}
+                placeholder="Write a comment..."
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  // here I"m going to take the comment
+                  setOneComment(e.target.value);
+                }}
+               />
+               <button
+                className={styles.postCommentButton}
+                onClick={() => {
+                  postingComment(elem.id);
+                  setrerenderComment(!rerenderComment)
+                  console.log("comment elem id ", elem.id);
+                  setCommentsView(!commentsView)
+                }}
+               >
+                Post Comment
+               </button>
+              <button onClick={()=>{
+                setCommentsView(!commentsView)
+              }}
+              className={styles.showAllCommentButton}
+              >show all comments</button>
+
+              </> :
+              <>
+             
+              <div className={styles.commentSection}>
+              <button onClick={()=>{
+                 setCommentsView(!commentsView)
+
+              }}
+              className={styles.backToCommentsBtn}
+              
+              >Back...</button>
+              <br />
+              
+               {filteringComment(elem.id).map((comment, index) => (
+                
+                <div key={index} className={styles.OneComment}>
+          
+                  <h5>{comment.postId}</h5>
+                  <p>{comment.content}</p>
+                  <button onClick={()=>{
+                       deletingComment(comment.id)
+                       console.log("comment id", comment.id)
                   }}
-                />
-                <button
-                  className={styles.postCommentButton}
-                  onClick={() => {
-                    postingComment(elem.id);
-                    console.log("comment elem id ", elem.id)
-                    // fetchComments(elem.id)
-                    console.log('comments😖❤️', comments)
-                  }}
-                >
-                  Post Comment
-                </button>
-                {comments.map((comment, index) => (
-                  <div key={index} className={styles.OneComment}>
-                    <h5>{comment.user}</h5>
-                    <p>{comment.text}</p>
-                  </div>
-                ))}
-              </div>
+                  className={styles.deleteButtonComment}
+                  >delete</button>
+                </div>
+              ))}
+            </div>
+
+            </>
+              
+        }
+
+        {/* toggling the view of comments */ }
+             
             </>
           ))}
         </div>
