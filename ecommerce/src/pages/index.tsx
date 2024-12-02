@@ -116,9 +116,21 @@ export default function Login() {
     const handleGitHubLogin = async () => {
       try {
         const result = await signInWithPopup(auth, githubProvider);
-        
+
         const user = result.user;
         console.log('Logged in user:', user);
+        const token = await user.getIdToken();
+
+        localStorage.setItem('token', token);
+
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        })
+      );
         
         navigate.push('/Home/home');
       } catch (error: any) {
