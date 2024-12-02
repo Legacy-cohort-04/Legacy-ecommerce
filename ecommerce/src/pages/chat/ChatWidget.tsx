@@ -2,27 +2,40 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import styles from './ChatWidget.module.css';
 
+
 interface ChatWidgetProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, onClose }) => {
-  const [messages, setMessages] = useState<{ text: string; sent: boolean; id: string }[]>([]);
+interface Message {
+  text: string;
+  sent: boolean;
+  id: string;
+  username: string;
+}
+
+const ChatWidget: React.FC <ChatWidgetProps> = ({ isOpen, onClose }) => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [socket, setSocket] = useState<any>(null);
+  const [user, setUser] = useState<{ firstName: string } | null>(null);
 
   useEffect(() => {
     const newSocket = io('http://localhost:3002');
     setSocket(newSocket);
 
-    newSocket.on('chat message', (msg) => {
-      // Vérifie si le message existe déjà pour éviter les doublons
-      setMessages(prev => {
-        if (!prev.some(m => m.text === msg)) {
-          return [...prev, { text: msg, sent: false, id: Date.now().toString() }];
+    newSocket.on('chat message', (data: { msg: string; username: string }) => {
+      setMessages(msg => {
+        if (!msg.some(m => m.text === data.msg)) {
+          return [...msg, {
+            text: data.msg,
+            sent: false,
+            id: Date.now().toString(),
+            username: data.username
+          }];
         }
-        return prev;
+        return msg;
       });
     });
 
@@ -31,13 +44,21 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, onClose }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    setUser(userData);
+  }, []);
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (inputMessage.trim() && socket) {
-      socket.emit('chat message', inputMessage); //envoi msg 
+      socket.emit('chat message', { msg: inputMessage, username: user?.firstName || '' });
       
-      // Ajouter le message envoyé à l'état local avec un ID unique
-      setMessages(prev => [...prev, { text: inputMessage, sent: true, id: Date.now().toString() 
+      setMessages(msg => [...msg, {
+        text: inputMessage,
+        sent: true,
+        id: Date.now().toString(),
+        username: user?.firstName || ''
       }]);
       setInputMessage('');
     }
@@ -52,11 +73,13 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, onClose }) => {
       
       <div className={styles.messageContainer}>
         {messages.map((message) => (
-          <div 
-            key={message.id} 
-            className={`${styles.message} ${message.sent ? styles.sent : styles.received}`}
-          >
-            {message.text}
+          <div key={message.id} className={styles.messageWrapper}>
+            <span className={styles.username}>
+              {message.sent ? user?.firstName : message.username}
+            </span>
+            <div className={`${styles.message} ${message.sent ? styles.sent : styles.received}`}>
+              {message.text}
+            </div>
           </div>
         ))}
       </div>
@@ -70,7 +93,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isOpen, onClose }) => {
           className={styles.messageInput}
         />
         <button type="submit" className={styles.sendButton}>
-          Envoyer
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          </svg>
         </button>
       </form>
     </div>

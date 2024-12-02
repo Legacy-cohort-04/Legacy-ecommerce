@@ -1,32 +1,34 @@
 const { Op } = require("sequelize");
-const { Products } = require("../database/index");
+const { Products, Brands } = require("../database/index");
 
-// const getProductbybrandverified = async (req, res) => {
-//   const brandId = req.params.brandId; 
-
-//   try {
-//     const products = await db.Products.findAll({
-//       where: { brandId, verified: true }, 
-//       include: [
-//         {
-//           model: db.Brands,
-//           attributes: ["id", "name"],
-//         },
-//       ],
-//     });
-
-//     if (products.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ message: "No verified products found for this brand." });
-//     }
-
-//     res.json(products);
-//   } catch (error) {
-//     console.error("Error fetching verified products by brand ID:", error);
-//     res.status(500).send("Failed to fetch verified products");
-//   }
-// };
+const getProductbybrandverified = async (req, res) => {
+  try {
+    const products = await Products.findAll({
+      where: { 
+        status: 'Available' 
+      },
+      include: [
+        {
+          model: Brands,
+          where: { verified: 1 }
+        }
+      ]
+    });
+    
+    if (products.length === 0) {
+      return res.status(404).json({ 
+        message: "No verified products found." 
+      });
+    }
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching verified products:", error);
+    res.status(500).json({ 
+      message: "Failed to fetch verified products",
+      error: error.message 
+    });
+  }
+};
 
 
 const getFilteredProducts = (req, res) => {
@@ -106,7 +108,7 @@ const createProduct = async (req, res) => {
       onSale = false,
     } = req.body;
 
-    console.log('Received data:', req.body); // Pour déboguer
+    console.log('Received data:', req.body); 
 
     if (!title || !price || !image || !rarity || !chains || !collection) {
       return res.status(400).json({
@@ -116,7 +118,6 @@ const createProduct = async (req, res) => {
       });
     }
 
-    // Utiliser directement le modèle Products de Sequelize
     const product = await Products.create({
       title: title.trim(),
       price: parseFloat(price),
@@ -159,11 +160,29 @@ const getProducts = async (req, res) => {
 
 
 
+const getProductsbystatus = async (req, res) => {
+  try {
+    const products = await Products.findAll({
+      where: { 
+        status: 'New'
+      }
+    });
+    
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching new products:", error);
+    res.status(500).json({ 
+      message: "Failed to fetch new products",
+      error: error.message 
+    });
+  }
+};
 
 module.exports = {
   getProducts,
   getFilteredProducts,
-  // getProductbybrandverified,
+  getProductbybrandverified,
   updateproductbyId,
-  createProduct
+  createProduct,
+  getProductsbystatus
 };
