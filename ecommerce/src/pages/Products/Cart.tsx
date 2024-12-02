@@ -41,8 +41,10 @@ const Cart: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            try {
+            try { 
+                
                 const decodedToken: any = jwtDecode(token);
+                console.log(decodedToken , "deeecoded")
                 setuser(decodedToken.id);
             } catch (error) {
                 console.error('Error decoding token:', error);

@@ -1,5 +1,6 @@
 
 const {signup,login,getAllUsers ,updateUser, updateUserImage, getOneUser } = require("../controller/User.js")
+
 const express = require("express")
 
 const userroute = express.Router()
