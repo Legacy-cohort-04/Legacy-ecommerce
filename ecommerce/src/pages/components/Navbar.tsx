@@ -9,6 +9,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [avatar, setAvatar] = useState<string>("/default-avatar.png");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
@@ -24,8 +25,6 @@ const Navbar: React.FC = () => {
     router.push("/index");
     window.location.reload();
   };
-  
-
 
   return (
     <>
@@ -39,8 +38,8 @@ const Navbar: React.FC = () => {
             <input
               type="search"
               className={styles.searchBar}
-              placeholder="Search Items, Fashion, Collection and Users"
-            />
+              value={searchQuery}
+               />
           </div>
           <nav className={styles.navLinks}>
           <a onClick={() => router.push("/Home/home")} style={{ cursor: "pointer" }}>
