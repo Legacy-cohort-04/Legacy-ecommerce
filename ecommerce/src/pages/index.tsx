@@ -1,4 +1,4 @@
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
+import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -7,6 +7,8 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
 } from 'firebase/auth';
+
+import   {githubProvider}  from '../firebaseConfig';
 
 import styles from './Auth/login.module.css';
 import app from '../firebaseConfig';
@@ -109,6 +111,25 @@ export default function Login() {
     }
   };
 
+ 
+  
+    const handleGitHubLogin = async () => {
+      try {
+        const result = await signInWithPopup(auth, githubProvider);
+        
+        const user = result.user;
+        console.log('Logged in user:', user);
+        
+        navigate.push('/Home/home');
+      } catch (error: any) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('GitHub Login Error:', errorCode, errorMessage);
+        
+      }
+    };
+  
+
   return (
     <div>
       <div className={styles.loginContainer}>
@@ -204,7 +225,17 @@ export default function Login() {
               />
               Continue With Facebook
             </button>
-
+            <button
+              type="button"
+              className={`${styles.socialButton} ${styles.githubButton}`}
+              onClick={handleGitHubLogin}
+            >
+              <FaGithub
+              className={styles['github-logo']}
+                style={{ width: '20px', height: '20px', marginRight: '10px' }}
+              />
+              Continue With Github
+            </button>
           </div>
         </form>
       </div>
