@@ -12,7 +12,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Check if any Firebase app is already initialized
 const app = getApps()?.length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 export const githubProvider = new GithubAuthProvider();
