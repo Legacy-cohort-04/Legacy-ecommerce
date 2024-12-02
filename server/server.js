@@ -11,11 +11,7 @@ const postRouter=require('./routes/Posts.js')
 const commentRouter=require('./routes/Comments.js')
 
 
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 require("./database/index.js")

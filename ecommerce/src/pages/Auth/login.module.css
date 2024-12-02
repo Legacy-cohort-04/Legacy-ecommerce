@@ -165,12 +165,20 @@
     transition: transform 0.3s ease;
 }
 
-.loginForm .facebookButton {
+.loginForm .facebookButton  {
     background-color:#1877f2 ; 
     padding: 18px ; 
     transition: transform 0.3s ease;
     
 
+
+}
+.githubButton{
+    background-color: rgba(29, 29, 29, 1);
+    padding: 18px ; 
+    transition: transform 0.3s ease;
+height: 60px;
+margin-top: 20px;
 
 }
 

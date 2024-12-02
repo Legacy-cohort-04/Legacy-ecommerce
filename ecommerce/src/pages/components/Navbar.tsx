@@ -3,12 +3,17 @@ import { useRouter } from "next/router";
 import {FiSearch,FiShoppingCart,FiBell,FiMessageSquare,FiChevronDown,FiLogOut} from "react-icons/fi";
 import styles from "./Navbar.module.css";
 import ChatWidget from '../chat/ChatWidget';
+import axios from "axios";
 
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const [avatar, setAvatar] = useState<string>("/default-avatar.png");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
     const savedAvatar =
@@ -19,9 +24,24 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    router.push("/index");
-    window.location.reload();
+    localStorage.clear();
+    router.push("/");
+  };
+
+  const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchTerm(value);
+
+    if (value.trim()) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/search?query=${value}`);
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error("Error searching products:", error);
+      }
+    } else {
+      setSearchResults([]);
+    }
   };
 
   return (
@@ -36,7 +56,34 @@ const Navbar: React.FC = () => {
             <input
               type="search"
               className={styles.searchBar}
-               />
+              value={searchTerm}
+              onChange={handleSearchChange}
+              placeholder="Search products..."
+            />
+            {searchResults.length > 0 && searchTerm && (
+              <div className={styles.searchResults}>
+                {searchResults.map((product: any) => (
+                  <div 
+                    key={product.id} 
+                    className={styles.searchResultItem}
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSearchResults([]);
+                    }}
+                  >
+                    <img 
+                      src={product.image} 
+                      alt={product.title} 
+                      className={styles.searchResultImage}
+                    />
+                    <div className={styles.searchResultInfo}>
+                      <div className={styles.searchResultTitle}>{product.title}</div>
+                      <div className={styles.searchResultPrice}>{product.price} ETH</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <nav className={styles.navLinks}>
           <a onClick={() => router.push("/Home/home")} style={{ cursor: "pointer" }}>

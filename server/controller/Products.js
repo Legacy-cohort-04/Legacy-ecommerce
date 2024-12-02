@@ -146,21 +146,6 @@ const createProduct = async (req, res) => {
 };
 
 
-const searchProducts = async (req, res) => {
-  const { search } = req.query;
-  try {
-    const products = await Products.findAll({
-      where: { title: { [Op.like]: `%${search}%` } }
-    });
-    res.json(products);
-  } catch (error) {
-    console.error("Error searching products:", error);
-    res.status(500).json({ message: "Error searching products." });
-  }
-};
-
-
-
 const getProducts = async (req, res) => {
   try {
     const allProducts = await Products.findAll(); 
@@ -187,6 +172,43 @@ const getProductsbystatus = async (req, res) => {
     res.status(500).json({ 
       message: "Failed to fetch new products",
       error: error.message 
+    });
+  }
+};
+
+
+const searchProducts = async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Query parameter is required' });
+  }
+
+  try {
+    const products = await Products.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.iLike]: `%${query}%`
+            }
+          },
+          {
+            collection: {
+              [Op.iLike]: `%${query}%`
+            }
+          }
+        ]
+      },
+      limit: 10 // Limiter les résultats pour de meilleures performances
+    });
+
+    res.json(products);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ 
+      error: 'Internal Server Error',
+      message: error.message 
     });
   }
 };
