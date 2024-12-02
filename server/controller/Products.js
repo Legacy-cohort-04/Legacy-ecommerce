@@ -146,6 +146,19 @@ const createProduct = async (req, res) => {
 };
 
 
+const searchProducts = async (req, res) => {
+  const { search } = req.query;
+  try {
+    const products = await Products.findAll({
+      where: { title: { [Op.like]: `%${search}%` } }
+    });
+    res.json(products);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ message: "Error searching products." });
+  }
+};
+
 
 
 const getProducts = async (req, res) => {
@@ -184,5 +197,6 @@ module.exports = {
   getProductbybrandverified,
   updateproductbyId,
   createProduct,
-  getProductsbystatus
+  getProductsbystatus,
+  searchProducts
 };

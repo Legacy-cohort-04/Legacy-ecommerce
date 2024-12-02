@@ -86,8 +86,16 @@ export default function Profile() {
   }
 
   // let iduser: string | undefined;
+let user
+  if (global?.window !== undefined) {
 
-  //   const user = localStorage.getItem("user");
+   user  = JSON.parse(localStorage.getItem('user') || '{}');
+
+  }
+  console.log(user.id, "hiiiiiiiiiiiiiiii");
+
+
+  
   // if (user) {
   //   const iduser = JSON.parse(user).id;
   //   // Continue with using `iduser`

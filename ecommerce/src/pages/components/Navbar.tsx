@@ -9,8 +9,6 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   const [avatar, setAvatar] = useState<string>("/default-avatar.png");
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
     const savedAvatar =
@@ -38,7 +36,6 @@ const Navbar: React.FC = () => {
             <input
               type="search"
               className={styles.searchBar}
-              value={searchQuery}
                />
           </div>
           <nav className={styles.navLinks}>
