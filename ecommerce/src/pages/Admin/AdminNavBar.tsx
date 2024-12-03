@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/esm/NavDropdown';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { useRouter } from 'next/navigation'
 
 
@@ -41,18 +41,12 @@ const logoStyle: React.CSSProperties = {
 // Define the categories based on the Products model
 const categories = ['Shoes', 'Dresses', 'Coats', 'Shirts', 'Pants'];
 
-const NavBar: React.FC = () => {
-  const [search, setSearch] = useState('');
+const NavBar: FC<{ search: string; setSearch: (value: string) => void }> = ({ search, setSearch }) => {
   const navigate = useRouter()
-
-  const handleSearch = (value: string) => {
-    setSearch(value);
-    // Implement search logic here if needed
-  };
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate.push("/api/users/login");
+    navigate.push("/");
   };
 
   const filteredCategory = (category: string) => {
@@ -85,7 +79,8 @@ const NavBar: React.FC = () => {
           <Form.Control
             type="search"
             placeholder="Search"
-            onChange={(e) => handleSearch(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="me-2"
             aria-label="Search"
             style={searchStyle}

@@ -17,7 +17,7 @@ const AllUsers: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/allUsers")
+      .get("http://localhost:3001/admin/allUsers")
       .then((response) => {
         setAllUsers(response.data);
       })
@@ -39,7 +39,7 @@ const AllUsers: React.FC = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/admin/deleteUser/${user.id}`)
+          .delete(`http://localhost:3001/admin/user/${user.id}`)
           .then(() => {
             Swal.fire(
               "Deleted!",
@@ -61,7 +61,10 @@ const AllUsers: React.FC = () => {
   };
 
   return (<>
-    <AdminNavBar />
+    <AdminNavBar search={""} setSearch={function (value: string): void {
+      throw new Error("Function not implemented.");
+    } } />
+
     <div className={styles.theme}>
       <div className={styles.allUsersInterface}>
         <div className={styles.adminCard}>

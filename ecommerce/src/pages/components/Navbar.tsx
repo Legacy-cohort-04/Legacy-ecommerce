@@ -48,7 +48,9 @@ const Navbar: React.FC = () => {
             <a onClick={() => router.push("/Products/Allproducts")} style={{ cursor: "pointer" }}>
               Explore <FiChevronDown />
             </a>
-            <a href="#collection">Personal Collection</a>
+            <a onClick={() => router.push("/Home/PersonalCollection")} style={{ cursor: "pointer" }}>
+              Personal Collection
+            </a>
             <a href="#drops">Drops</a>
             <a onClick={() => router.push("/about")} className={styles.moreLink} style={{ cursor: "pointer" }}>
               More <FiChevronDown />

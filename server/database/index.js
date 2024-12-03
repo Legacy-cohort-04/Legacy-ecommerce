@@ -58,8 +58,8 @@ db.User.hasMany(db.Favourites)
 db.Favourites.belongsTo(db.User)
 
 
-db.Products.belongsToMany(db.Favourites, { through: db.Favoriteitems })
-db.Favourites.belongsToMany(db.Products, { through: db.Favoriteitems })
+db.Products.belongsToMany(db.Favourites , {  through : db.Favoriteitems , as : "favourites" , foreignKey : "ProductId" , otherKey : "FavouriteId"}) 
+db.Favourites.belongsToMany(db.Products , {  through : db.Favoriteitems , as : "products" , foreignKey :"FavouriteId" , otherKey : "ProductId" })
 
 db.Brands.hasMany(db.Products)
 db.Products.belongsTo(db.Brands)
