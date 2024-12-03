@@ -19,7 +19,7 @@ export interface User {
 }
 
 const Signup: React.FC = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -54,7 +54,7 @@ const Signup: React.FC = () => {
         icon: 'error',
         title: '<span class="swal-title-error">Weak Password</span>',
         text: passwordValidation.errors.join(' '),
-        background: 'rgba(255, 255, 255, 0.1)',
+        background: 'rgba(103, 26, 228, 0.4)',
         color: 'white',
         confirmButtonText: 'Got it!',
         customClass: {
@@ -83,7 +83,7 @@ const Signup: React.FC = () => {
           icon: 'success',
           title: '<span class="swal-title-success">Account Created</span>',
           text: 'You have successfully signed up. Please log in.',
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: 'linear-gradient(90deg, #B75CFF 0%, #671AE4 100%)',
           color: 'white',
           confirmButtonText: 'Got it!',
           customClass: {
@@ -102,7 +102,7 @@ const Signup: React.FC = () => {
               icon: 'error',
               title: '<span class="swal-title-error">Validation Error</span>',
               text: errorData.errors.join(', '),
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'linear-gradient(90deg, #B75CFF 0%, #671AE4 100%)',
               color: 'white',
               confirmButtonText: 'Got it!',
               customClass: {
@@ -116,7 +116,7 @@ const Signup: React.FC = () => {
               icon: 'error',
               title: '<span class="swal-title-error">Signup Failed</span>',
               text: errorData.message || 'An error occurred during signup. Please try again later.',
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'linear-gradient(90deg, #B75CFF 0%, #671AE4 100%)',
               color: 'white',
               confirmButtonText: 'Got it!',
               customClass: {
@@ -131,7 +131,7 @@ const Signup: React.FC = () => {
             icon: 'error',
             title: '<span class="swal-title-error">Signup Failed</span>',
             text: 'An error occurred during signup. Please try again later.',
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'linear-gradient(90deg, #B75CFF 0%, #671AE4 100%)',
             color: 'white',
             confirmButtonText: 'Got it!',
             customClass: {
