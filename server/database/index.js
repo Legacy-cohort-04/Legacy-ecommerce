@@ -67,7 +67,7 @@ db.Products.belongsTo(db.Brands)
 
 
 
-//   sequelize.sync({alter : true}).then(() => {
+//   sequelize.sync({force : true}).then(() => {
 //   console.log(' table created successfully!');
 //   }).catch((error) => {
 //   console.error('Unable to create table : ', error);

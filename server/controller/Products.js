@@ -177,42 +177,6 @@ const getProductsbystatus = async (req, res) => {
 };
 
 
-const searchProducts = async (req, res) => {
-  const { query } = req.query;
-
-  if (!query) {
-    return res.status(400).json({ error: 'Query parameter is required' });
-  }
-
-  try {
-    const products = await Products.findAll({
-      where: {
-        [Op.or]: [
-          {
-            title: {
-              [Op.iLike]: `%${query}%`
-            }
-          },
-          {
-            collection: {
-              [Op.iLike]: `%${query}%`
-            }
-          }
-        ]
-      },
-      limit: 10 // Limiter les résultats pour de meilleures performances
-    });
-
-    res.json(products);
-  } catch (error) {
-    console.error("Error searching products:", error);
-    res.status(500).json({ 
-      error: 'Internal Server Error',
-      message: error.message 
-    });
-  }
-};
-
 module.exports = {
   getProducts,
   getFilteredProducts,
@@ -220,5 +184,4 @@ module.exports = {
   updateproductbyId,
   createProduct,
   getProductsbystatus,
-  searchProducts
 };

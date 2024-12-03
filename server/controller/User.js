@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config
 JWT_SECRET="ascefbth,plnihcdxuwy"
 
-
+const defaultAvatarUrl = "https://www.pngkey.com/png/full/72-729716_user-avatar-png-graphic-free-download-icon.png";
 
 const validatePassword=(password)=>{
     const errors=[]
@@ -71,7 +71,8 @@ const signup = async (req, res) => {
                 lastName:lastName,
                 day:day,
                 year:year,
-                month:month
+                month:month,
+                avatar: defaultAvatarUrl
 
             });
 
