@@ -1,0 +1,43 @@
+.collection {
+    padding: 20px;
+    background-color: #181e41; /* Background color for the collection */
+    color: white; /* Text color */
+    min-height: 100vh; /* Full height */
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between items */
+    margin-top: 20px; /* Space above the grid */
+}
+
+.productCard {
+    background-color: rgba(255, 255, 255, 0.1); /* Card background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.productCard:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.productCard img {
+    width: 100%; /* Full width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the area */
+}
+
+.productCard h2 {
+    padding: 10px; /* Padding around the title */
+    font-size: 1.2rem; /* Font size for the title */
+    text-align: center; /* Center the title */
+}
+
+.productCard p {
+    padding: 0 10px; /* Padding around the price */
+    text-align: center; /* Center the price */
+    font-size: 1rem; /* Font size for the price */
+}
