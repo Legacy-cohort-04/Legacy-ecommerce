@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import AdminNavBar from './AdminNavBar';
+import { log } from 'console';
 
 const AllProducts = () => {
     const router = useRouter();
@@ -15,14 +16,14 @@ const AllProducts = () => {
     const [editProduct, setEditProduct] = useState<any>(null);
     const [title, setTitle] = useState<string>('');
     const [price, setPrice] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [brand, setBrand] = useState<string>('');
     const [image, setImage] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
     const [quantity, setQuantity] = useState<string>('');
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [category, setCategory] = useState<string>('');
-
+    const [status, setStatus] = useState<string>('Available');
+    const [rarity, setRarity] = useState<string>('Common');
+    const [onSale, setOnSale] = useState<boolean>(false);
     const [search, setSearch] = useState('');
 
     const displayAllProducts = () => {
@@ -31,7 +32,6 @@ const AllProducts = () => {
             .then((response) => {
                 setProducts(response.data);
                 setFilteredProducts(response.data);
-                console.log(response.data, '------------------');
             })
             .catch((err) => {
                 console.error('Error fetching products:', err);
@@ -56,17 +56,18 @@ const AllProducts = () => {
             product.title.toLowerCase().includes(search.toLowerCase())
         );
         setFilteredProducts(filtered);
-        console.log(filtered, 'filtered', search);
     }, [search, products]);
 
     const openEditModal = (product: any) => {
         setEditProduct(product);
         setTitle(product.title);
-        setPrice(product.price);
-        setDescription(product.description);
-        setBrand(product.brand);
+        setPrice(product.price.toString());
         setImage(product.image);
-        setQuantity(product.stock);
+        setQuantity(product.stock.toString());
+        setCategory(product.collection);
+        setStatus(product.status);
+        setRarity(product.rarity);
+        setOnSale(product.onSale);
 
         setOpenModal(true);
     };
@@ -76,13 +77,13 @@ const AllProducts = () => {
         axios
             .post('http://localhost:3001/products/create', {
                 title,
-                price,
+                price: parseFloat(price),
                 image: imageUrl,
-                rarity: 'Common',
-                chains: 'None',
+                rarity,
                 collection: category,
                 stock: parseInt(quantity),
-                onSale: false,
+                status,
+                onSale,
             })
             .then(() => {
                 displayAllProducts();
@@ -120,16 +121,18 @@ const AllProducts = () => {
     };
 
     const handleEditProduct = (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault();        
+        
         axios
             .put(`http://localhost:3001/products/${editProduct.id}`, {
                 title,
-                price,
+                price: parseFloat(price),
                 image: imageUrl,
-                rarity: 'Common',
-                chains: 'None',
+                status,
+                rarity,
                 collection: category,
                 stock: parseInt(quantity),
+                onSale
             })
             .then(() => {
                 displayAllProducts();
@@ -154,11 +157,13 @@ const AllProducts = () => {
         setEditProduct(null);
         setTitle('');
         setPrice('');
-        setDescription('');
-        setBrand('');
         setImage(null);
         setQuantity('');
         setImageUrl('');
+        setCategory('');
+        setStatus('Available');
+        setRarity('Common');
+        setOnSale(false);
     };
 
     const deleteProduct = (product: any) => {
@@ -186,146 +191,151 @@ const AllProducts = () => {
         });
     };
 
-    return (<>
-    <AdminNavBar search={search} setSearch={setSearch} />
-        <div className={styles['admin-dashboard']}>
-            <header className={styles['dashboard-header']}>
-                <h1>Admin Dashboard - Products</h1>
-                <button
-                    className={classNames(styles.btnnn, styles['btnnn-primaryyy'])}
-                    onClick={() => {
-                        setEditProduct(null);
-                        setOpenModal(true);
-                        resetForm();
-                    }}
-                >
-                    Add New Product
-                </button>
-            </header>
+    return (
+        <>
+            <AdminNavBar search={search} setSearch={setSearch} />
+            <div className={styles['admin-dashboard']}>
+                <header className={styles['dashboard-header']}>
+                    <h1>Admin Dashboard - Products</h1>
+                    <button
+                        className={classNames(styles.btnnn, styles['btnnn-primaryyy'])}
+                        onClick={() => {
+                            setEditProduct(null);
+                            setOpenModal(true);
+                            resetForm();
+                        }}
+                    >
+                        Add New Product
+                    </button>
+                </header>
 
-            <div className={styles['products-and-form-container']}>
-                {openModal && (
-                    <div className={styles['product-form-sidebar']}>
-                        <form onSubmit={handleSubmit}>
-                            <h2>{editProduct ? 'Edit Product' : 'Add New Product'}</h2>
-                            <div className={styles['form-group2']}>
-                                <label className={styles.labell}>Title</label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Price</label>
-                                <input
-                                    type="number"
-                                    name="price"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Brand</label>
-                                <input
-                                    type="text"
-                                    name="brand"
-                                    value={brand}
-                                    onChange={(e) => setBrand(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Category</label>
-                                <input
-                                    type="text"
-                                    name="category"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Image URL</label>
-                                <input
-                                    type="file"
-                                    name="image"
-                                    onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-                                />
-                                <button className={styles['upload-button']} onClick={handleImageUpload}>
-                                    Upload
-                                </button>
-                            </div>
-                            <div className={styles['form-group2']}>
-                                <label>Stock</label>
-                                <input
-                                    type="text"
-                                    name="stock"
-                                    value={quantity}
-                                    onChange={(e) => setQuantity(e.target.value)}
-                                />
-                            </div>
-                            <div className={styles['modal-actions']}>
-                                <button type="submit" className={classNames(styles.btnnn, styles['btn-primary'])}>
-                                    {editProduct ? 'Update Product' : 'Add Product'}
-                                </button>
-                                <button
-                                    type="button"
-                                    className={classNames(styles.btnnn, styles['btnnn-cancelll'])}
-                                    onClick={() => setOpenModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                )}
-
-                <div className={styles['product-grid']}>
-                    {(filteredProducts.length > 0 ? filteredProducts : products).map((product: any) => (
-                        <div key={product.id} className={styles['product-card']}>
-                            <img
-                                src={product.image}
-                                alt={product.title}
-                                className={styles['product-image']}
-                            />
-                            <div className={styles['product-info']}>
-                                <h2>{product.title}</h2>
-                                <p>{product.description}</p>
-                                <span className={styles.price}>${product.price}</span>
-                                <div className={styles.actions}>
-                                    <button
-                                        onClick={() => openEditModal(product)}
-                                        className={classNames(styles.btnnn, styles['btn-edittt'])}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => deleteProduct(product)}
-                                        className={classNames(styles.btnnn, styles['btn-deleteee'])}
-                                    >
-                                        Delete
+                <div className={styles['products-and-form-container']}>
+                    {openModal && (
+                        <div className={styles['product-form-sidebar']}>
+                            <form onSubmit={handleSubmit}>
+                                <h2>{editProduct ? 'Edit Product' : 'Add New Product'}</h2>
+                                <div className={styles['form-group2']}>
+                                    <label className={styles.labell}>Title</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Price</label>
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        value={price}
+                                        onChange={(e) => setPrice(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Image URL</label>
+                                    <input
+                                        type="file"
+                                        name="image"
+                                        onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                                    />
+                                    <button className={styles['upload-button']} onClick={handleImageUpload}>
+                                        Upload
                                     </button>
                                 </div>
-                            </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Stock</label>
+                                    <input
+                                        type="text"
+                                        name="stock"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Category</label>
+                                    <input
+                                        type="text"
+                                        name="category"
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Status</label>
+                                    <select
+                                        name="status"
+                                        value={status}
+                                        onChange={(e) => setStatus(e.target.value)}
+                                    >
+                                        <option value="Available">Available</option>
+                                        <option value="Not Available">Not Available</option>
+                                        <option value="New">New</option>
+                                    </select>
+                                </div>
+                                <div className={styles['form-group2']}>
+                                    <label>Rarity</label>
+                                    <select
+                                        name="rarity"
+                                        value={rarity}
+                                        onChange={(e) => setRarity(e.target.value)}
+                                    >
+                                        <option value="Common">Common</option>
+                                        <option value="Uncommon Rare">Uncommon Rare</option>
+                                        <option value="Ultra Rare">Ultra Rare</option>
+                                        <option value="Secret Rare">Secret Rare</option>
+                                    </select>
+                                </div>
+                                <div className={styles['modal-actions']}>
+                                    <button type="submit" className={classNames(styles.btnnn, styles['btn-primary'])}>
+                                        {editProduct ? 'Update Product' : 'Add Product'}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={classNames(styles.btnnn, styles['btnnn-cancelll'])}
+                                        onClick={() => setOpenModal(false)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                    ))}
+                    )}
+
+                    <div className={styles['product-grid']}>
+                        {(filteredProducts.length > 0 ? filteredProducts : products).map((product: any) => (
+                            <div key={product.id} className={styles['product-card']}>
+                                <img
+                                    src={product.image}
+                                    alt={product.title}
+                                    className={styles['product-image']}
+                                />
+                                <div className={styles['product-info']}>
+                                    <h2>{product.title}</h2>
+                                    <span className={styles.price}>${product.price}</span>
+                                    <div className={styles.actions}>
+                                        <button
+                                            onClick={() => openEditModal(product)}
+                                            className={classNames(styles.btnnn, styles['btn-edittt'])}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => deleteProduct(product)}
+                                            className={classNames(styles.btnnn, styles['btn-deleteee'])}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
-        
         </>
     );
 };

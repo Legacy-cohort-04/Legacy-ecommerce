@@ -46,7 +46,7 @@ const NavBar: FC<{ search: string; setSearch: (value: string) => void }> = ({ se
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate.push("/api/users/login");
+    navigate.push("/");
   };
 
   const filteredCategory = (category: string) => {

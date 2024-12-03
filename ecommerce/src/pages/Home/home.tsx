@@ -39,6 +39,7 @@ const Home: React.FC = () => {
   const [creators, setCreators] = useState<Creator[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [showCreate, setShowCreate] = useState<boolean>(false);
+  const [likedProducts, setLikedProducts] = useState<number[]>([]);
 
   const handleVerifiedBrands = async () => {
     try {
@@ -97,6 +98,14 @@ const Home: React.FC = () => {
 
   const handleCreateClick = (): void => {
     setShowCreate(true);
+  };
+
+  const likeProduct = (productId: number) => {
+    setLikedProducts((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
   };
 
   return (
@@ -293,6 +302,12 @@ const Home: React.FC = () => {
                     >
                       Buy Now
                     </button>
+                    <button 
+                      className={`${styles.likeButton} ${likedProducts.includes(product.id) ? styles.liked : ''}`}
+                      onClick={() => likeProduct(product.id)}
+                    >
+                      {likedProducts.includes(product.id) ? "❤️" : "🤍"}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -337,6 +352,7 @@ const Home: React.FC = () => {
                     >
                       Buy Now
                     </button>
+                    <button onClick={() => likeProduct(product.id)}>❤️</button>
                   </div>
                 </div>
               </div>
