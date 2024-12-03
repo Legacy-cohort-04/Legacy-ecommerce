@@ -39,6 +39,13 @@
   outline-color: #ffffff;
   outline-style: outset;
   transition: all 0.3s ease-in-out;
+  max-width: 90%;
+}
+
+@media (max-width: 600px) {
+  .product-form-sidebar {
+    width: 90%;
+  }
 }
 
 .product-form-sidebar:hover {

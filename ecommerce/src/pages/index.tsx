@@ -45,7 +45,13 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(user));
 
       if (user.type === 'admin') {                    
-        navigate.push('/admin-dashboard');
+        navigate.push('/Admin/AdminStatistics');
+      } else {
+        navigate.push("/Home/home");
+    }
+
+      if (user.type === 'admin') {                    
+        navigate.push('Admin/AdminStatistics');
       } else {
         navigate.push("/Home/home");
     }
