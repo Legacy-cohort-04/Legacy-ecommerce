@@ -1,5 +1,7 @@
 const { Op } = require("sequelize");
 const { Products, Brands } = require("../database/index");
+const db = require("../database/index");
+
 
 const getProductbybrandverified = async (req, res) => {
   try {
@@ -75,22 +77,31 @@ const getFilteredProducts = (req, res) => {
 
 const updateproductbyId = async (req, res) => {
   const productId = req.params.productId; 
-  const { price } = req.body; 
+  const { title, price, image, status, rarity, collection, stock, onSale } = req.body; 
 
   try {
-    const [updated] = await db.Products.update(
-      { price },
-      { where: { id: productId } } 
-    );
+      const [updated] = await db.Products.update(
+          { 
+              title, 
+              price, 
+              image, 
+              status, 
+              rarity, 
+              collection, 
+              stock, 
+              onSale 
+          },
+          { where: { id: productId } } 
+      );
 
-    if (!updated) {
-      return res.status(404).json({ message: "Product not found." });
-    }
+      if (!updated) {
+          return res.status(404).json({ message: "Product not found." });
+      }
 
-    res.status(200).json({ message: "Product updated successfully." });
+      res.status(200).json({ message: "Product updated successfully." });
   } catch (error) {
-    console.error("Error updating product:", error);
-    res.status(500).send("Failed to update product");
+      console.error("Error updating product:", error);
+      res.status(500).send("Failed to update product");
   }
 };
 
@@ -146,6 +157,8 @@ const createProduct = async (req, res) => {
 };
 
 
+
+
 const getProducts = async (req, res) => {
   try {
     const allProducts = await Products.findAll(); 
@@ -157,6 +170,52 @@ const getProducts = async (req, res) => {
 };
 
 
+
+
+
+const deleteProductbyId = async (req, res) => {
+  const productId = req.params.productId; 
+
+  try {
+      const deleted = await Products.destroy({
+          where: { id: productId } 
+      });
+
+      if (!deleted) {
+          return res.status(404).json({ message: "Product not found." }); 
+      }
+
+      res.status(200).json({ message: "Product deleted successfully." }); // Success response
+  } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({ 
+          message: "Failed to delete product",
+          error: error.message 
+      });
+  }
+};
+
+const getProductsbyBrandId = async (req, res) => {
+  const brandId = req.params.brandId; // Get the brandId from the request parameters
+
+  try {
+    const products = await Products.findAll({
+      where: { brandId: brandId }, // Filter products by brandId
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: "No products found for this brand." });
+    }
+
+    res.json(products); // Return the found products
+  } catch (error) {
+    console.error("Error fetching products by brandId:", error);
+    res.status(500).json({
+      message: "Failed to fetch products by brandId",
+      error: error.message,
+    });
+  }
+};
 
 const getProductsbystatus = async (req, res) => {
   try {
@@ -177,6 +236,7 @@ const getProductsbystatus = async (req, res) => {
 };
 
 
+
 module.exports = {
   getProducts,
   getFilteredProducts,
@@ -184,4 +244,6 @@ module.exports = {
   updateproductbyId,
   createProduct,
   getProductsbystatus,
+  deleteProductbyId,
+  getProductsbyBrandId
 };

@@ -1,8 +1,10 @@
 import React from 'react';
 import styles from './footer.module.css';
-
+import { useRouter } from 'next/router';
 
 const Footer: React.FC = () => {
+  const router = useRouter();
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -24,7 +26,13 @@ const Footer: React.FC = () => {
         <div className={styles.footerSection}>
           <h4 className={styles.footerHeading}>Company</h4>
           <ul className={styles.footerList}>
-            <li className={styles.footerListItem}>Our Team</li>
+            <li 
+              className={styles.footerListItem} 
+              onClick={() => router.push('/components/Team1')}
+              style={{ cursor: 'pointer' }}
+            >
+              Our Team
+            </li>
             <li className={styles.footerListItem}>Partner With Us</li>
             <li className={styles.footerListItem}>Privacy & Policy</li>
             <li className={styles.footerListItem}>Features</li>

@@ -6,6 +6,7 @@ import Footer from "../components/footer";
 import Navbar from "../components/Navbar";
 import FAQ from "../components/FAQ";
 import Create from "../CreateProducts/Create";
+import Swal from "sweetalert2";
 
 interface Product {
   id: number;
@@ -39,6 +40,8 @@ const Home: React.FC = () => {
   const [creators, setCreators] = useState<Creator[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [showCreate, setShowCreate] = useState<boolean>(false);
+  const [activeCategory, setActiveCategory] =
+    useState<string>("All Collections");
 
   const handleVerifiedBrands = async () => {
     try {
@@ -48,6 +51,34 @@ const Home: React.FC = () => {
       setProducts(response.data);
     } catch (error) {
       console.error("Failed to load data:", error);
+    }
+  };
+
+  const handleCategoryChange = async (category: string) => {
+    setActiveCategory(category);
+    try {
+      let response;
+      switch (category) {
+        case "Verified Brands":
+          response = await axios.get<Product[]>(
+            "http://localhost:3001/products/verifiedbrands"
+          );
+          break;
+        case "New Drops":
+          response = await axios.get<Product[]>(
+            "http://localhost:3001/products/status/new"
+          );
+          break;
+        case "All Collections":
+        default:
+          response = await axios.get<Product[]>(
+            "http://localhost:3001/products/all"
+          );
+          break;
+      }
+      setProducts(response.data);
+    } catch (error) {
+      console.error("Failed to load products:", error);
     }
   };
 
@@ -97,6 +128,34 @@ const Home: React.FC = () => {
 
   const handleCreateClick = (): void => {
     setShowCreate(true);
+  };
+
+  const likeProduct = async (productId: number) => {
+    const userId = JSON.parse(localStorage.getItem("user") || "{}").id;
+    if (!userId) {
+      console.error("User ID is not available.");
+      return;
+    }
+    try {
+      await axios.post(`http://localhost:3001/favourites/user/${userId}/add`, {
+        productId,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Added to Favorites!",
+        text: "The product has been added to your favorites.",
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        Swal.fire({
+          icon: "warning",
+          title: "Already in Favorites",
+          text: "This product is already in your favorites.",
+        });
+      } else {
+        console.error("Full error object:", error);
+      }
+    }
   };
 
   return (
@@ -251,13 +310,23 @@ const Home: React.FC = () => {
           <p>Explore our latest collection</p>
 
           <div className={styles.collectionTabs}>
-            <button className={`${styles.collectionTab} ${styles.active}`}>
-              All Collections
-            </button>
-            <button className={styles.collectionTab} onClick={handleVerifiedBrands}>Verified Brands</button>
-            <button className={styles.collectionTab}>Verified Artists</button>
-            <button className={styles.collectionTab} onClick={handleNewDrops}>New Drops</button>
-            <button className={styles.collectionTab}>Live Shows</button>
+            {[
+              "All Collections",
+              "Verified Brands",
+              "Verified Artists",
+              "New Drops",
+              "Live Shows",
+            ].map((category) => (
+              <button
+                key={category}
+                className={`${styles.collectionTab} ${
+                  activeCategory === category ? styles.active : ""
+                }`}
+                onClick={() => handleCategoryChange(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
 
           <div className={styles.AproductGrid}>
@@ -289,10 +358,11 @@ const Home: React.FC = () => {
                   <div className={styles.AproductFooter}>
                     <button
                       className={styles.AbuyButton}
-                      onClick={() => router.push("/products")}
+                      onClick={() => router.push("/Products/Allproducts")}
                     >
                       Buy Now
                     </button>
+                    <button onClick={() => likeProduct(product.id)}>❤️</button>
                   </div>
                 </div>
               </div>
@@ -333,10 +403,11 @@ const Home: React.FC = () => {
                   <div className={styles.AproductFooter}>
                     <button
                       className={styles.AbuyButton}
-                      onClick={() => router.push("/products")}
+                      onClick={() => router.push("/Products/Allproducts")}
                     >
                       Buy Now
                     </button>
+                    <button onClick={() => likeProduct(product.id)}>❤️</button>
                   </div>
                 </div>
               </div>

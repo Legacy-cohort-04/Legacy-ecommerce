@@ -1,21 +1,21 @@
 .team {
   margin: 0;
-  padding: 0 100px;
+  padding: 0;
   box-sizing: border-box;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   color: #fff;
-  background: linear-gradient(to right, #5c373c, 35%, #181e41);
-  width: 100vw;
-  position: absolute;
-  left: 0;
-  top: 0;
+  background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+  width: 100%;
+  position: relative;
   overflow-x: hidden;
 }
 
 .contentWrapper {
-  padding: 1rem 4rem;
+  padding: 2rem 100px;
   width: 100%;
   box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1400px;
 }
 
 .teamContainer {
@@ -138,11 +138,11 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .team {
-    padding: 0 20px;
+    padding: 0;
   }
 
   .contentWrapper {
-    padding: 1rem 1rem;
+    padding: 2rem 20px;
   }
 
   .teamContainer {
@@ -174,4 +174,21 @@
 
 .teamContainer {
   animation: fadeIn 1s ease-out;
+}
+
+.navbar_team {
+  background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    padding: 0 100px;
+    box-sizing: border-box;
+}
+
+.footer_team {
+    background: linear-gradient(to right, #5c373c 35%, #181e41);
+    width: 100%;
+    padding: 20px 0;
+    margin-top: auto;
 }

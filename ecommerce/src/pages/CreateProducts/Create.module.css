@@ -1,5 +1,6 @@
 .create-product {
-    --primary-gradient: linear-gradient(to right, #5c373c 35%, #181e41);
+    --primary-gradient: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+
     --secondary-gradient: linear-gradient(to right, #8b5cf6, #6366f1);
     --overlay-bg: rgba(255, 255, 255, 0.1);
     --overlay-border: rgba(255, 255, 255, 0.2);
@@ -18,8 +19,9 @@
     color: var(--text-color);
     width: 100%;
     padding: 2rem 0;
+    padding-top: 100px;
   }
-  
+
   .create-product__wrapper {
     display: flex;
     flex-direction: column;
@@ -151,4 +153,14 @@
       width: 90%;
       padding: 1.25rem;
     }
+  }
+  
+  .navbar_create {
+    background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    padding: 0 100px;
+    box-sizing: border-box;
   }

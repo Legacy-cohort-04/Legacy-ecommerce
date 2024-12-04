@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './Team.module.css';
 import Navbar from './Navbar';
+import Footer from './footer';
+
 interface TeamMember {
   name: string;
   title: string;
@@ -43,22 +45,36 @@ const teamMembers: TeamMember[] = [
 
 const OurTeam: React.FC = () => {
   return (
-    <div className={styles.team}>
-      <Navbar />
-      <div className={styles.contentWrapper}>
-        <h1 className={styles.teamH1}>Our Team</h1>
-        <p className={styles.teamP}>Meet our dedicated team of professionals!</p>
-        <div className={styles.teamContainer}>
-        {teamMembers.map((member, index) => (
-          <div className={styles.teamMember} key={index}>
-            <img src={member.imageUrl} alt={member.name} />
-            <h2>{member.name}</h2>
-            <h3>{member.title}</h3>
-            <p>{member.description}</p>
-          </div>
-        ))}
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className={styles.navbar_team}>
+        <Navbar />
       </div>
-    </div>
+      <div className={styles.team}>
+        <div className={styles.contentWrapper}>
+          <h1 className={styles.teamH1}>Our Team</h1>
+          <p className={styles.teamP}>Meet our dedicated team of professionals!</p>
+          <div className={styles.teamContainer}>
+            {teamMembers.map((member, index) => (
+              <div className={styles.teamMember} key={index}>
+                <img 
+                  src={member.imageUrl} 
+                  alt={member.name}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/default-avatar.png';
+                  }}
+                />
+                <h2>{member.name}</h2>
+                <h3>{member.title}</h3>
+                <p>{member.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className={styles.footer_team}>
+        <Footer />
+      </div>
     </div>
   );
 };
