@@ -67,12 +67,7 @@ const NavBar: FC<{ search: string; setSearch: (value: string) => void }> = ({ se
     >
       <Container fluid>
         <Navbar.Brand href="#" className="d-flex align-items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" style={logoStyle}>
-            <path d="M60 15 L70 5 L80 5 L90 15 L75 45 L60 15" fill="none" stroke="#333" strokeWidth="2" />
-            <text x="95" y="30" fontFamily="Arial" fontSize="18" fontWeight="bold" fill="#333">ELEGANCE</text>
-            <line x1="95" y1="35" x2="180" y2="35" stroke="#333" strokeWidth="1" />
-            <text x="95" y="45" fontFamily="Arial" fontSize="10" fill="#666">BOUTIQUE</text>
-          </svg>
+
         </Navbar.Brand>
         <div className="position-relative d-flex align-items-center">
           <Search style={searchIconStyle} size={20} />

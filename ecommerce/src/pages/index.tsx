@@ -19,6 +19,7 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  
 
   const navigate = useRouter();
   const auth = getAuth(app);
@@ -46,12 +47,6 @@ export default function Login() {
 
       if (user.type === 'admin') {                    
         navigate.push('/Admin/AdminStatistics');
-      } else {
-        navigate.push("/Home/home");
-    }
-
-      if (user.type === 'admin') {                    
-        navigate.push('Admin/AdminStatistics');
       } else {
         navigate.push("/Home/home");
     }
@@ -122,21 +117,9 @@ export default function Login() {
     const handleGitHubLogin = async () => {
       try {
         const result = await signInWithPopup(auth, githubProvider);
-
+        
         const user = result.user;
         console.log('Logged in user:', user);
-        const token = await user.getIdToken();
-
-        localStorage.setItem('token', token);
-
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-        })
-      );
         
         navigate.push('/Home/home');
       } catch (error: any) {

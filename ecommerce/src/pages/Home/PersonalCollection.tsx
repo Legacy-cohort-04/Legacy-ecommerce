@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './PersonalCollection.module.css';
 import Navbar from '../components/Navbar';
-import { log } from 'console';
 
 // Define the interface for a product
 interface Product {
     id: number;
     title: string;
     image: string;
-    price: string; // Assuming price is a string based on your data
-    // Add other properties as needed
+    price: string;
+    rarity: string;
 }
 
 // Define the interface for a favorite product
@@ -51,9 +50,22 @@ const PersonalCollection: React.FC = () => {
                     {favorites.map((favorite) => (
                         favorite.products.map((product) => (
                             <div key={product.id} className={styles.productCard}>
-                                <img src={product.image} alt={product.title} />
-                                <h2>{product.title}</h2>
-                                <p>{product.price} ETH</p>
+                                <div className={styles.imageContainer}>
+                                    <img src={product.image} alt={product.title} />
+                                </div>
+                                <div className={styles.productInfo}>
+                                    <div className={styles.productHeader}>
+                                        <span className={styles.rarityBadge}>
+                                            {product.rarity || 'Common'}
+                                        </span>
+                                    </div>
+                                    <div className={styles.titlePriceContainer}>
+                                        <h2 className={styles.productTitle}>{product.title}</h2>
+                                        <span className={styles.productPrice}>
+                                            {product.price} ETH
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         ))
                     ))}

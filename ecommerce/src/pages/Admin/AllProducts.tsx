@@ -127,7 +127,7 @@ const AllProducts = () => {
             .put(`http://localhost:3001/products/${editProduct.id}`, {
                 title,
                 price: parseFloat(price),
-                image: imageUrl,
+                // image: imageUrl,
                 status,
                 rarity,
                 collection: category,

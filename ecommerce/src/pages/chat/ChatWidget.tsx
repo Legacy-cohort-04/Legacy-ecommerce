@@ -22,7 +22,7 @@ const ChatWidget: React.FC <ChatWidgetProps> = ({ isOpen, onClose }) => {
   const [user, setUser] = useState<{ firstName: string } | null>(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3001');
+    const newSocket = io('http://localhost:3002');
     setSocket(newSocket);
 
     newSocket.on('chat message', (data: { msg: string; username: string }) => {

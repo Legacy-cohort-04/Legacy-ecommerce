@@ -1,0 +1,194 @@
+.team {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: calc(100vh - 80px);
+  color: #fff;
+  background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.contentWrapper {
+  padding: 2rem 100px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
+.teamContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.teamMember {
+  background: linear-gradient(90deg, #8e0e5b, #1a2a6c);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.teamMember::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle, 
+    rgba(255,255,255,0.1) 0%, 
+    transparent 70%
+  );
+  transform: rotate(-45deg);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.teamMember:hover::before {
+  opacity: 1;
+}
+
+.teamMember:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.teamMember img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.teamMember:hover img {
+  transform: scale(1.1);
+}
+
+.teamMember h2 {
+  color: #e2d6d6;
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.teamMember:hover h2 {
+  color: #fff;
+}
+
+.teamMember h3 {
+  color: #cc5151;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.teamMember:hover h3 {
+  color: #ffcc00;
+}
+
+.teamMember p {
+  color: #777;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.teamMember:hover p {
+  color: #fff;
+}
+
+.teamH1 {
+  text-align: center;
+  color: #c8aeae;
+  margin: 2rem 0 1rem;
+  font-size: 3rem;
+  letter-spacing: 2px;
+}
+
+.teamP {
+  text-align: center;
+  color: #df6666;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .team {
+    padding: 0;
+  }
+
+  .contentWrapper {
+    padding: 2rem 20px;
+  }
+
+  .teamContainer {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .teamMember {
+    padding: 1.5rem;
+  }
+
+  .teamH1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Optional subtle animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.teamContainer {
+  animation: fadeIn 1s ease-out;
+}
+
+.navbar_team {
+  background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    padding: 0 100px;
+    box-sizing: border-box;
+}
+
+.footer_team {
+    background: linear-gradient(to right, #5c373c 35%, #181e41);
+    width: 100%;
+    padding: 20px 0;
+    margin-top: auto;
+}

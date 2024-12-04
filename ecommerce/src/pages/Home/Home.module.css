@@ -4,7 +4,7 @@
   box-sizing: border-box;
   min-height: 100vh;
   color: #fff;
-  background: linear-gradient(to right, #5c373c , 35% ,  #181e41);
+  background: linear-gradient(113.49deg, #984D38 -30.3%, #181E41 58.12%);
   width: 100vw;
   position: absolute;
   left: 0;
@@ -906,16 +906,4 @@
   opacity: 0.9;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-}
-
-.likeButton {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem; /* Adjust size as needed */
-    color: #808080; /* Default color */
-}
-
-.likeButton.liked {
-    color: #ff0000; /* Color when liked */
 }

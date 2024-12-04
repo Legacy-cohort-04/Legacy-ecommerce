@@ -171,23 +171,7 @@ const getProducts = async (req, res) => {
 
 
 
-const getProductsbystatus = async (req, res) => {
-  try {
-    const products = await Products.findAll({
-      where: { 
-        status: 'New'
-      }
-    });
-    
-    res.json(products);
-  } catch (error) {
-    console.error("Error fetching new products:", error);
-    res.status(500).json({ 
-      message: "Failed to fetch new products",
-      error: error.message 
-    });
-  }
-};
+
 
 const deleteProductbyId = async (req, res) => {
   const productId = req.params.productId; 
@@ -198,7 +182,7 @@ const deleteProductbyId = async (req, res) => {
       });
 
       if (!deleted) {
-          return res.status(404).json({ message: "Product not found." }); // If no product was deleted
+          return res.status(404).json({ message: "Product not found." }); 
       }
 
       res.status(200).json({ message: "Product deleted successfully." }); // Success response
@@ -232,6 +216,26 @@ const getProductsbyBrandId = async (req, res) => {
     });
   }
 };
+
+const getProductsbystatus = async (req, res) => {
+  try {
+    const products = await Products.findAll({
+      where: { 
+        status: 'New'
+      }
+    });
+    
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching new products:", error);
+    res.status(500).json({ 
+      message: "Failed to fetch new products",
+      error: error.message 
+    });
+  }
+};
+
+
 
 module.exports = {
   getProducts,
